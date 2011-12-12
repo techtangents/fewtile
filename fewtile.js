@@ -1,6 +1,6 @@
 var passData = {
   "$color": "green",
-  "$area": 25,
+  "$area": 10,
   "cssClass": "passNode"
 };
 
@@ -28,6 +28,20 @@ function pass() {
     data: passData
   };
 }
+
+var poll = function() {
+  $.getJSON("http://pickles/api/json?tree=jobs[name,color]")
+    .done(function(data, textStatus, jqXHR) {
+      console.log("success");
+      console.log(arguments);
+    })
+    .fail(function(jqXHR, textStatus, errorThrown) {
+      console.log("failed");
+      console.log(arguments);
+    });  
+};
+
+poll();
 
 var hack = {};
 
@@ -60,24 +74,24 @@ function init(){
     name: "tiles",
     children: [
       pass(),
-      fail(),
-      fail(),
-      fail(),
-      fail(),
-      fail(),
-      fail(),
-      fail(),
       pass(),
       pass(),
       pass(),
       pass(),
       pass(),
-      fail(),
-      fail(),
-      fail(),
-      fail(),
-      fail(),
-      fail(),
+      pass(),
+      pass(),
+      pass(),
+      pass(),
+      pass(),
+      pass(),
+      pass(),
+      pass(),
+      pass(),
+      pass(),
+      pass(),
+      pass(),
+      pass(),
       fail(),
       fail(),
       pass(),
