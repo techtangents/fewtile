@@ -30,7 +30,7 @@ function pass() {
 }
 
 var poll = function() {
-  $.getJSON("http://pickles/api/json?tree=jobs[name,color]")
+  $.getJSON(location.origin + "/api/json?tree=jobs[name,color]")
     .done(function(data, textStatus, jqXHR) {
       console.log("success");
       console.log(arguments);
@@ -43,10 +43,10 @@ var poll = function() {
 
 poll();
 
-var hack = {};
+var state = {};
 
 function setFail(id) {
-  var tm = hack.tm;
+  var tm = state.tm;
   var n = tm.graph.getNode(id);
   n.data = failData;
   var l = tm.labels.getLabel(id);
@@ -57,7 +57,7 @@ function setFail(id) {
 };
 
 function setPass(id) {
-  var tm = hack.tm;
+  var tm = state.tm;
   var n = tm.graph.getNode(id);
   n.data = passData;
   var l = tm.labels.getLabel(id);
@@ -67,41 +67,27 @@ function setPass(id) {
   tm.refresh();
 };
 
-function init(){
-  var json = {
-    data: {},
-    id: "root",
-    name: "tiles",
-    children: [
-      pass(),
-      pass(),
-      pass(),
-      pass(),
-      pass(),
-      pass(),
-      pass(),
-      pass(),
-      pass(),
-      pass(),
-      pass(),
-      pass(),
-      pass(),
-      pass(),
-      pass(),
-      pass(),
-      pass(),
-      pass(),
-      pass(),
-      fail(),
-      fail(),
-      pass(),
-      pass(),
-      pass(),
-      fail()
-    ]
-  }; 
+var addNode = function(node) {
+  var tm = state.tm;
+  var g = state.tm.graph;
+  g.addAdjacence(g.getNode("/"), node);
+  tm.refresh();
+};
 
-  var tm = new $jit.TM.Squarified({
+var removeNode = function(nodeId) {
+  var tm = state.tm;
+  var g = state.tm.graph;
+  g.removeAdjacence("/", nodeId);
+  g.removeNode(nodeId); 
+  tm.labels.disposeLabel(nodeId);
+  tm.refresh();
+};
+
+var addPass = function() {
+  addNode(pass());  
+};
+
+var graphOptions = {
     Label: {
       size: 40,
       orientation: 'v',
@@ -134,12 +120,23 @@ function init(){
           $(this).textfill();
         });
     }
-  });
+};
 
-  $.resize.delay=10;
+var makeGraph = function() {
+  var json = {
+    data: {},
+    id: "/",
+    name: "",
+    children: []
+  };
 
+  var tm = new $jit.TM.Squarified(graphOptions);
   tm.loadJSON(json);
   tm.refresh();
-  hack.tm = tm;
+  return tm;
+};
 
+function init(){
+  $.resize.delay=10;
+  state.tm = makeGraph();
 }
