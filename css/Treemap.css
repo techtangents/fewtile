@@ -6,6 +6,10 @@
   font-size:20pt;
 }
 
+.disabled {
+  font-size:8pt;
+}
+
 #infovis {
   /*width:800px;*/
 }

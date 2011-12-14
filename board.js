@@ -1,4 +1,4 @@
-var createBoard = function(elementId) {
+var createBoard = function(elementId, duration) {
 
   $.resize.delay=10;
 
@@ -17,7 +17,7 @@ var createBoard = function(elementId) {
     animate: true,
     offset: 0,
     cushion: true,
-    duration: 400,
+    duration: duration,
     onCreateLabel: function(domElement, node) {
       domElement.innerHTML = "<table style='height:100%;width:100%'><tr><td style='vertical-align:middle;'>" + node.name + "</td></tr></table>";
       var style = domElement.style;
@@ -51,13 +51,18 @@ var createBoard = function(elementId) {
   var styles = {
     pass: {
       "$color": "green",
-      "$area": 10,
+      "$area": 30,
       "cssClass": "passNode"
     },
     fail: {
       "$color": "red",
       "$area": 100,
       "cssClass": "failNode"
+    },
+    disabled: {
+      "$color": "#999999",
+      "$area": 30,
+      "cssClass": "disabledNode"
     }
   };
 
@@ -84,13 +89,12 @@ var createBoard = function(elementId) {
     var l = tm.labels.getLabel(id);
     var td = $(l).find("td");
     setClass(td, s.cssClass);
-    tm.refresh();
   };
 
   var createNode = function(node) {
     var g = tm.graph;
+    g.addNode(node);
     g.addAdjacence(g.getNode("/"), node);
-    tm.refresh();
   };
 
   var add = function(id, style) {
@@ -108,13 +112,17 @@ var createBoard = function(elementId) {
     g.removeAdjacence("/", nodeId);
     g.removeNode(nodeId); 
     tm.labels.disposeLabel(nodeId);
+  }; 
+
+  var refresh = function() {
     tm.refresh();
   };
 
   return {
     add: add,
     remove: remove,
-    change: change
+    change: change,
+    refresh: refresh
   };
 };
 

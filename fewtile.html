@@ -17,11 +17,10 @@
 
 <script language="javascript" type="text/javascript">
 
-  var state = {};
   $(document).ready(function() {
-    var board = createBoard('infovis');
-    
-    state.board = board;
+    var duration = 400;
+    var board = createBoard('infovis', duration);
+    createController(board, duration * 2, 5000); 
   });
 </script>
 
