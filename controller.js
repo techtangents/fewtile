@@ -58,7 +58,6 @@ var createController = function(board, initialWait, period) {
   };
 
   var updateUi = function(diffs) {
-    console.log(diffs);
     _.each(diffs, function(x) {
       board[x.action](x.key, x.value);
     });
