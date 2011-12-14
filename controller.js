@@ -73,7 +73,6 @@ var createController = function(board, initialWait, period) {
 
 
   var url = location.protocol + "//" + location.hostname + (location.port ? ":" + location.port : "") + "/api/json?tree=jobs[name,color]"
-  console.log(url);
   var poll = function() {
     $.getJSON(url)
       .done(function(data, textStatus, jqXHR) {
