@@ -5,7 +5,7 @@ var createBoard = function(elementId, duration) {
   var graphOptions = {
     Label: {
       size: 40,
-      orientation: 'v',
+      orientation: 'h',
       overridable: true
     },
     Canvas: {
