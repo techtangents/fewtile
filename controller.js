@@ -72,7 +72,7 @@ var createController = function(board, initialWait, period) {
   };
 
 
-  var url = location.protocol + location.hostname + (location.port ? ":" + location.oport : "") + "/api/json?tree=jobs[name,color]"
+  var url = location.protocol + location.hostname + (location.port ? ":" + location.port : "") + "/api/json?tree=jobs[name,color]"
 
   var poll = function() {
     $.getJSON(url)
