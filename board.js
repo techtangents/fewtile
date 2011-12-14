@@ -1,6 +1,6 @@
 var createBoard = function(elementId, duration, animate) {
 
-  $.resize.delay=10;
+  $.resize.delay=250;
 
   var graphOptions = {
     Label: {
