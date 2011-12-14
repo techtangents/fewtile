@@ -61,7 +61,7 @@ var createBoard = function(elementId, duration) {
     },
     disabled: {
       "$color": "#999999",
-      "$area": 10,
+      "$area": 5,
       "cssClass": "disabledNode"
     }
   };
