@@ -11,7 +11,7 @@ var createController = function(board, initialWait, period) {
   var massage = function(data) {
     var r = {};
     _.each(data.jobs, function(x) {
-      r[x.name] = colorMap[x.color]; 
+      r[x.name] = colorMap[x.color] || throw x.color; 
     });
     return r;
   };
