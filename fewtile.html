@@ -7,16 +7,28 @@
 <link type="text/css" href="base.css" rel="stylesheet" />
 <link type="text/css" href="Treemap.css" rel="stylesheet" />
 
+<script language="javascript" type="text/javascript" src="underscore-min.js"></script>
 <script language="javascript" type="text/javascript" src="jquery-1.7.1.min.js"></script>
 <script language="javascript" type="text/javascript" src="textfill.js"></script>
 <script language="javascript" type="text/javascript" src="jquery.ba-resize.min.js"></script>
 <script language="javascript" type="text/javascript" src="jit-yc.js"></script>
-<script language="javascript" type="text/javascript" src="fewtile.js"></script>
+<script language="javascript" type="text/javascript" src="board.js"></script>
+<script language="javascript" type="text/javascript" src="controller.js"></script>
+<script language="javascript" type="text/javascript" src="testdata.js"></script>
 
+<script language="javascript" type="text/javascript">
+
+  var state = {};
+  $(document).ready(function() {
+    var board = createBoard();
+    
+    state.board = board;
+  });
+</script>
 
 </head>
 
-<body onload="init();">
+<body>
 <div id="container">
   <div id="infovis"></div>    
 </div>
