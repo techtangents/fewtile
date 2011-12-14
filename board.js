@@ -19,17 +19,18 @@ var createBoard = function(elementId, duration) {
     cushion: true,
     duration: duration,
     onCreateLabel: function(domElement, node) {
-      domElement.innerHTML = "<table style='height:100%;width:100%'><tr><td style='vertical-align:middle;'>" + node.name + "</td></tr></table>";
+      domElement.innerHTML = "<table style='height:100%;width:100%'><tr><td style='vertical-align:middle;width:100%'>" + node.name + "</td></tr></table>";
       var style = domElement.style;
       style.display = '';
       style.cursor = 'default';
-      style.border = '1px solid transparent';
+      /*style.border = '1px solid transparent';
       domElement.onmouseover = function() {
         style.border = '1px solid #9FD4FF';
       };
       domElement.onmouseout = function() {
         style.border = '1px solid transparent';
       };
+      */
       $(domElement).addClass(node.data.cssClass);
       $(domElement).find("td").resize(function() {
         $(this).textfill();

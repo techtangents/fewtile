@@ -28,7 +28,6 @@
     filter:alpha(opacity=90);
     font-size:10px;
     font-family:Verdana, Geneva, Arial, Helvetica, sans-serif;
-    padding:7px;
 }
 
 .album {
@@ -36,14 +35,6 @@
     margin:3px;
 }
 
-#id-list {
-	background-color:#EEEEEE;
-	border:1px solid #CCCCCC;
-	margin:10px 20px 0 20px;
-	padding:5px;
-	text-align:left;
-	text-indent:2px;
-}
 
 #id-list table {
   margin-top:2px;
@@ -51,32 +42,6 @@
 
 #back {
   margin:10px 40px;
-}
-
-.button {
-  display: inline-block;
-  outline: none;
-  cursor: pointer;
-  text-align: center;
-  text-decoration: none;
-  font: 14px / 100% Arial, Helvetica, sans-serif;
-  padding: 0.5em 1em 0.55em;
-  text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.3);
-  -webkit-border-radius: 0.5em;
-  -moz-border-radius: 0.5em;
-  border-radius: 0.5em;
-  -webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
-  -moz-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
-  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
-}
-
-.button:hover {
-  text-decoration: none;
-}
-
-.button:active {
-  position: relative;
-  top: 1px;
 }
 
 /* white */
