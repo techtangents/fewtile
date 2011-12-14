@@ -108,7 +108,7 @@ var createBoard = function(elementId, duration) {
   };
 
   var remove = function(nodeId) {
-    var g = state.tm.graph;
+    var g = tm.graph;
     g.removeAdjacence("/", nodeId);
     g.removeNode(nodeId); 
     tm.labels.disposeLabel(nodeId);
