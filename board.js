@@ -51,7 +51,7 @@ var createBoard = function(elementId, duration) {
   var styles = {
     pass: {
       "$color": "green",
-      "$area": 30,
+      "$area": 10,
       "cssClass": "passNode"
     },
     fail: {
@@ -61,7 +61,7 @@ var createBoard = function(elementId, duration) {
     },
     disabled: {
       "$color": "#999999",
-      "$area": 30,
+      "$area": 10,
       "cssClass": "disabledNode"
     }
   };
