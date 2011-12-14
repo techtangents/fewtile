@@ -1,4 +1,4 @@
-var createBoard = function(elementId, duration) {
+var createBoard = function(elementId, duration, animate) {
 
   $.resize.delay=10;
 
@@ -14,7 +14,7 @@ var createBoard = function(elementId, duration) {
     },
     injectInto: elementId,
     titleHeight: 0,
-    animate: true,
+    animate: animate,
     offset: 0,
     cushion: true,
     duration: duration,
