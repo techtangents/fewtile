@@ -6,7 +6,8 @@ var createController = function(board, initialWait, period) {
     blue: 'pass',
     red: 'fail',
     grey: 'disabled',
-    disabled: 'disabled'
+    disabled: 'disabled',
+    yellow: "fail"
   };
 
   var massage = function(data) {
