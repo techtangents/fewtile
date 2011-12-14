@@ -71,8 +71,11 @@ var createController = function(board, initialWait, period) {
     pollSoon();
   };
 
+
+  var url = location.protocol + location.hostname + (location.port ? ":" + location.oport : "") + "/api/json?tree=jobs[name,color]"
+
   var poll = function() {
-    $.getJSON(location.origin + "/api/json?tree=jobs[name,color]")
+    $.getJSON(url)
       .done(function(data, textStatus, jqXHR) {
         var newState = massage(data);
         update(newState);
