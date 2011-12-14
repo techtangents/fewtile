@@ -1,4 +1,4 @@
-var createBoard = function() {
+var createBoard = function(elementId) {
 
   $.resize.delay=10;
 
@@ -12,7 +12,7 @@ var createBoard = function() {
       useCanvas: true,
       withLabels: false
     },
-    injectInto: 'infovis',
+    injectInto: elementId,
     titleHeight: 0,
     animate: true,
     offset: 0,
