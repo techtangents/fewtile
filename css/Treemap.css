@@ -1,13 +1,10 @@
 .passNode {
-  font-size:10pt;
 }
 
 .failNode {
-  font-size:20pt;
 }
 
 .disabled {
-  font-size:8pt;
 }
 
 #infovis {

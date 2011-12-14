@@ -63,6 +63,11 @@ var createBoard = function(elementId, duration) {
       "$color": "#999999",
       "$area": 5,
       "cssClass": "disabledNode"
+    },
+    building: {
+      "$color": "yellow",
+      "$area": 30,
+      "$cssClass": "buildingNode"
     }
   };
 
