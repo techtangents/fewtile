@@ -8,6 +8,8 @@ var createController = function(board, initialWait, period) {
     grey: 'disabled',
     disabled: 'disabled',
     yellow: "fail",
+    aborted: "fail",
+    aborted_anime: "fail",
     blue_anime: "building",
     yellow_anime: "failed_rebuilding",
     red_anime: "failed_rebuilding"
