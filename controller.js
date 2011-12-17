@@ -73,9 +73,7 @@ var createController = function(board, initialWait, period) {
     pollSoon();
   };
 
-  //var myUrl = "http://pickles";
-  var myUrl = location.protocol + "//" + location.hostname + (location.port ? ":" + location.port : "");
-  var url = myUrl + "/api/json?tree=jobs[name,color]";
+  var url = "/api/json?tree=jobs[name,color]";
   var poll = function() {
     $.getJSON(url)
       .done(function(data, textStatus, jqXHR) {
