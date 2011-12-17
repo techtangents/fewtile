@@ -9,7 +9,8 @@ var createController = function(board, initialWait, period) {
     disabled: 'disabled',
     yellow: "fail",
     blue_anime: "building",
-    
+    yellow_anime: "failed_rebuilding",
+    red_anime: "failed_rebuilding"
   };
 
   var massage = function(data) {
@@ -72,8 +73,9 @@ var createController = function(board, initialWait, period) {
     pollSoon();
   };
 
-
-  var url = location.protocol + "//" + location.hostname + (location.port ? ":" + location.port : "") + "/api/json?tree=jobs[name,color]";
+  //var myUrl = "http://pickles";
+  var myUrl = location.protocol + "//" + location.hostname + (location.port ? ":" + location.port : "");
+  var url = myUrl + "/api/json?tree=jobs[name,color]";
   var poll = function() {
     $.getJSON(url)
       .done(function(data, textStatus, jqXHR) {
