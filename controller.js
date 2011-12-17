@@ -40,16 +40,19 @@ var createController = function(board, initialWait, period) {
     _.each(oj, function(x, i) {
       var left = x.left;
       var right = x.right;
+      var addAction = function(action) {
+        r.push({key: i, action: action, value: right});
+      };
       if (left !== undefined) {
         if (right !== undefined) {
           if (!eq(left, right)) {
-            r.push({key: i, action: "change", value: right});
+            addAction("change");
           }
         } else {
-          r.push({key: i, action: "remove", value: undefined});
+          addAction("remove");
         }
       } else if (right !== undefined) {
-        r.push({key: i, action: 'add', value: right});
+        addAction('add');
       }
     }); 
     return r;
