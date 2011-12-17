@@ -22,7 +22,7 @@ var createBoard = function(elementId, duration, animate) {
       domElement.innerHTML = "<table style='height:100%;width:100%'><tr><td style='vertical-align:middle;width:100%'>" + node.name + "</td></tr></table>";
       var style = domElement.style;
       style.display = '';
-      style.cursor = 'default';
+      style.cursor = 'pointer';
       /*style.border = '1px solid transparent';
       domElement.onmouseover = function() {
         style.border = '1px solid #9FD4FF';
@@ -34,6 +34,9 @@ var createBoard = function(elementId, duration, animate) {
       $(domElement).addClass(node.data.cssClass);
       $(domElement).find("td").resize(function() {
         $(this).textfill();
+      });
+      $(domElement).click(function() {
+        window.open('/job/' + node.name);
       });
     } 
   };
