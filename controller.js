@@ -8,7 +8,9 @@ var createController = function(board, initialWait, period) {
     grey: 'disabled',
     disabled: 'disabled',
     yellow: "fail",
-    blue_anime: "building"
+    blue_anime: "building",
+    yellow_anime: "failed_rebuilding",
+    red_anime: "failed_rebuilding"
   };
 
   var massage = function(data) {
@@ -38,15 +40,15 @@ var createController = function(board, initialWait, period) {
     _.each(oj, function(x, i) {
       var left = x.left;
       var right = x.right;
-      if (left != undefined) {
-        if (right != undefined) {
+      if (left !== undefined) {
+        if (right !== undefined) {
           if (!eq(left, right)) {
             r.push({key: i, action: "change", value: right});
           }
         } else {
           r.push({key: i, action: "remove", value: undefined});
         }
-      } else if (right != undefined) {
+      } else if (right !== undefined) {
         r.push({key: i, action: 'add', value: right});
       }
     }); 
@@ -71,8 +73,9 @@ var createController = function(board, initialWait, period) {
     pollSoon();
   };
 
-
-  var url = location.protocol + "//" + location.hostname + (location.port ? ":" + location.port : "") + "/api/json?tree=jobs[name,color]"
+  //var myUrl = "http://pickles";
+  var myUrl = location.protocol + "//" + location.hostname + (location.port ? ":" + location.port : "");
+  var url = myUrl + "/api/json?tree=jobs[name,color]";
   var poll = function() {
     $.getJSON(url)
       .done(function(data, textStatus, jqXHR) {
