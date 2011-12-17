@@ -17,7 +17,7 @@ var createController = function(board, initialWait, period) {
     var r = {};
     _.each(data.jobs, function(x) {
       r[x.name] = colorMap[x.color];
-      if(!r[x.name]) throw x.color; 
+      if(!r[x.name]) throw "Jenkins gave a 'color' value I don't know about: " + String(x.color); 
     });
     return r;
   };
