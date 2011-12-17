@@ -72,6 +72,11 @@ var createBoard = function(elementId, duration, animate) {
       "$color": "yellow",
       "$area": 25,
       "$cssClass": "buildingNode"
+    },
+    failed_rebuilding: {
+        "$color": "orange",
+        "$area": 25,
+        "$cssClass": "buildingNode"
     }
   };
 
