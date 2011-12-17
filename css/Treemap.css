@@ -8,18 +8,15 @@
 }
 
 #infovis {
-  /*width:800px;*/
 }
 
 .node {
   color:#fff;
-  /*font-size:24pt;*/
   overflow:hidden;
   cursor:pointer;
   vertical-align:middle;
 }
 
-/*TOOLTIPS*/
 .tip {
     color: #fff;
     width: 139px;

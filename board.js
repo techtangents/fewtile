@@ -22,7 +22,6 @@ var createBoard = function(elementId, duration, animate) {
       domElement.innerHTML = "<table style='height:100%;width:100%'><tr><td style='vertical-align:middle;width:100%'>" + node.name + "</td></tr></table>";
       var style = domElement.style;
       style.display = '';
-      style.cursor = 'pointer';
       $(domElement).addClass(node.data.cssClass);
       $(domElement).find("td").resize(function() {
         $(this).textfill();
