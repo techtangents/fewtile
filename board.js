@@ -22,10 +22,12 @@ var createBoard = function(elementId, duration, animate) {
       var data = node.data;
       domElement.innerHTML = "<table style='height:100%;width:100%'><tr><td style='vertical-align:middle;width:100%'>" + node.name + "</td></tr></table>";
       $(domElement).addClass(data.cssClass);
-      $(domElement).find("td").resize(function() {
+      var td = $(domElement).find("td");
+      td.resize(function() {
         $(this).textfill();
       });
       if (data.clickable) {
+        $(domElement).css('cursor', 'pointer');
         $(domElement).click(function() {
           window.open('/job/' + node.name);
         });
