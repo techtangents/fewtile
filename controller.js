@@ -1,7 +1,5 @@
 var createController = function(board, initialWait, period) {
 
-  var state = {};
-
   var colorMap = {
     blue: 'pass',
     red: 'fail',
@@ -64,6 +62,38 @@ var createController = function(board, initialWait, period) {
     return a === b;
   };
 
+  var modeActive = function(mode) {
+    return mode === "active"; 
+  };
+
+  var diffStates = function(a, b) {
+    var modeA = a.mode;
+    var modeB = b.mode;
+
+    var tileDiffs = diff(a.tiles, b.tiles, eq);
+
+    var activeA = modeActive(modeA);
+    var activeB = modeActive(modeB);
+
+    if (activeA) {
+       if (activeB) { 
+         return tileDiffs; 
+       } else {
+         return tileDiffs.concat([{key: modeB, action: "add", value: modeB}]); 
+       }
+    } else { 
+       if (activeB) {
+         return [{key: modeA, action: "remove"}].concat(tileDiffs);
+       } else if (modeA !== modeB) {
+         return [{key: modeA, action: "remove"}, {key: modeB, action: "add", value: modeB}];
+       }
+    }
+  };
+
+  var mkState = function(mode, tiles) {
+    return {mode: mode, tiles: tiles};
+  };
+
   var updateUi = function(diffs) {
     _.each(diffs, function(x) {
       board[x.action](x.key, x.value);
@@ -71,8 +101,11 @@ var createController = function(board, initialWait, period) {
     board.refresh();
   };
 
-  var update = function(newState) {
-    var diffs = diff(state, newState, eq);
+  var state = mkState("loading", {});
+
+  var update = function(mode, tiles) {
+    var newState = mkState(mode, tiles);
+    var diffs = diffStates(state, newState, eq);
     state = newState;
     updateUi(diffs); 
     pollSoon();
@@ -82,11 +115,12 @@ var createController = function(board, initialWait, period) {
   var poll = function() {
     $.getJSON(url)
       .done(function(data, textStatus, jqXHR) {
-        var newState = massage(data);
-        update(newState);
+        var tiles = massage(data);
+        var mode = _.isEmpty(tiles) ? "nojobs" : "active"; 
+        update(mode, tiles);
       })
       .fail(function(jqXHR, textStatus, errorThrown) {
-        update({}); 
+        update("disconnected", {}); 
       });
   };
 

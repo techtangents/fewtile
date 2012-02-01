@@ -19,6 +19,7 @@ var createBoard = function(elementId, duration, animate) {
     cushion: true,
     duration: duration,
     onCreateLabel: function(domElement, node) {
+      console.log("blah", node.name);
       domElement.innerHTML = "<table style='height:100%;width:100%'><tr><td style='vertical-align:middle;width:100%'>" + node.name + "</td></tr></table>";
       $(domElement).addClass(node.data.cssClass);
       $(domElement).find("td").resize(function() {
@@ -63,10 +64,25 @@ var createBoard = function(elementId, duration, animate) {
       "$cssClass": "buildingNode"
     },
     failed_rebuilding: {
-        "$color": "orange",
-        "$area": 25,
-        "$cssClass": "buildingNode"
-    }
+      "$color": "orange",
+      "$area": 25,
+      "$cssClass": "buildingNode"
+    },
+    "nojobs": {
+      "$color": "red",
+      "$area": 100,
+      "$cssClass": "noJobs"    
+    },
+    disconnected: {
+      "$color": "red",
+      "$area": 100,
+      "$cssClass": "disconnected"    
+    },
+    loading: {
+      "$color": "blue",
+      "$area": 5,
+      "cssClass": "disabledNode"
+    },
   };
 
   var allClasses = (function() {
@@ -101,6 +117,7 @@ var createBoard = function(elementId, duration, animate) {
   };
 
   var add = function(id, style) {
+    console.log("adding", id, style);
     var n = {
       id: id,
       name: id,
@@ -111,15 +128,22 @@ var createBoard = function(elementId, duration, animate) {
   };
 
   var remove = function(nodeId) {
+    console.log("removing", nodeId);
     var g = tm.graph;
     g.removeAdjacence("/", nodeId);
     g.removeNode(nodeId); 
+
     tm.labels.disposeLabel(nodeId);
-  }; 
+    //wtf? thejit is crazy. Without this 'delete' statement, if a label of the same name is recreated, no 'onCreateLabel' is fired... because the label already exists
+    delete tm.labels.labels[nodeId];
+  };
 
   var refresh = function() {
     tm.refresh();
   };
+
+  add("loading", "loading");
+  refresh();
 
   return {
     add: add,
