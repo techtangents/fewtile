@@ -19,15 +19,17 @@ var createBoard = function(elementId, duration, animate) {
     cushion: true,
     duration: duration,
     onCreateLabel: function(domElement, node) {
-      console.log("blah", node.name);
+      var data = node.data;
       domElement.innerHTML = "<table style='height:100%;width:100%'><tr><td style='vertical-align:middle;width:100%'>" + node.name + "</td></tr></table>";
-      $(domElement).addClass(node.data.cssClass);
+      $(domElement).addClass(data.cssClass);
       $(domElement).find("td").resize(function() {
         $(this).textfill();
       });
-      $(domElement).click(function() {
-        window.open('/job/' + node.name);
-      });
+      if (data.clickable) {
+        $(domElement).click(function() {
+          window.open('/job/' + node.name);
+        });
+      }
     } 
   };
   
@@ -46,42 +48,50 @@ var createBoard = function(elementId, duration, animate) {
     pass: {
       "$color": "green",
       "$area": 10,
-      "cssClass": "passNode"
+      "cssClass": "passNode",
+      clickable: true
     },
     fail: {
       "$color": "red",
       "$area": 100,
-      "cssClass": "failNode"
+      "cssClass": "failNode",
+      clickable: true
     },
     disabled: {
       "$color": "#999999",
       "$area": 5,
-      "cssClass": "disabledNode"
+      "cssClass": "disabledNode",
+      clickable: true
     },
     building: {
       "$color": "yellow",
       "$area": 25,
-      "$cssClass": "buildingNode"
+      "$cssClass": "buildingNode",
+      clickable: true
     },
     failed_rebuilding: {
       "$color": "orange",
       "$area": 25,
-      "$cssClass": "buildingNode"
+      "$cssClass": "buildingNode",
+      clickable: true
     },
     "no jobs": {
       "$color": "red",
       "$area": 100,
-      "$cssClass": "noJobs"    
+      "$cssClass": "noJobs",
+      clickable: false
     },
     disconnected: {
       "$color": "red",
       "$area": 100,
-      "$cssClass": "disconnected"    
+      "$cssClass": "disconnected",
+      clickable: false
     },
     loading: {
       "$color": "blue",
       "$area": 5,
-      "cssClass": "disabledNode"
+      "cssClass": "disabledNode",
+      clickable: false
     },
   };
 
