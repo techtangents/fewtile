@@ -68,7 +68,7 @@ var createBoard = function(elementId, duration, animate) {
       "$area": 25,
       "$cssClass": "buildingNode"
     },
-    "nojobs": {
+    "no jobs": {
       "$color": "red",
       "$area": 100,
       "$cssClass": "noJobs"    

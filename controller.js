@@ -114,7 +114,7 @@ var createController = function(board, initialWait, period) {
       $.getJSON(url)
         .done(function(data, textStatus, jqXHR) {
           var tiles = massage(data);
-          var mode = _.isEmpty(tiles) ? "nojobs" : "active"; 
+          var mode = _.isEmpty(tiles) ? "no jobs" : "active"; 
           update(oldState, mode, tiles);
         })
         .fail(function(jqXHR, textStatus, errorThrown) {
