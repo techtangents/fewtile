@@ -117,7 +117,6 @@ var createBoard = function(elementId, duration, animate) {
   };
 
   var add = function(id, style) {
-    console.log("adding", id, style);
     var n = {
       id: id,
       name: id,
@@ -128,7 +127,6 @@ var createBoard = function(elementId, duration, animate) {
   };
 
   var remove = function(nodeId) {
-    console.log("removing", nodeId);
     var g = tm.graph;
     g.removeAdjacence("/", nodeId);
     g.removeNode(nodeId); 
