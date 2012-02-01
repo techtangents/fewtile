@@ -101,32 +101,32 @@ var createController = function(board, initialWait, period) {
     board.refresh();
   };
 
-  var state = mkState("loading", {});
-
-  var update = function(mode, tiles) {
+  var update = function(oldState, mode, tiles) {
     var newState = mkState(mode, tiles);
-    var diffs = diffStates(state, newState, eq);
-    state = newState;
-    updateUi(diffs); 
-    pollSoon();
+    var diffs = diffStates(oldState, newState, eq);
+    updateUi(diffs);
+    pollSoon(newState);
   };
 
   var url = "/api/json?tree=jobs[name,color]";
-  var poll = function() {
-    $.getJSON(url)
-      .done(function(data, textStatus, jqXHR) {
-        var tiles = massage(data);
-        var mode = _.isEmpty(tiles) ? "nojobs" : "active"; 
-        update(mode, tiles);
-      })
-      .fail(function(jqXHR, textStatus, errorThrown) {
-        update("disconnected", {}); 
-      });
+  var poll = function(oldState) {
+    return function() {
+      $.getJSON(url)
+        .done(function(data, textStatus, jqXHR) {
+          var tiles = massage(data);
+          var mode = _.isEmpty(tiles) ? "nojobs" : "active"; 
+          update(oldState, mode, tiles);
+        })
+        .fail(function(jqXHR, textStatus, errorThrown) {
+          update(oldState, "disconnected", {}); 
+        });
+    };
   };
 
-  var pollSoon = function() {
-    setTimeout(poll, period);
+  var pollSoon = function(oldState) {
+    setTimeout(poll(oldState), period);
   };
 
-  setTimeout(poll, initialWait);
+  var initialState = mkState("loading", {});
+  setTimeout(poll(initialState), initialWait);
 };
