@@ -19,21 +19,24 @@ var createBoard = function(elementId, duration, animate) {
     cushion: true,
     duration: duration,
     onCreateLabel: function(domElement, node) {
+      var box = $("<div style='display: table;height:100%; width:100%;'></div>");
+      $(domElement).append(box);
+
+      var text = $("<div class='cellVis' style='display: table-cell;vertical-align:middle;'><span>" + node.name + "</span></div>");
+      box.append(text);
       var data = node.data;
-      domElement.innerHTML = "<table style='height:100%;width:100%'><tr><td style='vertical-align:middle;width:100%'>" + node.name + "</td></tr></table>";
-      $(domElement).addClass(data.cssClass);
-      var td = $(domElement).find("td");
-      td.resize(function() {
+      text.addClass(data.cssClass);
+      text.resize(function() {
         $(this).textfill();
       });
-      if (data.clickable) {
-        $(domElement).css('cursor', 'pointer');
-        $(domElement).click(function() {
+      if (data.clickable !== false) {
+        box.css('cursor', 'pointer');
+        box.click(function() {
           window.open('/job/' + node.name);
         });
       }
-    } 
-  };
+    }
+  };  
   
   var json = {
     data: {},
