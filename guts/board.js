@@ -67,13 +67,13 @@ var createBoard = function(elementId, duration, animate) {
     },
     building: {
       "$color": "yellow",
-      "$area": 25,
+      "$area": 10,
       "$cssClass": "buildingNode",
       clickable: true
     },
     failed_rebuilding: {
       "$color": "orange",
-      "$area": 25,
+      "$area": 100,
       "$cssClass": "buildingNode",
       clickable: true
     },
@@ -91,7 +91,7 @@ var createBoard = function(elementId, duration, animate) {
     },
     loading: {
       "$color": "blue",
-      "$area": 5,
+      "$area": 100,
       "cssClass": "disabledNode",
       clickable: false
     },
