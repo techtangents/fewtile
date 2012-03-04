@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>fewtile</title>
+
+<link type="text/css" href="css/base.css" rel="stylesheet" />
+<link type="text/css" href="css/Treemap.css" rel="stylesheet" />
+
+<script language="javascript" type="text/javascript" src="lib/underscore-min.js"></script>
+<script language="javascript" type="text/javascript" src="lib/jquery-1.7.1.min.js"></script>
+<script language="javascript" type="text/javascript" src="lib/textfill.js"></script>
+<script language="javascript" type="text/javascript" src="lib/jquery.ba-resize.min.js"></script>
+<script language="javascript" type="text/javascript" src="lib/jit-yc.js"></script>
+<script language="javascript" type="text/javascript" src="guts/board.js"></script>
+<script language="javascript" type="text/javascript" src="guts/controller.js"></script>
+
+<script language="javascript" type="text/javascript">
+
+  var menu = function() {
+    location.href="index.html";
+  };
+
+  var allTiles = function() {
+    var chrome = '<div id="container"><div id="infovis"></div></div>';
+    $(document.body).append(chrome);    
+    var duration = 400;
+    var board = createBoard('infovis', duration, false);
+    createController(board, duration * 2, 6000);
+  };
+
+  $(document).ready(function() {
+    var qs = document.location.search;
+    (
+      qs == "?allTiles" ? allTiles : menu
+    )();
+  });
+</script>
+
+</head>
+
+<body>
+</body>
+</html>
+
