@@ -28,6 +28,7 @@ var sources = (function() {
   var allJobs = {
     url: "/api/json?tree=jobs[name,color]",
     clickUrl: "/job/",
+    noJobsName: "No jobs",
     handle: function(data) {
       var r = {};
       _.each(data.jobs, function(x) {
@@ -40,6 +41,7 @@ var sources = (function() {
   var failingJobs = {
     url: "/api/json?tree=jobs[name,color]",
     clickUrl: "/job/",
+    noJobsName: "All jobs passing",
     handle: function(data) {
       var r = {};
       _.each(data.jobs, function(x) {
@@ -55,6 +57,7 @@ var sources = (function() {
   var allGroups = {
     url: "/api/json?tree=views[name,color,jobs[name,color]]",
     clickUrl: "/view/",
+    noJobsName: "No groups",
     handle: function(data) {
       var r = {};
       _.each(data.views, function(view) {

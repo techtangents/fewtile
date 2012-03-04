@@ -80,10 +80,22 @@ var createBoard = function(elementId, duration, animate, clickUrl) {
       "$cssClass": "buildingNode",
       clickable: true
     },
-    "no jobs": {
+    "No jobs": {
       "$color": "red",
       "$area": 100,
       "$cssClass": "noJobs",
+      clickable: false
+    },
+    "No groups": {
+      "$color": "red",
+      "$area": 100,
+      "$cssClass": "noJobs",
+      clickable: false
+    },
+    "All jobs passing": {
+      "$color": "green",
+      "$area": 100,
+      "$cssClass": "allJobsPassing",
       clickable: false
     },
     disconnected: {
@@ -132,6 +144,7 @@ var createBoard = function(elementId, duration, animate, clickUrl) {
   };
 
   var add = function(id, style) {
+    console.log(style);
     var n = {
       id: id,
       name: id,

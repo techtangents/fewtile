@@ -44,6 +44,10 @@ var createController = function(board, source, initialWait, period) {
     return mode === "active"; 
   };
 
+  var modeName = function(mode) {
+    return mode === "no jobs" ? source.noJobsName : mode;
+  };
+
   var diffStates = function(a, b) {
     var modeA = a.mode;
     var modeB = b.mode;
@@ -53,17 +57,20 @@ var createController = function(board, source, initialWait, period) {
     var activeA = modeActive(modeA);
     var activeB = modeActive(modeB);
 
+    var nameA = modeName(modeA);
+    var nameB = modeName(modeB);
+
     if (activeA) {
        if (activeB) { 
          return tileDiffs; 
        } else {
-         return tileDiffs.concat([{key: modeB, action: "add", value: modeB}]); 
+         return tileDiffs.concat([{key: nameB, action: "add", value: nameB}]); 
        }
     } else { 
        if (activeB) {
-         return [{key: modeA, action: "remove"}].concat(tileDiffs);
+         return [{key: nameA, action: "remove"}].concat(tileDiffs);
        } else if (modeA !== modeB) {
-         return [{key: modeA, action: "remove"}, {key: modeB, action: "add", value: modeB}];
+         return [{key: nameA, action: "remove"}, {key: nameB, action: "add", value: nameB}];
        }
     }
   };
