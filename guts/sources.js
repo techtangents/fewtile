@@ -19,6 +19,12 @@ var sources = (function() {
     return c;
   };
 
+  var badStatii = ["fail", "failed_rebuilding"];
+  
+  var isBadStatus = function(c) {
+    return _.include(badStatii, c);
+  };
+
   var allJobs = {
     url: "/api/json?tree=jobs[name,color]",
     clickUrl: "/job/",
@@ -31,7 +37,20 @@ var sources = (function() {
     }
   };
 
-  var badStatii = ["fail", "failed_rebuilding"];
+  var failingJobs = {
+    url: "/api/json?tree=jobs[name,color]",
+    clickUrl: "/job/",
+    handle: function(data) {
+      var r = {};
+      _.each(data.jobs, function(x) {
+        var c = colorMapOrDie(x.color);
+        if (isBadStatus(c)) {
+          r[x.name] = c;
+        }
+      });
+      return r;
+    }
+  };
 
   var allGroups = {
     url: "/api/json?tree=views[name,color,jobs[name,color]]",
@@ -40,10 +59,12 @@ var sources = (function() {
       var r = {};
       _.each(data.views, function(view) {
         var name = view.name;
-        var hasFail = _.any(view.jobs, function(job) {
-          var c = colorMapOrDie(job.color);
-          return _.include(badStatii, c);
-        });
+        if (name != "All") {
+          var hasFail = _.any(view.jobs, function(job) {
+            var c = colorMapOrDie(job.color);
+            return isBadStatus(c);
+          });
+        }
         r[view.name] = hasFail ? "fail" : "pass";
       });
       return r;
@@ -51,7 +72,8 @@ var sources = (function() {
   };
 
   return {
-    allGroups:  allGroups,
-    allJobs: allJobs
+    allJobs: allJobs,
+    failingJobs: failingJobs,
+    allGroups: allGroups
   };
 })();

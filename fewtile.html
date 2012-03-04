@@ -33,8 +33,9 @@
   $(document).ready(function() {
     var qs = document.location.search;
     (
-        qs == "?allJobs"   ? run(sources.allJobs) 
-      : qs == "?allGroups" ? run(sources.allGroups)
+        qs == "?allJobs"     ? run(sources.allJobs) 
+      : qs == "?failingJobs" ? run(sources.failingJobs)
+      : qs == "?allGroups"   ? run(sources.allGroups)
       : menu
     )();
   });
