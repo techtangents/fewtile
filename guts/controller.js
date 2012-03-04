@@ -1,27 +1,5 @@
-var createController = function(board, initialWait, period) {
+var createController = function(board, source, initialWait, period) {
 
-  var colorMap = {
-    blue: 'pass',
-    red: 'fail',
-    grey: 'disabled',
-    disabled: 'disabled',
-    yellow: "fail",
-    aborted: "fail",
-    aborted_anime: "fail",
-    blue_anime: "building",
-    yellow_anime: "failed_rebuilding",
-    red_anime: "failed_rebuilding"
-  };
-
-  var massage = function(data) {
-    var r = {};
-    _.each(data.jobs, function(x) {
-      r[x.name] = colorMap[x.color];
-      if(!r[x.name]) throw "Jenkins gave a 'color' value I don't know about: " + String(x.color); 
-    });
-    return r;
-  };
- 
   var outerJoin = function(left, right) {
     var r = {};
     _.each(left, function(x, i) {
@@ -108,12 +86,11 @@ var createController = function(board, initialWait, period) {
     pollSoon(newState);
   };
 
-  var url = "/api/json?tree=jobs[name,color]";
   var poll = function(oldState) {
     return function() {
-      $.getJSON(url)
+      $.getJSON(source.url)
         .done(function(data, textStatus, jqXHR) {
-          var tiles = massage(data);
+          var tiles = source.handle(data);
           var mode = _.isEmpty(tiles) ? "no jobs" : "active"; 
           update(oldState, mode, tiles);
         })

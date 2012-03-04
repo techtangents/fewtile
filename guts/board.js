@@ -1,4 +1,4 @@
-var createBoard = function(elementId, duration, animate) {
+var createBoard = function(elementId, duration, animate, clickUrl) {
 
   $.resize.delay=1000;
 
@@ -32,7 +32,7 @@ var createBoard = function(elementId, duration, animate) {
       if (data.clickable !== false) {
         box.css('cursor', 'pointer');
         box.click(function() {
-          window.open('/job/' + node.name);
+          window.open(clickUrl + node.name);
         });
       }
     }
