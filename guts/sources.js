@@ -64,8 +64,8 @@ var sources = (function() {
             var c = colorMapOrDie(job.color);
             return isBadStatus(c);
           });
+          r[view.name] = hasFail ? "fail" : "pass";
         }
-        r[view.name] = hasFail ? "fail" : "pass";
       });
       return r;
     }
