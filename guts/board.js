@@ -144,7 +144,6 @@ var createBoard = function(elementId, duration, animate, clickUrl) {
   };
 
   var add = function(id, style) {
-    console.log(style);
     var n = {
       id: id,
       name: id,

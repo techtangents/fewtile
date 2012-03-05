@@ -68,9 +68,9 @@ var createController = function(board, source, initialWait, period) {
        }
     } else { 
        if (activeB) {
-         return [{key: nameA, action: "remove"}].concat(tileDiffs);
+         return [{key: nameA, action: "remove", value: nameA}].concat(tileDiffs);
        } else if (modeA !== modeB) {
-         return [{key: nameA, action: "remove"}, {key: nameB, action: "add", value: nameB}];
+         return [{key: nameA, action: "remove", value: nameA}, {key: nameB, action: "add", value: nameB}];
        }
     }
   };
