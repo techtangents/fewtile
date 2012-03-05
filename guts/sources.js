@@ -2,15 +2,17 @@ var sources = (function() {
 
   var colorMap = {
     blue: 'pass',
+    blue_anime: "building",
     red: 'fail',
+    red_anime: "failed_rebuilding"
     grey: 'disabled',
+    grey_anime: 'disabled',
     disabled: 'disabled',
+    disabled_anime: 'disabled'
     yellow: "fail",
+    yellow_anime: "failed_rebuilding",
     aborted: "fail",
     aborted_anime: "fail",
-    blue_anime: "building",
-    yellow_anime: "failed_rebuilding",
-    red_anime: "failed_rebuilding"
   };
 
   var colorMapOrDie = function(color) {
