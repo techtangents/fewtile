@@ -4,7 +4,7 @@ var sources = (function() {
     blue: 'pass',
     blue_anime: "building",
     red: 'fail',
-    red_anime: "failed_rebuilding"
+    red_anime: "failed_rebuilding",
     grey: 'disabled',
     grey_anime: 'disabled',
     disabled: 'disabled',
