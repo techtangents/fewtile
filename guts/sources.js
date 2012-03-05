@@ -8,11 +8,11 @@ var sources = (function() {
     grey: 'disabled',
     grey_anime: 'disabled',
     disabled: 'disabled',
-    disabled_anime: 'disabled'
+    disabled_anime: 'disabled',
     yellow: "fail",
     yellow_anime: "failed_rebuilding",
     aborted: "fail",
-    aborted_anime: "fail",
+    aborted_anime: "fail"
   };
 
   var colorMapOrDie = function(color) {
