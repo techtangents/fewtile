@@ -45,7 +45,7 @@ var createController = function(board, source, initialWait, period) {
   };
 
   var modeName = function(mode) {
-    return mode === "no jobs" ? source.noJobsName : mode;
+    return mode === "no jobs" ? source.noJobsName : mode == "disconnected" ? "&#x2620;" : mode;
   };
 
   var diffStates = function(a, b) {
