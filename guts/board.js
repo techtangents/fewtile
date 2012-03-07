@@ -16,23 +16,17 @@ var createBoard = function(elementId, duration, animate, clickUrl, jollyRoger) {
     duration: duration,
     onCreateLabel: function(domElement, node) {
       var tile = $(domElement);
-      var table = $("<div style='display: table;height:100%; width:100%; overflow:visible;margin:0;border:0;padding:0;'></div>");
-      var cell = $("<div class='cellVis' style='display: table-cell;vertical-align:middle;width:100%;height:100%;overflow: visible;margin:0;padding:0;border:0;'></div>");
       var span = $("<span style='margin:0;border:0;padding:0;'>" + node.name + "</span>");
-
-      cell.append(span);
-      table.append(cell);
-      $(domElement).append(table);
-
+      tile.append(span);
+      tile.addClass('tile');
       var data = node.data;
       span.addClass(data.cssClass);
-      // is this needed?
       tile.resize(function() {
         span.textfill();
       });
       if (data.clickable !== false) {
-        table.css('cursor', 'pointer');
-        table.click(function() {
+        tile.css('cursor', 'pointer');
+        tile.click(function() {
           window.open(clickUrl + node.name);
         });
       }
