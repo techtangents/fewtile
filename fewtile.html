@@ -27,6 +27,10 @@
     $(document.body).append(chrome);
     var duration = 400;
     var board = createBoard('infovis', duration, false, source.clickUrl);
+    $("#infovis").resize(function() {
+      var e = $("#infovis");
+      board.resize(e.width(), e.height());
+    });
     createController(board, source, duration * 2, 6000);
   }};
 

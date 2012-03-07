@@ -170,11 +170,16 @@ var createBoard = function(elementId, duration, animate, clickUrl) {
   add("loading", "loading");
   refresh();
 
+  var resize = function(width, height) {
+    tm.canvas.resize(width, height);
+  };
+
   return {
     add: add,
     remove: remove,
     change: change,
-    refresh: refresh
+    refresh: refresh,
+    resize: resize
   };
 };
 
