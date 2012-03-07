@@ -17,29 +17,38 @@
 <script language="javascript" type="text/javascript" src="guts/controller.js"></script>
 
 <script language="javascript" type="text/javascript">
-
-  var menu = function() {
-    location.href="index.html";
+  var connected = true;
+  var disconnect = function() {
+    connected = false;
+  };
+  var connect = function() {
+    connected = true;
   };
 
-  var run = function(source) { return function() {
+  var menu = function() {
+    location.href = "index.html";
+  };
+
+  var run = function(source, delay) { return function() {
+    $.resize.delay = delay;
+    var jollyRoger = "&#x2620;";
     var chrome = '<div id="container"><div id="infovis"></div></div>';
     $(document.body).append(chrome);
     var duration = 400;
-    var board = createBoard('infovis', duration, false, source.clickUrl);
+    var board = createBoard('infovis', duration, false, source.clickUrl, jollyRoger);
     $("#infovis").resize(function() {
       var e = $("#infovis");
       board.resize(e.width(), e.height());
     });
-    createController(board, source, duration * 2, 6000);
+    createController(board, source, duration * 2, 6000, jollyRoger);
   }};
 
   $(document).ready(function() {
     var qs = document.location.search;
     (
-        qs == "?allJobs"     ? run(sources.allJobs) 
-      : qs == "?failingJobs" ? run(sources.failingJobs)
-      : qs == "?allGroups"   ? run(sources.allGroups)
+        qs == "?allJobs"     ? run(sources.allJobs, 1000) 
+      : qs == "?failingJobs" ? run(sources.failingJobs, 1000)
+      : qs == "?allGroups"   ? run(sources.allGroups, 1000)
       : menu
     )();
   });

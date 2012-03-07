@@ -1,10 +1,6 @@
-var createBoard = function(elementId, duration, animate, clickUrl) {
-
-  $.resize.delay=1000;
-
+var createBoard = function(elementId, duration, animate, clickUrl, jollyRoger) {
   var graphOptions = {
     Label: {
-      size: 40,
       orientation: 'h',
       overridable: true
     },
@@ -19,22 +15,29 @@ var createBoard = function(elementId, duration, animate, clickUrl) {
     cushion: true,
     duration: duration,
     onCreateLabel: function(domElement, node) {
-      var box = $("<div style='display: table;height:100%; width:100%;'></div>");
-      $(domElement).append(box);
+      var table = $("<div style='display: table;height:100%; width:100%; overflow:visible;margin:0;border:0;padding:0;'></div>");
+      var cell = $("<div class='cellVis' style='display: table-cell;vertical-align:middle;width:100%;height:100%;overflow: visible;margin:0;padding:0;border:0;'></div>");
+      var span = $("<span style='margin:0;border:0;padding:0;'>" + node.name + "</span>");
 
-      var text = $("<div class='cellVis' style='display: table-cell;vertical-align:middle;'><span>" + node.name + "</span></div>");
-      box.append(text);
+      cell.append(span);
+      table.append(cell);
+      $(domElement).append(table);
+
       var data = node.data;
-      text.addClass(data.cssClass);
-      text.resize(function() {
-        $(this).textfill();
-      });
+      span.addClass(data.cssClass);
+      // is this needed?
+      //span.resize(function() {
+      //  $(this).textfill();
+      //});
       if (data.clickable !== false) {
-        box.css('cursor', 'pointer');
-        box.click(function() {
+        table.css('cursor', 'pointer');
+        table.click(function() {
           window.open(clickUrl + node.name);
         });
       }
+      setTimeout(function() {
+        span.textfill(); 
+      }, 0);
     }
   };  
   
@@ -71,45 +74,40 @@ var createBoard = function(elementId, duration, animate, clickUrl) {
     building: {
       "$color": "yellow",
       "$area": 10,
-      "$cssClass": "buildingNode",
+      "cssClass": "buildingNode",
       clickable: true
     },
     failed_rebuilding: {
       "$color": "orange",
       "$area": 100,
-      "$cssClass": "buildingNode",
+      "cssClass": "buildingNode",
       clickable: true
     },
     "No jobs": {
       "$color": "red",
       "$area": 100,
-      "$cssClass": "noJobs",
-      clickable: false
-    },
-    "No groups": {
-      "$color": "red",
-      "$area": 100,
-      "$cssClass": "noJobs",
+      "cssClass": "noJobs",
       clickable: false
     },
     "All jobs passing": {
       "$color": "green",
       "$area": 100,
-      "$cssClass": "allJobsPassing",
-      clickable: false
-    },
-    disconnected: {
-      "$color": "red",
-      "$area": 100,
-      "$cssClass": "disconnected",
+      "cssClass": "allJobsPassing",
       clickable: false
     },
     loading: {
       "$color": "blue",
       "$area": 100,
-      "cssClass": "disabledNode",
+      "cssClass": "loading",
       clickable: false
-    },
+    }
+  };
+
+  styles[jollyRoger] = {
+    "$color": "#000000",
+    "$area": 100,
+    "cssClass": "jollyRoger",
+    clickable: false
   };
 
   var allClasses = (function() {

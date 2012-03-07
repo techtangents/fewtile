@@ -85,15 +85,6 @@ a {
     margin:7px;
 }
 
-#log {
-    position:absolute;
-    top:10px;
-    font-size:1.0em;
-    font-weight:bold;
-    color:#23A4FF;
-}
-
-
 #infovis {
     position:absolute;
     width:100%;
@@ -104,19 +95,3 @@ a {
     overflow:hidden;
 }
 
-/*TOOLTIPS*/
-.tip {
-    color: #111;
-    width: 139px;
-    background-color: white;
-    border:1px solid #ccc;
-    -moz-box-shadow:#555 2px 2px 8px;
-    -webkit-box-shadow:#555 2px 2px 8px;
-    -o-box-shadow:#555 2px 2px 8px;
-    box-shadow:#555 2px 2px 8px;
-    opacity:0.9;
-    filter:alpha(opacity=90);
-    font-size:10px;
-    font-family:Verdana, Geneva, Arial, Helvetica, sans-serif;
-    padding:7px;
-}

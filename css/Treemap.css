@@ -7,6 +7,14 @@
 .disabled {
 }
 
+.jollyRoger {
+  font-size:50px;
+}
+
+.loading, .noJobs, .allJobsPassing {
+  font-size:100px;
+}
+
 #infovis {
 }
 

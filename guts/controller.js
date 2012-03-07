@@ -1,4 +1,4 @@
-var createController = function(board, source, initialWait, period) {
+var createController = function(board, source, initialWait, period, jollyRoger) {
 
   var outerJoin = function(left, right) {
     var r = {};
@@ -45,7 +45,7 @@ var createController = function(board, source, initialWait, period) {
   };
 
   var modeName = function(mode) {
-    return mode === "no jobs" ? source.noJobsName : mode == "disconnected" ? "&#x2620;" : mode;
+    return mode === "no jobs" ? source.noJobsName : mode == "disconnected" ? jollyRoger : mode;
   };
 
   var diffStates = function(a, b) {
@@ -93,17 +93,26 @@ var createController = function(board, source, initialWait, period) {
     pollSoon(newState);
   };
 
+
   var poll = function(oldState) {
+    var disconnected = function() {
+      update(oldState, "disconnected", {}); 
+    };
+ 
     return function() {
-      $.getJSON(source.url)
-        .done(function(data, textStatus, jqXHR) {
-          var tiles = source.handle(data);
-          var mode = _.isEmpty(tiles) ? "no jobs" : "active"; 
-          update(oldState, mode, tiles);
-        })
-        .fail(function(jqXHR, textStatus, errorThrown) {
-          update(oldState, "disconnected", {}); 
-        });
+      if (connected) {
+        $.getJSON(source.url)
+          .done(function(data, textStatus, jqXHR) {
+            var tiles = source.handle(data);
+            var mode = _.isEmpty(tiles) ? "no jobs" : "active"; 
+            update(oldState, mode, tiles);
+          })
+          .fail(function(jqXHR, textStatus, errorThrown) {
+            disconnected();
+          });
+       } else {
+         disconnected();
+       }
     };
   };
 
