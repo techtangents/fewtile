@@ -26,9 +26,9 @@ var createBoard = function(elementId, duration, animate, clickUrl, jollyRoger) {
       var data = node.data;
       span.addClass(data.cssClass);
       // is this needed?
-      //span.resize(function() {
-      //  $(this).textfill();
-      //});
+      span.resize(function() {
+        $(this).textfill();
+      });
       if (data.clickable !== false) {
         table.css('cursor', 'pointer');
         table.click(function() {
