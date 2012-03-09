@@ -12,7 +12,7 @@ var createBoard = function(elementId, duration, animate, clickUrl, jollyRoger) {
     titleHeight: 0,
     animate: animate,
     offset: 0,
-    cushion: true,
+    cushion: false,
     duration: duration,
     onCreateLabel: function(domElement, node) {
       var tile = $(domElement);
@@ -126,7 +126,7 @@ var createBoard = function(elementId, duration, animate, clickUrl, jollyRoger) {
     if (n === undefined) throw "Node not found: " + id;
     n.data = s;
     var l = tm.labels.getLabel(id);
-    var td = $(l).find("td");
+    var td = $(l).find("span");
     setClass(td, s.cssClass);
   };
 
