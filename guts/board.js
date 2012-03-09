@@ -5,8 +5,11 @@ var createBoard = function(elementId, duration, animate, clickUrl, jollyRoger) {
       overridable: true
     },
     Canvas: {
-      useCanvas: true,
+      useCanvas: false,
       withLabels: false
+    },
+    Edge: {
+      lineWidth: 20
     },
     injectInto: elementId,
     titleHeight: 0,
@@ -16,11 +19,10 @@ var createBoard = function(elementId, duration, animate, clickUrl, jollyRoger) {
     duration: duration,
     onCreateLabel: function(domElement, node) {
       var tile = $(domElement);
-      var span = $("<span style='margin:0;border:0;padding:0;'>" + node.name + "</span>");
+      var span = $("<span>" + node.name + "</span>");
       tile.append(span);
-      tile.addClass('tile');
       var data = node.data;
-      span.addClass(data.cssClass);
+      tile.addClass(data.cssClass);
       tile.resize(function() {
         span.textfill();
       });
@@ -49,59 +51,50 @@ var createBoard = function(elementId, duration, animate, clickUrl, jollyRoger) {
  
   var styles = {
     pass: {
-      "$color": "green",
       "$area": 10,
       "cssClass": "passNode",
       clickable: true
     },
     fail: {
-      "$color": "red",
       "$area": 100,
       "cssClass": "failNode",
       clickable: true
     },
     disabled: {
-      "$color": "#999999",
       "$area": 5,
       "cssClass": "disabledNode",
       clickable: true
     },
     building: {
-      "$color": "yellow",
       "$area": 10,
       "cssClass": "buildingNode",
       clickable: true
     },
     failed_rebuilding: {
-      "$color": "orange",
       "$area": 100,
       "cssClass": "buildingNode",
       clickable: true
     },
     "No jobs": {
-      "$color": "red",
       "$area": 100,
-      "cssClass": "noJobs",
+      "cssClass": "noJobsNode",
       clickable: false
     },
     "All jobs passing": {
-      "$color": "green",
       "$area": 100,
-      "cssClass": "allJobsPassing",
+      "cssClass": "allJobsPassingNode",
       clickable: false
     },
     loading: {
-      "$color": "blue",
       "$area": 100,
-      "cssClass": "loading",
+      "cssClass": "loadingNode",
       clickable: false
     }
   };
 
   styles[jollyRoger] = {
-    "$color": "#000000",
     "$area": 100,
-    "cssClass": "jollyRoger",
+    "cssClass": "jollyRogerNode",
     clickable: false
   };
 
@@ -125,9 +118,8 @@ var createBoard = function(elementId, duration, animate, clickUrl, jollyRoger) {
     var n = tm.graph.getNode(id);
     if (n === undefined) throw "Node not found: " + id;
     n.data = s;
-    var l = tm.labels.getLabel(id);
-    var td = $(l).find("span");
-    setClass(td, s.cssClass);
+    var l = $(tm.labels.getLabel(id));
+    setClass(l, s.cssClass);
   };
 
   var createNode = function(node) {

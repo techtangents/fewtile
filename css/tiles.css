@@ -1,0 +1,83 @@
+html, body {
+    margin:0;
+    padding:0;
+    border:0;
+    font-family: sans-serif;
+    text-align: center;
+}
+
+#container {
+    margin:0;
+    padding:0;
+    border:0;
+    position:absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    width: 100%;
+    overflow:hidden; 
+}
+
+.node {
+  /* Firefox */
+  display:-moz-box;
+  -moz-box-orient:horizontal;
+  -moz-box-pack:center;
+  -moz-box-align:center;
+
+  /* Safari and Chrome */
+  display:-webkit-box;
+  -webkit-box-orient:horizontal;
+  -webkit-box-pack:center;
+  -webkit-box-align:center;
+
+  /* W3C */
+  display:box;
+  box-orient:horizontal;
+  box-pack:center;
+  box-align:center;
+
+  /* other styles */
+  border: 10px solid black;
+  margin: 0;
+  padding: 0;
+
+  color: #ffffff;
+}
+
+.node span {
+  border:0;
+  margin:0;
+  padding:0;
+}
+
+.passNode, .allJobsPassing {
+  background-color: #308A48;
+}
+
+.failNode, .noJobsNode {
+  background-color: #BD3333;
+}
+
+.disabledNode {
+  color: #eeeeee;
+  background-color: #999999;
+}
+
+.jollyRogerNode {
+  background-color: black;
+}
+
+.loadingNode {
+  background-color: blue;
+}
+
+.buildingNode {
+  background-color: yellow; 
+}
+
+.failedRebuildingNode {
+  background-color: #9C6425;
+}
+

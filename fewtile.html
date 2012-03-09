@@ -4,8 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>fewtile</title>
 
-<link type="text/css" href="css/base.css" rel="stylesheet" />
-<link type="text/css" href="css/Treemap.css" rel="stylesheet" />
+<link type="text/css" href="css/tiles.css" rel="stylesheet" />
 
 <script language="javascript" type="text/javascript" src="lib/underscore-min.js"></script>
 <script language="javascript" type="text/javascript" src="lib/jquery-1.7.1.min.js"></script>
@@ -32,12 +31,12 @@
   var run = function(source, delay) { return function() {
     $.resize.delay = delay;
     var jollyRoger = "&#x2620;";
-    var chrome = '<div id="container"><div id="infovis"></div></div>';
+    var chrome = '<div id="container"></div>';
     $(document.body).append(chrome);
     var duration = 400;
-    var board = createBoard('infovis', duration, false, source.clickUrl, jollyRoger);
-    $("#infovis").resize(function() {
-      var e = $("#infovis");
+    var board = createBoard('container', duration, false, source.clickUrl, jollyRoger);
+    $("#container").resize(function() {
+      var e = $(this);
       board.resize(e.width(), e.height());
     });
     createController(board, source, duration * 2, 6000, jollyRoger);
