@@ -72,7 +72,7 @@ var createBoard = function(elementId, duration, animate, clickUrl, jollyRoger) {
     },
     failed_rebuilding: {
       "$area": 100,
-      "cssClass": "buildingNode",
+      "cssClass": "failedRebuildingNode",
       clickable: true
     },
     "No jobs": {
