@@ -71,6 +71,8 @@ var createController = function(board, source, initialWait, period, jollyRoger) 
          return [{key: nameA, action: "remove", value: nameA}].concat(tileDiffs);
        } else if (modeA !== modeB) {
          return [{key: nameA, action: "remove", value: nameA}, {key: nameB, action: "add", value: nameB}];
+       } else {
+         return [];
        }
     }
   };
@@ -103,9 +105,13 @@ var createController = function(board, source, initialWait, period, jollyRoger) 
       if (connected) {
         $.getJSON(source.url)
           .done(function(data, textStatus, jqXHR) {
-            var tiles = source.handle(data);
-            var mode = _.isEmpty(tiles) ? "no jobs" : "active"; 
-            update(oldState, mode, tiles);
+            if (data) {
+              var tiles = source.handle(data);
+              var mode = _.isEmpty(tiles) ? "no jobs" : "active"; 
+              update(oldState, mode, tiles);
+            } else {
+              disconnected();
+            }
           })
           .fail(function(jqXHR, textStatus, errorThrown) {
             disconnected();
