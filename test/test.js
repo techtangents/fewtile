@@ -1,19 +1,39 @@
-var assert = require('chai').assert;
+var requirejs = require('requirejs');
 
-var fs = require('fs');
-var load = function(f) {
-  return fs.readFileSync(f, 'utf8');
+requirejs.config({
+  nodeRequire: require,
+  baseUrl: '../scripts',
+  paths: {
+    underscore: 'lib/underscore'
+  }
+});
+
+var removeSuffix = function(suffix) { 
+  return function(s) {
+    var d = s.length - suffix.length;
+    return endsWith(suffix)(s) ? s.substring(0, d - 1) : s;
+  };
 };
 
-eval(load('../lib/underscore-min.js'));
-eval(load('../guts/util.js'));
+var endsWith = function(suffix) {
+  return function(s) {
+    var d = s.length - suffix.length;
+    return d >= 0 && s.substring(d) === suffix;
+  };
+};
 
-(function test_util_numberOrZero() {
-  [undefined, null, 0, "", {}, [], '3', "cat"].forEach(function(x) {
-    assert.equal(0, util.numberOrZero(x));
-  });
-  
-  [1, 2, 3.4, 1324, 0, -1, 1].forEach(function(x) {
-    assert.equal(3, util.numberOrZero(x));
-  });
-})();
+var prepend = function(prefix) {
+  return function(s) {
+    return prefix + s;
+  };
+};
+
+var fs = require('fs');
+var x = fs.readdirSync('t').filter(endsWith('.js')).map(removeSuffix('js')).map(prepend('../test/t/'));
+var assert = require('chai').assert;
+
+requirejs(x, function() {
+  for(var i = 0; i < arguments.length; i++) {
+    arguments[i](assert);
+  }  
+});
