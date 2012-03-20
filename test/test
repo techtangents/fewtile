@@ -1,2 +1,6 @@
 #!/bin/sh
-node --trace_exception test.js
+here=`dirname $0`
+(
+  cd "$here" &&
+  node --trace_exception test.js
+)

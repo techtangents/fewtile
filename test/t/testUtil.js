@@ -15,5 +15,7 @@ define(['guts/util'], function(util) {
     assert.equal(0, util.arrayMean([0]));
     assert.equal(2.5, util.arrayMean([0, 5]));
 
+    assert.deepEqual({a: 3}, util.objectMap({a: 1}, function(x) { return x + 2; }));
+
   }; 
 });
