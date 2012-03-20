@@ -23,6 +23,10 @@ define(['underscore'], function(_) {
     return arraySum(a) / a.length;
   };
 
+  var eq = function(a, b) {
+    return a === b;
+  };
+
   var prop = function(propName) {
     return function(x) {
       return x[propName];
