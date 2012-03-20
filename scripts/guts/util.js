@@ -10,7 +10,7 @@ define(['underscore'], function(_) {
   var objectMap = function(o, f) {
     var r = {};
     _.each(o, function(x, i) {
-      o[i] = f(x, i);
+      r[i] = f(x, i);
     });
     return r;
   };
