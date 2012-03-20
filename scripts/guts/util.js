@@ -23,11 +23,18 @@ define(['underscore'], function(_) {
     return arraySum(a) / a.length;
   };
 
+  var prop = function(propName) {
+    return function(x) {
+      return x[propName];
+    };
+  };
+
   return {
     numberOrZero: numberOrZero,
     plus: plus,
     objectMap: objectMap,
     arraySum: arraySum,
-    arrayMean: arrayMean
+    arrayMean: arrayMean,
+    prop: prop
   };
 });

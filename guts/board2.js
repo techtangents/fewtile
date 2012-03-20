@@ -2,10 +2,6 @@ var board2 = (function() {
 
   var aspectRatio = 5 / 3;
 
-  var numberOrZero = function(other) {
-    return typeof x === "number" ? x : 0;
-  };
-
   //  tallyWeights :: [{weight}] -> [{weight: nat, tally: nat}]
   var tallyWeights = function(tiles) {
     var weights = {};
@@ -20,23 +16,9 @@ var board2 = (function() {
     return r;
   };
 
-  var plus = function(x, y) {
-    return x + y;
-  };
-
-  var objectMap = function(o, f) {
-    var r = {};
-    _.each(o, function(x, i) {
-      o[i] = f(x, i);
-    };
-    return r;
-  };
-
   // totalWeight :: [{weight: nat}] -> nat
   var totalWeight = function(weights) {
-    var ws = _.map(weights, function(x) {
-      return x.weight;
-    });
+    var ws = _.map(weights, util.prop("weight"));
     return _.reduceRight(ws, plus, 0); 
   };
 
@@ -73,14 +55,6 @@ var board2 = (function() {
     });
   };
 
-  var sum = function(a) {
-    return _.reduceRight(a, plus, 0);
-  };
-
-  var mean = function(a) {
-    return sum(a) / a.length;
-  };
-  
   var gridifyGroup = function(totalWidth, totalHeight, numCells) {
     var numRows = Math.round(Math.sqrt((aspectRatio * totalHeight * numCells) / totalWidth)); 
     var minCols = Math.floor(numRows / numCells);

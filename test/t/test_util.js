@@ -17,5 +17,7 @@ define(['guts/util'], function(util) {
 
     assert.deepEqual({a: 3}, util.objectMap({a: 1}, function(x) { return x + 2; }));
 
+    assert.equal(3, util.prop('q')({q: '3'}));
+
   }; 
 });
