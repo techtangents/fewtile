@@ -33,12 +33,19 @@ define(['underscore'], function(_) {
     };
   };
 
+  var lookup = function(x) {
+    return function(propName) {
+      return x[propName];
+    };
+  };
+
   return {
     numberOrZero: numberOrZero,
     plus: plus,
     objectMap: objectMap,
     arraySum: arraySum,
     arrayMean: arrayMean,
-    prop: prop
+    prop: prop,
+    lookup: lookup
   };
 });
