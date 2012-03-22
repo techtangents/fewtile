@@ -1,5 +1,5 @@
 define(function() {
-  // data Op = Add id value | Remove id value | Change id value value 
+  // data Op = Add id value | Remove id | Change id value 
 
   var add = function(id, value) {
    return function(a, r, c) {
@@ -7,15 +7,15 @@ define(function() {
    };
   };
 
-  var remove = function(id, value) {
+  var remove = function(id) {
     return function(a, r, c) {
-      return r(id, value);
+      return r(id);
     };
   };
 
-  var change = function(id, from, to) {
+  var change = function(id, newValue) {
     return function(a, r, c) {
-      return c(id, from, to);
+      return c(id, newValue);
     };
   };
 
