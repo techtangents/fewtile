@@ -2,7 +2,7 @@ define(function() {
   var tile = function(weight) {
     return function(passing) {
       return function(cssClass) {
-        return function(text)
+        return function(text) {
           return {
             text: text,
             cssClass: cssClass,
@@ -24,7 +24,7 @@ define(function() {
       , disabledBuilding : tile(  5)(true)("disabledBuildingTile")
     },
     overarching: {
-      , loading          : tile(100)(false)("loadingTile")("Loading...")
+        loading          : tile(100)(false)("loadingTile")("Loading...")
       , dead             : tile(100)(false)("deadTile")("&#x2620;")
       , allPassing       : tile(100)(true)("allPassingTile")("All jobs passing")
       , noJobs           : tile(100)(false)("noJobsTile")("No jobs")

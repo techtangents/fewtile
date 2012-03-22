@@ -9,9 +9,10 @@ define(['underscore', 'guts/tile', 'guts/colorMap', 'guts/util'], function(_, ti
 
   var mapJobs = function(jobs) {
     return _.map(jobs, function(job) {
-      return colorMap[x.color](x.name);
-    };
-  }
+      // FIX: handle if not found in colorMap
+      return colorMap[job.color](job.name);
+    });
+  };
 
   var allJobs = {
     url: "/api/json?tree=jobs[name,color]",

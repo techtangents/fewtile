@@ -1,6 +1,6 @@
 define(['guts/poller', 'guts/sources', 'guts/ajaxer'], function(poller, sources, ajaxer) {
 
-  var period = 10000;
+  var period = 5000;
 
   var mk = function(source) {
     return function(board) {
@@ -15,7 +15,7 @@ define(['guts/poller', 'guts/sources', 'guts/ajaxer'], function(poller, sources,
 
   return {
     allJobs:     mk(sources.allJobs),
-    failingJobs: mk(failingJobs),
-    allGroups:   mk(allGroups)
+    failingJobs: mk(sources.failingJobs),
+    allGroups:   mk(sources.allGroups)
   };
 });

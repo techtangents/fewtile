@@ -13,7 +13,7 @@ define(['guts/ajaxer', 'guts/diff', 'guts/tile'], function(ajaxer, diff, tile) {
     var pollSoon = function(oldState) {
       setTimeout(function() { 
         poll(oldState); 
-      }, delay);
+      }, period);
     };
 
     var start = function() {
@@ -21,9 +21,7 @@ define(['guts/ajaxer', 'guts/diff', 'guts/tile'], function(ajaxer, diff, tile) {
     };
 
     return {
-      start: start,
-      connect: jax.connect,
-      disconned: jax.disconnect
+      start: start
     };
   };
 });

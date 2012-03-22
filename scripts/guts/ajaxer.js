@@ -22,11 +22,10 @@ define(['jquery', 'guts/tile'], function($, tile) {
           })
           .fail(function(jqXHR, textStatus, errorThrown) {
             callback(aDead);
-          });
-        } else {
-          callback(aDead);
-        }
-      };
+        });
+      } else {
+        callback(aDead);
+      }
     };
 
     return {
