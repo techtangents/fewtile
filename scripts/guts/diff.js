@@ -3,7 +3,7 @@ define(['guts/outerJoin', 'guts/index', 'guts/op'], function(outerJoin, index, o
   // diff :: ([a], [a], (a -> String), ((a, a) -> Boolean)) -> [Op]
   return function(a, b, id, eq) {
     var ia = index(a, id);
-    var ib = index(a, id);
+    var ib = index(b, id);
     var oj = outerJoin(ia, ib);
 
     var r = [];
