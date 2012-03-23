@@ -23,7 +23,7 @@ define(['guts/ajaxer', 'guts/diff', 'guts/tile'], function(ajaxer, diff, tile) {
     };
 
     var start = function() {
-      poll(initialState);
+      update([], initialState, poll);
     };
 
     return {
