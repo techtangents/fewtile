@@ -14,6 +14,10 @@ define(function() {
     };
   };
 
+  var eq = function(a, b) {
+    return a.text === b.text && a.cssClass === b.cssClass && a.weight === b.weight && a.passing === b.passing;
+  };
+
   return {
     individual: {
         pass             : tile( 10)(true)("passTile")
@@ -28,6 +32,7 @@ define(function() {
       , dead             : tile(100)(false)("deadTile")("&#x2620;")
       , allPassing       : tile(100)(true)("allPassingTile")("All jobs passing")
       , noJobs           : tile(100)(false)("noJobsTile")("No jobs")
-    }
+    },
+    eq: eq
   };
 });

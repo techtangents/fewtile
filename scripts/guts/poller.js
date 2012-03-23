@@ -1,11 +1,11 @@
-define(['guts/ajaxer', 'guts/diff', 'guts/tile'], function(ajaxer, diff, tile) {
+define(['guts/ajaxer', 'guts/diff', 'guts/tile', 'guts/op'], function(ajaxer, diff, tile, op) {
 
   return function(fullSource, board, period) {
 
     // FIX: Argh! Chained CPS! Need some Asyncs and Futures
     var poll = function(oldState) {
       fullSource.run(function(newState) {
-        var d = diff(oldState, newState);
+        var d = diff(oldState, newState, op.key, tile.eq);
         board.update(d, pollSoon(newState));
       });
     };

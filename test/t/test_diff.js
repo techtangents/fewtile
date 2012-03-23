@@ -1,15 +1,15 @@
 define(['guts/diff', 'underscore', 'guts/op'], function(diff, _, op) {
   return function(assert) {
     var eq = function(a, b) {
-      return a === b;
+      return a.key === b.key && a.value === b.value;
     };
-    var id = function(a) {
-      return a;
+    var key = function(a) {
+      return a.key;
     };
 
     var check = function(a, b, expected) {
       var xpc = _.map(expected, op.toObject);
-      var actual = _.map(diff(a, b, id, eq), op.toObject);
+      var actual = _.map(diff(a, b, key, eq), op.toObject);
       assert.deepEqual(actual, xpc);
     };
 
@@ -18,6 +18,12 @@ define(['guts/diff', 'underscore', 'guts/op'], function(diff, _, op) {
     var change = op.change;
 
     check([], [], []);
-    check([], ['a'], [add('a', 'a')]);
+    check([], [{key:'k', value:'v'}], [add('k', {key: 'k', value: 'v'})]);
+    check([{key:'k', value:'v'}], [], [remove('k')]);
+    check(
+      [{key:'k', value:'v1'}], 
+      [{key:'k', value:'v2'}], 
+      [change('k', {key: 'k', value: 'v2'})]
+    );
   };
 });
