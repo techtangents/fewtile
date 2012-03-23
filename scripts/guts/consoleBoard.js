@@ -1,6 +1,6 @@
 define(['underscore'], function(_) {
   return function() {
-    var update = function(diffs) {
+    var update = function(oldState, newState, diffs) {
       var a = function(id, value) {
         return ['add', id, value];
       };

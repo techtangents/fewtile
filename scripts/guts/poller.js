@@ -6,7 +6,7 @@ define(['guts/ajaxer', 'guts/diff', 'guts/tile'], function(ajaxer, diff, tile) {
 
     var update = function(oldState, newState, callback) {
       var d = diff(oldState, newState, tile.key, tile.eq);
-      board.update(d, callback(newState));
+      board.update(oldState, newState, d, callback(newState));
     };
 
     // FIX: Argh! Chained CPS! Need some Asyncs and Futures
