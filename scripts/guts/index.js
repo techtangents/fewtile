@@ -1,10 +1,10 @@
 define(['underscore'], function(_) {
 
   //  index :: [a] -> (a -> String) -> {String: a}
-  return function(xs, id) {
+  return function(xs, key) {
     var r = {};
     _.each(xs, function(x) {
-      r[id(x)] = x;
+      r[key(x)] = x;
     });
     return r;
   };

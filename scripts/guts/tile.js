@@ -7,7 +7,10 @@ define(function() {
             text: text,
             cssClass: cssClass,
             weight: weight,
-            passing: passing
+            passing: passing,
+            toString: function() {
+              return "(" + [text, cssClass, weight, passing].join(', ') + ")";
+            }
           };
         };
       };
@@ -16,6 +19,10 @@ define(function() {
 
   var eq = function(a, b) {
     return a.text === b.text && a.cssClass === b.cssClass && a.weight === b.weight && a.passing === b.passing;
+  };
+
+  var key = function(t) {
+    return t.text;
   };
 
   return {
@@ -33,6 +40,7 @@ define(function() {
       , allPassing       : tile(100)(true)("allPassingTile")("All jobs passing")
       , noJobs           : tile(100)(false)("noJobsTile")("No jobs")
     },
-    eq: eq
+    eq: eq,
+    key: key
   };
 });

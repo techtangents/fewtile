@@ -1,22 +1,29 @@
 define(function() {
   // data Op key value = Add key value | Remove key | Change key value 
 
-  var add = function(key, value) {
-   return function(a, r, c) {
-     return a(key, value);
-   };
+  var strung = function(f) {
+    f.toString = function() {
+      return toString(f);
+    };
+    return f;
+  };
+
+  var add = function(key, value) { 
+    return strung(function(a, r, c) {
+      return a(key, value);
+    });
   };
 
   var remove = function(key) {
-    return function(a, r, c) {
+    return strung(function(a, r, c) {
       return r(key);
-    };
+    });
   };
 
   var change = function(key, value) {
-    return function(a, r, c) {
+    return strung(function(a, r, c) {
       return c(key, value);
-    };
+    });
   };
 
   var toObject = function(op) {
@@ -28,6 +35,19 @@ define(function() {
     };
     var c = function(key, value) {
       return {type: 'change', key: key, value: value};
+    };
+    return op(a, r, c);
+  };
+
+  var toString = function(op) {
+    var a = function(key, value) {
+      return "op.add(" + key + ", " + value + ")"; 
+    };
+    var r = function(key) {
+      return "op.remove(" + key + ")";
+    };
+    var c = function(key, value) {
+      return "op.change(" + key + ", " + value + ")";
     };
     return op(a, r, c);
   };

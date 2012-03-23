@@ -11,7 +11,7 @@ define(['jquery', 'guts/tile'], function($, tile) {
       connected = false;
     };
 
-    var aDead = [tile.dead];
+    var aDead = [tile.overarching.dead];
 
     var run = function(callback) {
       if (connected) {

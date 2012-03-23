@@ -1,12 +1,18 @@
-define(['guts/ajaxer', 'guts/diff', 'guts/tile', 'guts/op'], function(ajaxer, diff, tile, op) {
+define(['guts/ajaxer', 'guts/diff', 'guts/tile'], function(ajaxer, diff, tile) {
 
-  return function(fullSource, board, period) {
+  return function(source, board, period) {
+
+    var initialState = [tile.overarching.loading];
+
+    var update = function(oldState, newState, callback) {
+      var d = diff(oldState, newState, tile.key, tile.eq);
+      board.update(d, callback(newState));
+    };
 
     // FIX: Argh! Chained CPS! Need some Asyncs and Futures
     var poll = function(oldState) {
-      fullSource.run(function(newState) {
-        var d = diff(oldState, newState, op.key, tile.eq);
-        board.update(d, pollSoon(newState));
+      source.run(function(newState) {
+        update(oldState, newState, pollSoon);
       });
     };
 
@@ -17,7 +23,7 @@ define(['guts/ajaxer', 'guts/diff', 'guts/tile', 'guts/op'], function(ajaxer, di
     };
 
     var start = function() {
-      poll([tile.loading]);
+      poll(initialState);
     };
 
     return {
