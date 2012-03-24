@@ -1,10 +1,10 @@
-define([], function() {
+define(['guts/util'], function(util) {
   return function(totalWidth, totalHeight, numCells) {
     return function(rows) {
-      var normalCols = Math.floor(rows / numCells);
+      var normalCols = Math.floor(numCells / rows);
       var skinnyCols = normalCols + 1;
 
-      var skinnyRows = rows % numCells;
+      var skinnyRows = numCells % rows;
       var normalRows = rows - skinnyRows;
       
       var height = totalHeight / rows;
@@ -15,6 +15,8 @@ define([], function() {
         var ar = width / height;
 
         return {
+          rows: r,
+          cols: c,
           cells: cells,
           width: width,
           height: height,
@@ -23,14 +25,18 @@ define([], function() {
       };
 
       var normal = f(normalRows, normalCols);
-      var skinny = f(skinnyRows, skinnyCols);
+      var rowLayouts = skinnyRows === 0 ? [normal] : [normal, f(skinnyRows, skinnyCols)];
 
-      var meanAr = (normal.ar * normal.cells + skinny.ar * skinny.cells) / numCells;
+      var sumArs = util.arraySum(_.map(rowLayouts, function(r) {
+        return r.ar * r.cells;
+      }));
+
+      var meanAr = sumArs / numCells;
 
       return {
         rows: rows,
-        normal: normal,
-        skinny: skinny,
+        cells: numCells,
+        rowLayouts: rowLayouts,
         meanAr: meanAr
       };
     };

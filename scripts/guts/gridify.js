@@ -3,16 +3,20 @@ define(['guts/comparison', 'guts/griddle'], function(comparison, griddle) {
   var by = comparison.by;
 
   return function(aspectRatio) {
-    return function(totalWidth, totalHeight, numCells) {
-      var r = _.range(1, numCells + 1);
-      var g = griddle(totalWidth, totalHeight, numCells);
-      var layouts = _.map(r, g);
+    return function(totalWidth, totalHeight) {
+      return function(numCells) {
+        var r = _.range(1, numCells + 1);
+        var g = griddle(totalWidth, totalHeight, numCells);
+        var layouts = _.map(r, g);
 
-      var deltaAr = function(x) {
-        return Math.abs(x.meanAr - aspectRatio);
+        var deltaAr = function(x) {
+          var a = Math.abs(x.meanAr - aspectRatio);
+          // console.log(x.meanAr);
+          return a;
+        };
+
+        return arrayMin(by(deltaAr))(layouts);
       };
-
-      return arrayMin(by(deltaAr))(layouts);
     };
   };
 });
