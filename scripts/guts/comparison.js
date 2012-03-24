@@ -1,17 +1,24 @@
 define(['underscore'], function(_) {
   // data Comparison = LT | EQ | GT
 
-  var lt = function(l, e, g) {
+  var strung = function(sz, f) {
+    f.toString = function() {
+      return sz;
+    };
+    return f;
+  };
+
+  var lt = strung('lt', function(l, e, g) {
     return l();
-  };
+  });
 
-  var eq = function(l, e, g) {
+  var eq = strung('eq', function(l, e, g) {
     return e();
-  };
+  });
 
-  var gt = function(l, e, g) {
+  var gt = strung('gt', function(l, e, g) {
     return g();
-  };
+  });
 
   var konst = function(v) {
     return function() { return v; };
@@ -50,7 +57,7 @@ define(['underscore'], function(_) {
 
   var ltgt = function(a, b) {
     return a < b ? lt : a > b ? gt : eq;
-  }
+  };
 
   var by = function(f) {
     return function(a, b) {

@@ -9,6 +9,9 @@ define(['guts/comparison'], function(comparison) {
     var isLte = comparison.isLte;
     var isGte = comparison.isGte;
     var isEq = comparison.isEq;
+    var min = comparison.min;
+    var max = comparison.max;
+    var ltgt = comparison.ltgt;
 
     var barf = function() { 
       throw 'barf'; 
@@ -36,10 +39,39 @@ define(['guts/comparison'], function(comparison) {
       assert.equal(e, isGt(k));
     };
 
-    checkIz(lt, true,  true,  false, false, false);
-    checkIz(eq, false, true,  true,  true,  false);
-    checkIz(gt, false, false, false, true,  true );
+    var checkIzLt = function(x) {
+      checkIz(lt, true,  true,  false, false, false);
+    };
 
+    var checkIzEq = function(x) {
+      checkIz(eq, false, true,  true,  true,  false);
+    };
+
+    var checkIzGt = function(x) {
+      checkIz(gt, false, false, false, true,  true );
+    };
+
+    checkIzLt(lt);
+    checkIzEq(eq);
+    checkIzGt(gt);
+
+    checkIzLt(ltgt(3, 4));
+    checkIzEq(ltgt(3, 3));
+    checkIzGt(ltgt(7, 3));
+
+    var noze = function(a, b) {
+      return ltgt(a.nose, b.nose);
+    };
+
+    var bigNose = {nose: 8989, hairs: 7};
+    var smallNose = {nose: 4, hairs: 1};
+
+    assert.deepEqual(min(noze)(smallNose, bigNose), smallNose);
+    assert.deepEqual(min(noze)(bigNose, smallNose), smallNose);
+
+    assert.deepEqual(max(noze)(smallNose, bigNose), bigNose);
+    assert.deepEqual(max(noze)(bigNose, smallNose), bigNose);
+    
 
   };
 });
