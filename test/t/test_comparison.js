@@ -12,6 +12,9 @@ define(['guts/comparison'], function(comparison) {
     var min = comparison.min;
     var max = comparison.max;
     var ltgt = comparison.ltgt;
+    var arrayMin = comparison.arrayMin;
+    var arrayMax = comparison.arrayMax;
+    var by = comparison.by;
 
     var barf = function() { 
       throw 'barf'; 
@@ -59,19 +62,32 @@ define(['guts/comparison'], function(comparison) {
     checkIzEq(ltgt(3, 3));
     checkIzGt(ltgt(7, 3));
 
-    var noze = function(a, b) {
+    var compareNoze = function(a, b) {
       return ltgt(a.nose, b.nose);
+    };
+
+    var noze = function(x) {
+      return x.nose;
     };
 
     var bigNose = {nose: 8989, hairs: 7};
     var smallNose = {nose: 4, hairs: 1};
+    var medNose = {nose: 32, hairs: 2343};
 
-    assert.deepEqual(min(noze)(smallNose, bigNose), smallNose);
-    assert.deepEqual(min(noze)(bigNose, smallNose), smallNose);
+    assert.deepEqual(min(compareNoze)(smallNose, bigNose), smallNose);
+    assert.deepEqual(min(compareNoze)(bigNose, smallNose), smallNose);
+    assert.deepEqual(arrayMin(compareNoze)([smallNose]), smallNose);
+    assert.deepEqual(arrayMin(compareNoze)([smallNose, bigNose]), smallNose);
+    assert.deepEqual(arrayMin(compareNoze)([bigNose, smallNose]), smallNose);
+    assert.deepEqual(arrayMin(compareNoze)([bigNose, medNose, smallNose]), smallNose);
+    assert.deepEqual(max(compareNoze)(smallNose, bigNose), bigNose);
+    assert.deepEqual(max(compareNoze)(bigNose, smallNose), bigNose);
+    assert.deepEqual(arrayMax(compareNoze)([smallNose]), smallNose);
+    assert.deepEqual(arrayMax(compareNoze)([smallNose, bigNose]), bigNose);
+    assert.deepEqual(arrayMax(compareNoze)([bigNose, smallNose]), bigNose);
+    assert.deepEqual(arrayMax(compareNoze)([medNose, bigNose, smallNose]), bigNose);
 
-    assert.deepEqual(max(noze)(smallNose, bigNose), bigNose);
-    assert.deepEqual(max(noze)(bigNose, smallNose), bigNose);
-    
+    checkIzLt(by(noze)(smallNose, bigNose));
 
   };
 });
