@@ -1,4 +1,7 @@
 define(['guts/comparison'], function(comparison) {
+  var arrayMin = comparison.arrayMin;
+  var by = comparison.by;
+
   return function(aspectRatio) {
     return function(totalWidth, totalHeight, numCells) {
 
@@ -43,9 +46,7 @@ define(['guts/comparison'], function(comparison) {
         return Math.abs(x.meanAr - aspectRatio);
       };
 
-      var kompare = comparison.by(deltaAr);
-
-      return comparison.arrayMin(kompare)(layouts);
+      return arrayMin(by(deltaAr))(layouts);
     };
   };
 });
