@@ -30,9 +30,15 @@ define(['guts/gridify', 'underscore', 'guts/util'], function(gridify, _, util) {
     //   meanAr: 0.5 
     // });
 
-    var q = _.map(_.range(1, 50), gridify(ar)(1152, 1024));
-    _.each(q, function(x) {
-      console.log([x.cells, x.rows, x.meanAr].join(','));
+    _.each(_.range(1, 500), function(i) {
+      var e = gridify.exhaustive(ar)(1152, 1024)(i);
+      var q = gridify.quick(ar)(1152, 1024)(i);
+      console.log([i, ar, e.meanAr, q.meanAr].join(','));
     });
+
+    // var q = _.map(_.range(1, 50), gridify(ar)(1152, 1024));
+    // _.each(q, function(x) {
+    //   console.log([x.cells, x.rows, x.meanAr].join(','));
+    // });
   };
 });
