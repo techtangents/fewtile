@@ -1,15 +1,15 @@
 define(['guts/comparison', 'guts/util'], function(comparison, util) {
+  var round = Math.round;
+  var sqrt = Math.sqrt;
+  var bound = util.bound;
+  var arraySum = util.arraySum;
+  var map = _.map;
+
   return function(aspectRatio) {
     return function(totalWidth, totalHeight) {
       return function(numCells) {
 
-        var rows = 
-          Math.max(
-            1, 
-            Math.min(
-              numCells, 
-              Math.round(
-                Math.sqrt( (aspectRatio * totalHeight * numCells) / totalWidth))));
+        var rows = bound(1, numCells, round(sqrt((aspectRatio * totalHeight * numCells) / totalWidth)));
 
         var normalCols = Math.floor(numCells / rows);
         var skinnyCols = normalCols + 1;
@@ -37,7 +37,7 @@ define(['guts/comparison', 'guts/util'], function(comparison, util) {
         var normal = f(normalRows, normalCols);
         var rowLayouts = skinnyRows === 0 ? [normal] : [normal, f(skinnyRows, skinnyCols)];
 
-        var sumArs = util.arraySum(_.map(rowLayouts, function(r) {
+        var sumArs = arraySum(map(rowLayouts, function(r) {
           return r.ar * r.cells;
         }));
 

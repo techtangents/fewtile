@@ -39,6 +39,10 @@ define(['underscore'], function(_) {
     };
   };
 
+  var bound = function(min, max, value) {
+    return Math.max(min, Math.min(max, value));
+  };
+
   return {
     numberOrZero: numberOrZero,
     plus: plus,
@@ -46,6 +50,7 @@ define(['underscore'], function(_) {
     arraySum: arraySum,
     arrayMean: arrayMean,
     prop: prop,
-    lookup: lookup
+    lookup: lookup,
+    bound: bound
   };
 });
