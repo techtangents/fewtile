@@ -43,6 +43,22 @@ define(['underscore'], function(_) {
     return Math.max(min, Math.min(max, value));
   };
 
+  var groupBy = function(key, array) {
+    var r = {};
+    _.each(criteria, function(x) {
+      var k = key(x);
+      if (r.hasOwnProperty(k)) {
+        r[k] = [];
+      }
+      r[k].push(x);
+    });
+    var s = [];
+    _.each(r, function(x, i) {
+      s.push({key: i, members: x});
+    });
+    return s;
+  };
+
   return {
     numberOrZero: numberOrZero,
     plus: plus,
@@ -51,6 +67,7 @@ define(['underscore'], function(_) {
     arrayMean: arrayMean,
     prop: prop,
     lookup: lookup,
-    bound: bound
+    bound: bound,
+    groupBy: groupBy
   };
 });

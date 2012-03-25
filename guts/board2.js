@@ -92,7 +92,7 @@ var board2 = (function() {
     var totalW = totalWeight(tallyWs);
     var allocWs = allocWeights(tallyWs, totalW, side(width, height));
 
-    var numRows =     
+    var numRows =  
 
   };
 
