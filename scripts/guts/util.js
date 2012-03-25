@@ -80,6 +80,14 @@ define(['underscore'], function(_) {
     return r;
   };
 
+  var narrow = function(o, props) {
+    var r = {};
+    _.each(props, function(i) {
+      r[i] = o[i];
+    });
+    return r;
+  };
+
   return {
     numberOrZero: numberOrZero,
     plus: plus,
@@ -91,6 +99,7 @@ define(['underscore'], function(_) {
     bound: bound,
     groupBy: groupBy,
     merge: merge,
-    submerge: submerge
+    submerge: submerge,
+    narrow: narrow
   };
 });

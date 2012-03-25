@@ -27,7 +27,7 @@ define(['guts/scales', 'underscore', 'guts/pos', 'guts/util', 'guts/gridify'],
 
   var layoutCellsForGroup = function(group) {
     //aspectRatio, totalWidth, totalHeight, numCells
-    var grid = gridify(aspectRatio, group.size.width, group.size.height, group.members.length);
+    var grid = gridify(aspectRatio, group.size.width, group.size.height, group.tiles.length);
     var r = [];
     var y = group.pos.y;
     _.each(grid.rowLayouts, function(rowLayout) {
@@ -57,8 +57,11 @@ define(['guts/scales', 'underscore', 'guts/pos', 'guts/util', 'guts/gridify'],
     var groupLayouts = layoutGroups(totalWidth, totalHeight, globalWeight, groups);
     var groups_ = util.submerge(groups, groupLayouts);
     var laidCells = _.map(groups_, function(g) {
-      var l = layoutCellsForGroup;
-      return util.submerge(g.tiles, l);
+      var l = layoutCellsForGroup(g);
+      var sm = util.submerge(g.tiles, l);
+      return _.map(sm, function(t) {
+        return util.narrow(t, ['text', 'cssClass', 'pos', 'size']);
+      });
     });
     return _.flatten(laidCells, 1);
   };
