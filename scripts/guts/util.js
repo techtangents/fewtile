@@ -39,28 +39,6 @@ define(['underscore'], function(_) {
     };
   };
 
-  var min = function(a, compare) {
-    
-  };
-
-  var minWhere = function(a, f) {
-    if (a.length === 0) throw "empty array passed to minWhere";
-    return a.length === 1 ? a[0] : (function() {
-      var best = {v: f(a[0]), x: a[0]};
-      for (var i = 1; i < a.length; i++) {
-        var x = a[i];
-        var v = f(x);
-        if (v < best.v) {
-          best = {v: v, i: a[i]};
-        }
-      }
-      return best.x;
-    })();
-
-    
-
-  };
-
   return {
     numberOrZero: numberOrZero,
     plus: plus,
