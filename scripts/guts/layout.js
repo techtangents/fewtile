@@ -32,7 +32,7 @@ define(['guts/scales', 'underscore', 'guts/pos', 'guts/util', 'guts/gridify'],
     var y = group.pos.y;
     _.each(grid.rowLayouts, function(rowLayout) {
       var x = group.pos.x;
-      for (var i = 0; i < rowLayout.cells; i++) {
+      for (var i = 0; i < rowLayout.cols; i++) {
         var t = {
           pos: {
             x: x,

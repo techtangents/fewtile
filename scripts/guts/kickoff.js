@@ -1,5 +1,5 @@
-define(['guts/view', 'guts/consoleBoard'], function(view, consoleBoard) {
+define(['guts/view', 'guts/board', 'jquery'], function(view, board, $) {
   return function() {
-    view.allJobs(consoleBoard());
+    view.allJobs(board($('#fewtile')));
   };
 });

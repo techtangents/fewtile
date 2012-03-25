@@ -88,6 +88,13 @@ define(['underscore'], function(_) {
     return r;
   };
 
+  var invokeWith = function() {
+    var args = arguments;
+    return function(f) {
+      return f.apply(null, args);
+    };
+  };
+
   return {
     numberOrZero: numberOrZero,
     plus: plus,
@@ -100,6 +107,7 @@ define(['underscore'], function(_) {
     groupBy: groupBy,
     merge: merge,
     submerge: submerge,
-    narrow: narrow
+    narrow: narrow,
+    invokeWith: invokeWith
   };
 });
