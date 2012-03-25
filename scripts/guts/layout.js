@@ -20,7 +20,7 @@ define(['guts/scales', 'underscore', 'guts/pos', 'guts/util', 'guts/gridify'],
         }
       };
       groupLayouts.push(l);
-      y += size.height;
+      y += height;
     });
     return groupLayouts;
   };
@@ -61,5 +61,9 @@ define(['guts/scales', 'underscore', 'guts/pos', 'guts/util', 'guts/gridify'],
       return util.submerge(g.tiles, l);
     });
     return _.flatten(laidCells, 1);
+  };
+
+  return {
+    layout: layout
   };
 });

@@ -2,6 +2,7 @@ define(['guts/util', 'underscore'], function(util, _) {
   var groupBy = util.groupBy;
   var prop = util.prop;
   var map = _.map;
+  var arraySum = util.arraySum;
 
   // :: [tile] -> [{weight: int, totalWeight: int, tiles: [tile]}]
   var groupByWeight = function(tiles) {

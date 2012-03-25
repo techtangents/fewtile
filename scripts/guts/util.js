@@ -45,9 +45,9 @@ define(['underscore'], function(_) {
 
   var groupBy = function(key, array) {
     var r = {};
-    _.each(criteria, function(x) {
+    _.each(array, function(x) {
       var k = key(x);
-      if (r.hasOwnProperty(k)) {
+      if (!r.hasOwnProperty(k)) {
         r[k] = [];
       }
       r[k].push(x);
