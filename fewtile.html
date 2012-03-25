@@ -1,61 +1,12 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>fewtile</title>
-
-<link type="text/css" href="css/tiles.css" rel="stylesheet" />
-
-<script language="javascript" type="text/javascript" src="lib/underscore-min.js"></script>
-<script language="javascript" type="text/javascript" src="lib/jquery-1.7.1.min.js"></script>
-<script language="javascript" type="text/javascript" src="lib/textfill.js"></script>
-<script language="javascript" type="text/javascript" src="lib/jquery.ba-resize.min.js"></script>
-<script language="javascript" type="text/javascript" src="lib/jit-yc.js"></script>
-<script language="javascript" type="text/javascript" src="guts/sources.js"></script>
-<script language="javascript" type="text/javascript" src="guts/board.js"></script>
-<script language="javascript" type="text/javascript" src="guts/controller.js"></script>
-
-<script language="javascript" type="text/javascript">
-  var connected = true;
-  var disconnect = function() {
-    connected = false;
-  };
-  var connect = function() {
-    connected = true;
-  };
-
-  var menu = function() {
-    location.href = "index.html";
-  };
-
-  var run = function(source, delay) { return function() {
-    $.resize.delay = delay;
-    var jollyRoger = "&#x2620;";
-    var chrome = '<div id="container"></div>';
-    $(document.body).append(chrome);
-    var duration = 400;
-    var board = createBoard('container', duration, false, source.clickUrl, jollyRoger);
-    $("#container").resize(function() {
-      var e = $(this);
-      board.resize(e.width(), e.height());
-    });
-    createController(board, source, duration * 2, 6000, jollyRoger);
-  }};
-
-  $(document).ready(function() {
-    var qs = document.location.search;
-    (
-        qs == "?allJobs"     ? run(sources.allJobs, 4000) 
-      : qs == "?failingJobs" ? run(sources.failingJobs, 1000)
-      : qs == "?allGroups"   ? run(sources.allGroups, 1000)
-      : menu
-    )();
-  });
-</script>
-
-</head>
-
-<body>
-</body>
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My Sample Project</title>
+        <script data-main="scripts/fewtile" src="scripts/require.js"></script>
+        <link rel='stylesheet' type='text/css' href='css/reset.css'></link>
+        <link rel='stylesheet' type='text/css' href='css/fewtile.css'></link>
+    </head>
+    <body>
+      <div id='fewtile'></div>
+    </body>
 </html>
-
