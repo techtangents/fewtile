@@ -27,18 +27,18 @@ define(function() {
 
   return {
     individual: {
-        pass             : tile( 10)(true)("passTile")
-      , passBuilding     : tile( 10)(true)("passBuildingTile")
+        pass             : tile( 10)(true )("passTile")
+      , passBuilding     : tile( 10)(true )("passBuildingTile")
       , fail             : tile( 50)(false)("failTile")
       , failBuilding     : tile( 50)(false)("failBuildingTile")
-      , disabled         : tile(  5)(true)("disabledTile")
-      , disabledBuilding : tile(  5)(true)("disabledBuildingTile")
+      , disabled         : tile(  5)(true )("disabledTile")
+      , disabledBuilding : tile(  5)(true )("disabledBuildingTile")
     },
     overarching: {
-        loading          : tile(100)(false)("loadingTile")("Loading...")
-      , dead             : tile(100)(false)("deadTile")("&#x2620;")
-      , allPassing       : tile(100)(true)("allPassingTile")("All jobs passing")
-      , noJobs           : tile(100)(false)("noJobsTile")("No jobs")
+        loading          : tile(100)(false)("loadingTile")   ("Loading...")
+      , dead             : tile(100)(false)("deadTile")      ("&#x2620;")
+      , allPassing       : tile(100)(true )("allPassingTile")("All jobs passing")
+      , noJobs           : tile(100)(false)("noJobsTile")    ("No jobs")
     },
     eq: eq,
     key: key
