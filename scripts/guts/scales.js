@@ -5,6 +5,7 @@ define(['guts/util', 'underscore'], function(util, _) {
   var arraySum = util.arraySum;
 
   // :: [tile] -> [{weight: int, totalWeight: int, tiles: [tile]}]
+  // TODO: sort by weight descendings
   var groupByWeight = function(tiles) {
     var grouped = groupBy(prop('weight'), tiles);
     return _.map(grouped, function(group) {

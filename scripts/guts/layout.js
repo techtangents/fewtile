@@ -4,11 +4,12 @@ define(['guts/scales', 'underscore', 'guts/pos', 'guts/util', 'guts/gridify'],
   // TODO: quantize to pixels
   var aspectRatio = 7/3;
 
-  var layoutGroups = function(totalWidth, totalHeight, globalWeight, groups) {
+  var layoutGroups = function(totalWidth, totalHeight, groups) {
+    var globalWeight = scales.globalWeight(groups);
     var y = 0;
     var groupLayouts = [];
     _.each(groups, function(g) {
-      var height = scales.groupHeight(g.groupWeight, globalWeight, totalHeight);
+      var height = scales.groupHeight(g.groupWeight, globalWeight, totalHeight);      
       var l = {
         pos: {
           x: 0,
@@ -31,30 +32,33 @@ define(['guts/scales', 'underscore', 'guts/pos', 'guts/util', 'guts/gridify'],
     var r = [];
     var y = group.pos.y;
     _.each(grid.rowLayouts, function(rowLayout) {
-      var x = group.pos.x;
-      for (var i = 0; i < rowLayout.cols; i++) {
-        var t = {
-          pos: {
-            x: x,
-            y: y
-          },
-          size: {
-            width: rowLayout.width,
-            height: rowLayout.height
-          }
-        };
-        r.push(t);
-        x += rowLayout.width;
+      for (var row = 0; row < rowLayout.rows; row++) {
+        var x = group.pos.x;
+        for (var col = 0; col < rowLayout.cols; col++) {
+          var t = {
+            pos: {
+              x: x,
+              y: y
+            },
+            size: {
+              width: rowLayout.width,
+              height: rowLayout.height
+            }
+          };
+          r.push(t);
+          x += rowLayout.width;
+        }
+        y += rowLayout.height;
       }
-      y += rowLayout.height;
     });
     return r;
   };
 
   var layout = function(totalWidth, totalHeight, tiles) {
     var groups = scales.groupByWeight(tiles);
-    var globalWeight = scales.globalWeight(groups);
-    var groupLayouts = layoutGroups(totalWidth, totalHeight, globalWeight, groups);
+
+    var groupLayouts = layoutGroups(totalWidth, totalHeight, groups);
+
     var groups_ = util.submerge(groups, groupLayouts);
     var laidCells = _.map(groups_, function(g) {
       var l = layoutCellsForGroup(g);
@@ -67,6 +71,8 @@ define(['guts/scales', 'underscore', 'guts/pos', 'guts/util', 'guts/gridify'],
   };
 
   return {
+    layoutGroups: layoutGroups,
+    layoutCellsForGroup: layoutCellsForGroup,
     layout: layout
   };
 });
