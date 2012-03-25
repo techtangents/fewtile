@@ -56,9 +56,7 @@ define(['guts/scales', 'underscore', 'guts/pos', 'guts/util', 'guts/gridify'],
 
   var layout = function(totalWidth, totalHeight, tiles) {
     var groups = scales.groupByWeight(tiles);
-
     var groupLayouts = layoutGroups(totalWidth, totalHeight, groups);
-
     var groups_ = util.submerge(groups, groupLayouts);
     var laidCells = _.map(groups_, function(g) {
       var l = layoutCellsForGroup(g);

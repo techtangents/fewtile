@@ -31,8 +31,10 @@ define(['guts/layout', 'guts/diff', 'guts/util'], function(layout, diff, util) {
   var render = function(value) {
     var div = $("<div />");
     div.css({
-      position: absolute
+      position: 'absolute'
     });
+    div.addClass('tile');
+    change(div, value);
     return div;
   };
 
@@ -50,7 +52,7 @@ define(['guts/layout', 'guts/diff', 'guts/util'], function(layout, diff, util) {
 
     var r = function(id) {
       var div = elements[id];
-      container.remove(div);
+      div.remove();
       delete elements[id];
     };
 
@@ -63,8 +65,10 @@ define(['guts/layout', 'guts/diff', 'guts/util'], function(layout, diff, util) {
     var update = function(oldState, newState, diffs) {
       var width = container.width();
       var height = container.height();
+
       var newViewState = layout.layout(width, height, newState);
       var ops = diff(viewState, newViewState, util.prop('text'), eq);
+      viewState = newViewState; 
       _.each(ops, util.invokeWith(a, r, c));
     };
     return {
