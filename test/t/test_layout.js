@@ -9,5 +9,9 @@ define(['guts/layout', 'guts/tile'], function(layout, tile) {
         size: {width: 800, height: 600}
       }]
     );
+
+
+    layout.layout(800, 600, [tile.individual.pass("a"), tile.individual.pass("b")]);
+
   };
 });
