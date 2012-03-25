@@ -1,5 +1,10 @@
-define(['guts/scales', 'underscore', 'guts/pos', 'guts/util', 'guts/gridify'], 
-  function(scales, _, pos, util, gridify) {
+define(['guts/scales', 'underscore', 'guts/pos', 'guts/util', 'guts/gridify', 'guts/comparison'], 
+  function(scales, _, pos, util, gridify, comparison) {
+
+  var arraySort = comparison.arraySort;
+  var by = comparison.by;
+  var prop = util.prop;
+  var reverse = comparison.reverse;
 
   // TODO: quantize to pixels
   var aspectRatio = 7/3;
@@ -54,10 +59,12 @@ define(['guts/scales', 'underscore', 'guts/pos', 'guts/util', 'guts/gridify'],
     return r;
   };
 
+  var sortGroups = arraySort(reverse(by(prop('weight'))));
+
   var layout = function(totalWidth, totalHeight, tiles) {
-    var groups = scales.groupByWeight(tiles);
+    var groups = sortGroups(scales.groupByWeight(tiles));
     var groupLayouts = layoutGroups(totalWidth, totalHeight, groups);
-    var groups_ = util.submerge(groups, groupLayouts);
+    var groups_ = util.submerge(groups, groupLayouts);    
     var laidCells = _.map(groups_, function(g) {
       var l = layoutCellsForGroup(g);
       var sm = util.submerge(g.tiles, l);

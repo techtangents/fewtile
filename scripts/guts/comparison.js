@@ -55,6 +55,22 @@ define(['underscore'], function(_) {
     };
   };
 
+  var reverse = function(kompare) {
+    return function(a, b) {
+      return strict(kompare(a, b))(gt, eq, lt);
+    };
+  };
+
+  var arraySort = function(kompare) {
+    return function(array) {
+      var clone = Array.prototype.slice.call(array);
+      clone.sort(function(a, b) {
+        return strict(kompare(a, b))(-1, 0, 1);
+      });
+      return clone;
+    };
+  };
+
   var ltgt = function(a, b) {
     return a < b ? lt : a > b ? gt : eq;
   };
@@ -85,6 +101,7 @@ define(['underscore'], function(_) {
     max: max,
     arrayMin: arrayMin,
     arrayMax: arrayMax,
+    arraySort: arraySort,
     strict: strict,
     ltgt: ltgt,
     by: by,
@@ -92,6 +109,7 @@ define(['underscore'], function(_) {
     isLte: isLte,
     isEq: isEq,
     isGte: isGte,
-    isGt: isGt
+    isGt: isGt,
+    reverse: reverse
   };
 });
