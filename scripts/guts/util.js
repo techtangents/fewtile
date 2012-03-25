@@ -59,6 +59,27 @@ define(['underscore'], function(_) {
     return s;
   };
 
+  var merge = function(a, b) {
+    var r = {};
+    var f = function(x, i) {
+      r[i] = x;
+    };
+    _.each(a, f);
+    _.each(b, f);
+    return r;
+  };
+
+  var submerge = function(as, bs) {
+    if (as.length !== bs.length) {
+      throw "Arrays were different lengths";
+    }
+    var r = [];
+    for (var i = 0; i < as.length; i++) {
+      r.push(merge(as[i], bs[i]));
+    }
+    return r;
+  };
+
   return {
     numberOrZero: numberOrZero,
     plus: plus,
@@ -68,6 +89,8 @@ define(['underscore'], function(_) {
     prop: prop,
     lookup: lookup,
     bound: bound,
-    groupBy: groupBy
+    groupBy: groupBy,
+    merge: merge,
+    submerge: submerge
   };
 });

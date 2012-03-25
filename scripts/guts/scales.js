@@ -21,16 +21,14 @@ define(['guts/util', 'underscore'], function(util, _) {
     return arraySum(map(groups, prop('groupWeight')));
   };
 
-  var allocateWeightToGroup = function(groupWeight, globalWeight, totalWidth, totalHeight) {
-    return {
-      width: totalWidth // yep, we split into rows
-      height: groupWeight / globalWeight * totalHeight
-    };
+  // split into rows
+  var groupHeight = function(groupWeight, globalWeight, totalHeight) {
+    return groupWeight / globalWeight * totalHeight;
   };
 
   return {
     groupByWeight: groupByWeight,
     globalWeight: globalWeight,
-    allocateWeightToGroup: allocateWeightToGroup
+    groupHeight: groupHeight
   };
 });
