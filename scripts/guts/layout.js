@@ -1,5 +1,5 @@
-define(['guts/scales', 'underscore', 'guts/pos', 'guts/util', 'guts/gridify', 'guts/comparison'], 
-  function(scales, _, pos, util, gridify, comparison) {
+define(['guts/scales', 'underscore', 'guts/util', 'guts/gridify', 'guts/comparison'], 
+  function(scales, _, util, gridify, comparison) {
 
   var arraySort = comparison.arraySort;
   var by = comparison.by;
