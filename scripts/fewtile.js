@@ -5,6 +5,6 @@ require.config({
   }
 });
 
-require(['guts/kickoff'], function(kickoff) {
-  kickoff();
+require(['jquery', 'guts/kickoff'], function($, kickoff) {
+  $(document).ready(kickoff);
 });

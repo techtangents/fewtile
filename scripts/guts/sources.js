@@ -23,7 +23,7 @@ define(['underscore', 'guts/tile', 'guts/colorMap', 'guts/util'], function(_, ti
   };
 
   var jobFails = function(job) {
-    return !job.passes; 
+    return !job.passing; 
   };
 
   var getFailingJobs = function(jobs) {

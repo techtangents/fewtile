@@ -1,16 +1,26 @@
-define(['guts/view', 'guts/board', 'jquery'], function(view, board, $) {
+define(['guts/view', 'guts/board', 'guts/ui/kquery'], function(view, board, kquery) {
 
-  // TODO: sideways
-  var $orDie = function(x) {
-    var e = $(x);
-    var size = e.size();
-    if (size !== 1) {
-      throw "Wrong number of elements selected by: '" + x + "'. Expected: " + 1 + " but was " + size;
-    }
-    return e;
-  }
+  var $orDie = kquery.$orDie;
+
+  var run = function(element) { 
+    return function(curView) {
+      curView(board(element));
+    };
+  };
+
+  var menu = function() {
+    location.href = "index.html";
+  };
+
+  var open = function(qs, element) {
+    var r = run(element);
+      qs == "?allJobs"     ? r(view.allJobs) 
+    : qs == "?failingJobs" ? r(view.failingJobs)
+    : qs == "?allGroups"   ? r(view.allGroups)
+    : menu();
+  };
 
   return function() {
-    view.allJobs(board($orDie('#fewtile')));
+    open(document.location.search, $orDie('#fewtile'));
   };
 });
