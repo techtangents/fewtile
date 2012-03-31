@@ -1,20 +1,12 @@
-define(['jquery', 'guts/tile'], function($, tile) {
+define(['jquery', 'guts/tile', 'guts/data/toggle'], function($, tile, toggle) {
   return function(source) {
 
-    var connected = true;
-
-    var connect = function() {
-      connected = true;
-    };
-
-    var disconnect = function() {
-      connected = false;
-    };
+    var t = toggle(true);
 
     var aDead = [tile.overarching.dead];
 
     var run = function(callback) {
-      if (connected) {
+      if (t.isOn()) {
         $.getJSON(source.url)
           .done(function(data, textStatus, jqXHR) {
             var r = data ? source.handle(data) : aDead;
@@ -29,8 +21,8 @@ define(['jquery', 'guts/tile'], function($, tile) {
     };
 
     return {
-      connect: connect,
-      disconnect: disconnect,
+      connect: t.on,
+      disconnect: t.off,
       run: run
     };
   };
