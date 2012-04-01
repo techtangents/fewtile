@@ -1,4 +1,4 @@
-#fewtile {
+.fewtile {
   position:absolute;
   top:0;
   right:0;
@@ -6,7 +6,7 @@
   left:0;
 }
 
-#fewtile .tile {
+.fewtile .tile {
   /* Firefox */
   display:-moz-box;
   -moz-box-orient:horizontal;

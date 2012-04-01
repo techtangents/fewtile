@@ -21,6 +21,6 @@ define(['guts/view', 'guts/board', 'guts/ui/kquery'], function(view, board, kque
   };
 
   return function() {
-    open(document.location.search, $orDie('#fewtile'));
+    open(document.location.search, $orDie('.fewtile'));
   };
 });
