@@ -1,4 +1,4 @@
-define(['guts/layout', 'guts/diff', 'guts/util'], function(layout, diff, util) {
+define(['guts/layout', 'guts/diff', 'guts/util', 'guts/text/textFill'], function(layout, diff, util, textFill) {
 
   var posEq = function(a, b) {
     return a.x === b.x && a.y === b.y;
@@ -17,9 +17,11 @@ define(['guts/layout', 'guts/diff', 'guts/util'], function(layout, diff, util) {
     );
   };
 
-  var change = function(div, value) {
+  var change = function(block, value) {
+    var div = block.div;
+    var textElement = block.textElement;
     div.addClass(value.cssClass);
-    div.text(value.text);
+    textElement.text(value.text);
     div.css({
       left: value.pos.x,
       top: value.pos.y,
@@ -30,35 +32,43 @@ define(['guts/layout', 'guts/diff', 'guts/util'], function(layout, diff, util) {
 
   var render = function(value) {
     var div = $("<div />");
+    var textElement = $("<span />");
     div.css({
       position: 'absolute'
     });
     div.addClass('tile');
-    change(div, value);
-    return div;
+    div.append(textElement);
+    var block = {
+      div: div,
+      textElement: textElement
+    };
+    change(block, value);
+    return block;
   };
 
   return function(container) {
-    var elements = {};
+    var blocks = {};
 
     // TODO: animate
     // TODO: make the update function asynchronous - notifying caller when update is complete
 
     var a = function(id, value) {
-      var div = render(value);
-      elements[id] = div;
-      container.append(div);
+      var block = render(value);
+      blocks[id] = block;
+      container.append(block.div);
+      textFill(block.textElement);
     };
 
     var r = function(id) {
-      var div = elements[id];
-      div.remove();
-      delete elements[id];
+      var block = blocks[id];
+      block.div.remove();
+      delete blocks[id];
     };
 
     var c = function(id, value) {
-      var div = elements[id];
-      change(div, value);
+      var block = blocks[id];
+      change(block, value);
+      textFill(block.textElement);
     };
 
     var viewState = [];
