@@ -12,7 +12,7 @@ var sources = (function() {
     yellow: "fail",
     yellow_anime: "failed_rebuilding",
     aborted: "fail",
-    aborted_anime: "fail"
+    aborted_anime: "failed_rebuilding"
   };
 
   var colorMapOrDie = function(color) {
@@ -22,7 +22,7 @@ var sources = (function() {
   };
 
   var badStatii = ["fail", "failed_rebuilding"];
-  
+
   var isBadStatus = function(c) {
     return _.include(badStatii, c);
   };
