@@ -45,9 +45,10 @@
   $(document).ready(function() {
     var qs = document.location.search;
     (
-        qs == "?allJobs"     ? run(sources.allJobs, 4000) 
+        qs == "?allJobs"     ? run(sources.allJobs, 4000)
       : qs == "?failingJobs" ? run(sources.failingJobs, 1000)
       : qs == "?allGroups"   ? run(sources.allGroups, 1000)
+      : qs == "?buildingJobs"   ? run(sources.buildingJobs, 1000)
       : menu
     )();
   });
