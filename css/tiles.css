@@ -16,7 +16,7 @@ html, body {
     left:0;
     right:0;
     width: 100%;
-    overflow:hidden; 
+    overflow:hidden;
 }
 
 .node {
@@ -74,7 +74,8 @@ html, body {
 }
 
 .buildingNode {
-  background-color: yellow; 
+  color:black;
+  background-color: gold;
 }
 
 .failedRebuildingNode {
