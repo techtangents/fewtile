@@ -1,5 +1,5 @@
-define(['guts/scales', 'underscore', 'guts/util', 'guts/gridify', 'guts/comparison'], 
-  function(scales, _, util, gridify, comparison) {
+define(['guts/scales', 'underscore', 'guts/util', 'guts/gridify', 'guts/comparison', 'guts/ui/quantize'],
+  function(scales, _, util, gridify, comparison, quantize) {
 
   var arraySort = comparison.arraySort;
   var by = comparison.by;
@@ -67,7 +67,8 @@ define(['guts/scales', 'underscore', 'guts/util', 'guts/gridify', 'guts/comparis
     var groups_ = util.submerge(groups, groupLayouts);    
     var laidCells = _.map(groups_, function(g) {
       var l = layoutCellsForGroup(g);
-      var sm = util.submerge(g.tiles, l);
+      var ql = _.map(l, quantize);
+      var sm = util.submerge(g.tiles, ql);
       return _.map(sm, function(t) {
         return util.narrow(t, ['text', 'cssClass', 'pos', 'size']);
       });

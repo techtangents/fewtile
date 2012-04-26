@@ -75,7 +75,6 @@ define(['guts/layout', 'guts/diff', 'guts/util', 'guts/text/textFill'], function
     var update = function(oldState, newState, diffs) {
       var width = container.width();
       var height = container.height();
-
       var newViewState = layout.layout(width, height, newState);
       var ops = diff(viewState, newViewState, util.prop('text'), eq);
       viewState = newViewState; 
