@@ -27,6 +27,11 @@ var sources = (function() {
     return _.include(badStatii, c);
   };
 
+  var isBuildingStatus = function(c) {
+    var suffix = "building";
+    return c.indexOf(suffix, c.length - suffix.length) !== -1;
+  };
+
   var allJobs = {
     url: "/api/json?tree=jobs[name,color]",
     clickUrl: "/job/",
@@ -40,21 +45,27 @@ var sources = (function() {
     }
   };
 
-  var failingJobs = {
-    url: "/api/json?tree=jobs[name,color]",
-    clickUrl: "/job/",
-    noJobsName: "All jobs passing",
-    handle: function(data) {
-      var r = {};
-      _.each(data.jobs, function(x) {
-        var c = colorMapOrDie(x.color);
-        if (isBadStatus(c)) {
-          r[x.name] = c;
-        }
-      });
-      return r;
-    }
+  var createFilter = function(name, filter) {
+    return {
+      url: "/api/json?tree=jobs[name,color]",
+      clickUrl: "/job/",
+      noJobsName: name,
+      handle: function(data) {
+        var r = {};
+        _.each(data.jobs, function(x) {
+          var c = colorMapOrDie(x.color);
+          if (filter(c)) {
+            r[x.name] = c;
+          }
+        });
+        return r;
+      }
+    };
   };
+
+  var failingJobs = createFilter("All jobs passing", isBadStatus);
+
+  var buildingJobs = createFilter("No jobs building", isBuildingStatus);
 
   var allGroups = {
     url: "/api/json?tree=views[name,color,jobs[name,color]]",
@@ -79,6 +90,7 @@ var sources = (function() {
   return {
     allJobs: allJobs,
     failingJobs: failingJobs,
+    buildingJobs: buildingJobs,
     allGroups: allGroups
   };
 })();
