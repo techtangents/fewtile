@@ -1,6 +1,8 @@
 define(['guts/scales', 'underscore', 'guts/util', 'guts/gridify', 'guts/comparison', 'guts/ui/quantize'],
   function(scales, _, util, gridify, comparison, quantize) {
 
+  var border = 10;
+
   var arraySort = comparison.arraySort;
   var by = comparison.by;
   var prop = util.prop;
@@ -61,13 +63,23 @@ define(['guts/scales', 'underscore', 'guts/util', 'guts/gridify', 'guts/comparis
 
   var sortGroups = arraySort(reverse(by(prop('weight'))));
 
+  var borderize = function(tile) {
+    return {
+      pos: tile.pos,
+      size: {
+        width: tile.size.width - 2 * border,
+        height: tile.size.height - 2 * border
+      }
+    }
+  };
+
   var layout = function(totalWidth, totalHeight, tiles) {
     var groups = sortGroups(scales.groupByWeight(tiles));
     var groupLayouts = layoutGroups(totalWidth, totalHeight, groups);
     var groups_ = util.submerge(groups, groupLayouts);    
     var laidCells = _.map(groups_, function(g) {
       var l = layoutCellsForGroup(g);
-      var ql = _.map(l, quantize);
+      var ql = _.map(l, _.compose(borderize, quantize));
       var sm = util.submerge(g.tiles, ql);
       return _.map(sm, function(t) {
         return util.narrow(t, ['text', 'cssClass', 'pos', 'size']);
