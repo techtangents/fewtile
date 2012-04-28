@@ -1,5 +1,5 @@
 define(function() {
-  // data Op key value = Add key value | Remove key | Change key value 
+  // data Op key value = Add key value | Remove key | Change key value value 
 
   var strung = function(f) {
     f.toString = function() {
@@ -20,9 +20,9 @@ define(function() {
     });
   };
 
-  var change = function(key, value) {
+  var change = function(key, oldValue, newValue) {
     return strung(function(a, r, c) {
-      return c(key, value);
+      return c(key, oldValue, newValue);
     });
   };
 
@@ -33,8 +33,8 @@ define(function() {
     var r = function(key) {
       return {type: 'remove', key: key};
     };
-    var c = function(key, value) {
-      return {type: 'change', key: key, value: value};
+    var c = function(key, oldValue, newValue) {
+      return {type: 'change', key: key, oldValue: oldValue, newValue: newValue};
     };
     return op(a, r, c);
   };

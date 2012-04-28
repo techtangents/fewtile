@@ -18,17 +18,23 @@ define(['guts/ui/layout', 'guts/mashing/diff', 'guts/mashing/util', 'guts/text/t
     );
   };
 
-  var change = function(block, value) {
-    var div = block.div;
-    var textElement = block.textElement;
-    div.addClass(value.cssClass);
-    textElement.text(value.text);
-    div.css({
+  var spray = function(block, value) {
+    block.textElement.text(value.text);
+    block.div.css({
       left: value.pos.x,
       top: value.pos.y,
       width: value.size.width,
       height: value.size.height
     });
+  };
+
+  var change = function(block, oldValue, newValue) {
+    if (oldValue.cssClass !== newValue.cssClass) {
+      var div = block.div;
+      div.removeClass(oldValue.cssClass);
+      div.addClass(newValue.cssClass);
+    }
+    spray(block, newValue);
   };
 
   var render = function(value) {
@@ -38,12 +44,13 @@ define(['guts/ui/layout', 'guts/mashing/diff', 'guts/mashing/util', 'guts/text/t
       position: 'absolute'
     });
     div.addClass('tile');
+    div.addClass(value.cssClass);
     div.append(textElement);
     var block = {
       div: div,
       textElement: textElement
     };
-    change(block, value);
+    spray(block, value);
     return block;
   };
 
@@ -66,9 +73,9 @@ define(['guts/ui/layout', 'guts/mashing/diff', 'guts/mashing/util', 'guts/text/t
       delete blocks[id];
     };
 
-    var c = function(id, value) {
+    var c = function(id, oldValue, newValue) {
       var block = blocks[id];
-      change(block, value);
+      change(block, oldValue, newValue);
       textFill(block.textElement);
     };
 

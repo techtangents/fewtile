@@ -17,7 +17,7 @@ define(['guts/mashing/outerJoin', 'guts/mashing/index', 'guts/struct/op'], funct
       if (hasLeft) {
         if (hasRight) {
           if (!eq(left, right)) {
-            r.push(op.change(i, right));
+            r.push(op.change(i, left, right));
           }
         } else {
           r.push(op.remove(i));
