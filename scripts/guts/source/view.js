@@ -1,4 +1,4 @@
-define(['guts/poller', 'guts/sources', 'guts/ajaxer'], function(poller, sources, ajaxer) {
+define(['guts/source/poller', 'guts/source/sources', 'guts/source/ajaxer'], function(poller, sources, ajaxer) {
 
   var period = 5000;
 

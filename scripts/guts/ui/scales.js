@@ -1,4 +1,4 @@
-define(['guts/util', 'underscore'], function(util, _) {
+define(['guts/mashing/util', 'underscore'], function(util, _) {
   var groupBy = util.groupBy;
   var prop = util.prop;
   var map = _.map;

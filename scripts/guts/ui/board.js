@@ -1,4 +1,5 @@
-define(['guts/layout', 'guts/diff', 'guts/util', 'guts/text/textFill'], function(layout, diff, util, textFill) {
+define(['guts/ui/layout', 'guts/mashing/diff', 'guts/mashing/util', 'guts/text/textFill'], 
+  function(layout, diff, util, textFill) {
 
   var posEq = function(a, b) {
     return a.x === b.x && a.y === b.y;

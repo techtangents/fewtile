@@ -1,4 +1,5 @@
-define(['underscore', 'guts/tile', 'guts/colorMap', 'guts/util'], function(_, tile, colorMap, util) {
+define(['underscore', 'guts/struct/tile', 'guts/source/colorMap', 'guts/mashing/util'], 
+  function(_, tile, colorMap, util) {
 
   var overarching = tile.overarching;
   var individual = tile.individual;

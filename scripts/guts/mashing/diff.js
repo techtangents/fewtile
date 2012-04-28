@@ -1,4 +1,4 @@
-define(['guts/outerJoin', 'guts/index', 'guts/op'], function(outerJoin, index, op) {
+define(['guts/mashing/outerJoin', 'guts/mashing/index', 'guts/struct/op'], function(outerJoin, index, op) {
 
   // diff :: ([a], [a], (a -> String), ((a, a) -> Boolean)) -> [Op]
   return function(a, b, key, eq) {

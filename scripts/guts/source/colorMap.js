@@ -1,4 +1,4 @@
-define(['guts/tile'], function(tile) {
+define(['guts/struct/tile'], function(tile) {
   var t = tile.individual;
 
   return {

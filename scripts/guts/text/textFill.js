@@ -1,5 +1,5 @@
 /**
-thespyder & techtangents' ueber text filling algorithm
+thespyder & techtangents' über text filling algorithm
 
 Scales the font-size of an element so that it roughly fills its parent.
 

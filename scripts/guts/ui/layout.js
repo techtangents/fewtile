@@ -1,4 +1,6 @@
-define(['guts/scales', 'underscore', 'guts/util', 'guts/gridify', 'guts/comparison', 'guts/ui/quantize'],
+define([
+  'guts/ui/scales', 'underscore', 'guts/mashing/util', 'guts/ui/gridify', 'guts/struct/comparison', 
+  'guts/ui/quantize'],
   function(scales, _, util, gridify, comparison, quantize) {
 
   var border = 10;

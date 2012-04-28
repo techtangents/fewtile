@@ -1,4 +1,4 @@
-define(['guts/ajaxer', 'guts/diff', 'guts/tile'], function(ajaxer, diff, tile) {
+define(['guts/source/ajaxer', 'guts/mashing/diff', 'guts/struct/tile'], function(ajaxer, diff, tile) {
 
   return function(source, board, period) {
 

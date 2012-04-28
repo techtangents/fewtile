@@ -1,4 +1,4 @@
-define(['guts/view', 'guts/board', 'guts/ui/kquery'], function(view, board, kquery) {
+define(['guts/source/view', 'guts/ui/board', 'guts/ui/kquery'], function(view, board, kquery) {
 
   var $orDie = kquery.$orDie;
 

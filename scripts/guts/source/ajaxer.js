@@ -1,4 +1,4 @@
-define(['jquery', 'guts/tile', 'guts/data/toggle'], function($, tile, toggle) {
+define(['jquery', 'guts/struct/tile', 'guts/struct/toggle'], function($, tile, toggle) {
   return function(source) {
 
     var t = toggle(true);

@@ -1,4 +1,4 @@
-define(['guts/comparison', 'guts/util'], function(comparison, util) {
+define(['guts/struct/comparison', 'guts/mashing/util'], function(comparison, util) {
   var round = Math.round;
   var sqrt = Math.sqrt;
   var bound = util.bound;
