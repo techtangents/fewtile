@@ -14,9 +14,10 @@ define(['guts/source/view', 'guts/ui/board', 'guts/ui/kquery'], function(view, b
 
   var open = function(qs, element) {
     var r = run(element);
-      qs == "?allJobs"     ? r(view.allJobs) 
-    : qs == "?failingJobs" ? r(view.failingJobs)
-    : qs == "?allGroups"   ? r(view.allGroups)
+      qs == "?allJobs"      ? r(view.allJobs) 
+    : qs == "?failingJobs"  ? r(view.failingJobs)
+    : qs == "?buildingJobs" ? r(view.buildingJobs)
+    : qs == "?allGroups"    ? r(view.allGroups)
     : menu();
   };
 

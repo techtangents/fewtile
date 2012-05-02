@@ -6,7 +6,7 @@
   left:0;
 }
 
-.fewtile .tile {
+.tile {
   /* Firefox */
   display:-moz-box;
   -moz-box-orient:horizontal;
@@ -44,7 +44,7 @@
   background-color: #BD3333;
 }
 
-.disabledTile {
+.disabledTile, .noneBuildingTile {
   color: #eeeeee;
   background-color: #999999;
 }
@@ -57,10 +57,10 @@
   background-color: blue;
 }
 
-.buildingTile {
-  background-color: yellow; 
+.passBuildingTile {
+  background-color: #99D638; 
 }
 
-.failedRebuildingTile {
+.failBuildingTile {
   background-color: #9C6425;
 }

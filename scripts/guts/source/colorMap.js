@@ -1,20 +1,21 @@
-define(['guts/struct/tile'], function(tile) {
+define(['guts/struct/tile', 'guts/struct/status'], function(tile, status) {
   var t = tile.individual;
+  var s = status;
 
   return {
-    blue           : t.pass,
-    blue_anime     : t.passBuilding,
+    blue           : s.pass,
+    blue_anime     : s.passBuilding,
 
-    red            : t.fail,
-    red_anime      : t.failBuilding,
-    yellow         : t.fail,
-    yellow_anime   : t.failBuilding,
-    aborted        : t.fail,
-    aborted_anime  : t.failBuilding,
+    red            : s.fail,
+    red_anime      : s.failBuilding,
+    yellow         : s.fail,
+    yellow_anime   : s.failBuilding,
+    aborted        : s.fail,
+    aborted_anime  : s.failBuilding,
 
-    grey           : t.disabled,
-    grey_anime     : t.disabledBuilding,
-    disabled       : t.disabled,
-    disabled_anime : t.disabledBuilding
+    grey           : s.disabled,
+    grey_anime     : s.disabledBuilding,
+    disabled       : s.disabled,
+    disabled_anime : s.disabledBuilding
   };
 });

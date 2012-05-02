@@ -95,6 +95,12 @@ define(['underscore'], function(_) {
     };
   };
 
+  var konst = function(x) {
+    return function() {
+      return x;
+    };
+  };
+
   return {
     numberOrZero: numberOrZero,
     plus: plus,
@@ -108,6 +114,7 @@ define(['underscore'], function(_) {
     merge: merge,
     submerge: submerge,
     narrow: narrow,
-    invokeWith: invokeWith
+    invokeWith: invokeWith,
+    konst: konst
   };
 });

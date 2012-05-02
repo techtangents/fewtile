@@ -1,17 +1,14 @@
 define(function() {
   var tile = function(weight) {
-    return function(passing) {
-      return function(cssClass) {
-        return function(text) {
-          return {
-            text: text,
-            cssClass: cssClass,
-            weight: weight,
-            passing: passing,
-            toString: function() {
-              return "(" + [text, cssClass, weight, passing].join(', ') + ")";
-            }
-          };
+    return function(cssClass) {
+      return function(text) {
+        return {
+          text: text,
+          cssClass: cssClass,
+          weight: weight,
+          toString: function() {
+            return "(" + [text, cssClass, weight, passing].join(', ') + ")";
+          }
         };
       };
     };
@@ -27,18 +24,19 @@ define(function() {
 
   return {
     individual: {
-        pass             : tile( 10)(true )("passTile")
-      , passBuilding     : tile( 10)(true )("passBuildingTile")
-      , fail             : tile( 50)(false)("failTile")
-      , failBuilding     : tile( 50)(false)("failBuildingTile")
-      , disabled         : tile(  5)(true )("disabledTile")
-      , disabledBuilding : tile(  5)(true )("disabledBuildingTile")
+        pass             : tile( 10)("passTile")
+      , passBuilding     : tile( 10)("passBuildingTile")
+      , fail             : tile( 50)("failTile")
+      , failBuilding     : tile( 50)("failBuildingTile")
+      , disabled         : tile(  5)("disabledTile")
+      , disabledBuilding : tile(  5)("disabledBuildingTile")
     },
     overarching: {
-        loading          : tile(100)(false)("loadingTile")   ("Loading...")
-      , dead             : tile(100)(false)("deadTile")      ("&#x2620;")
-      , allPassing       : tile(100)(true )("allPassingTile")("All jobs passing")
-      , noJobs           : tile(100)(false)("noJobsTile")    ("No jobs")
+        loading          : tile(100)("loadingTile")     ("Loading...")
+      , dead             : tile(100)("deadTile")        ("&#x2620;")
+      , allPassing       : tile(100)("allPassingTile")  ("All jobs passing")
+      , noJobs           : tile(100)("noJobsTile")      ("No jobs")
+      , noneBuilding     : tile(100)("noneBuildingTile")("No jobs building")
     },
     eq: eq,
     key: key

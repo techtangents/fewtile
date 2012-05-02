@@ -1,43 +1,38 @@
-define(['underscore', 'guts/struct/tile', 'guts/source/colorMap', 'guts/mashing/util'], 
-  function(_, tile, colorMap, util) {
+define(['underscore', 'guts/struct/tile', 'guts/source/colorMap', 'guts/mashing/util', 'guts/struct/maybe'], 
+  function(_, tile, colorMap, util, maybe) {
 
   var overarching = tile.overarching;
   var individual = tile.individual;
+  var konst = util.konst;
+  var none = maybe.none;
+  var some = maybe.some;
+  var filterMapMaybe = maybe.filterMapMaybe;
 
   var flonkle = function(a, o, t) {
-    return a.length === 0 ? [o] : t(a);
+    var q = t(a);
+    return q.length === 0 ? [o] : q;
   };
 
-  var mapJobs = function(jobs) {
-    return _.map(jobs, function(job) {
-      // FIX: handle if not found in colorMap
-      return colorMap[job.color](job.name);
-    });
+  var jobbie = function(emptyTile, filterer) {
+    return {
+      url: "/api/json?tree=jobs[name,color]",
+      clickUrl: "/job/",
+      handle: function(data) {
+        return flonkle(data.jobs, emptyTile, function(jobs) {
+          return filterMapMaybe(jobs, function(job) {
+            var status = colorMap[job.color];
+            return filterer(status) ? some(status.tile(job.name)) : none();
+          });
+        });
+      }
+    };
   };
 
-  var allJobs = {
-    url: "/api/json?tree=jobs[name,color]",
-    clickUrl: "/job/",
-    handle: function(data) {
-      return flonkle(data.jobs, overarching.noJobs, mapJobs);
-    }
-  };
+  var allJobs = jobbie(overarching.noJobs, konst(true));
 
-  var jobFails = function(job) {
-    return !job.passing; 
-  };
+  var failingJobs = jobbie(overarching.allPassing, function(status) { return !status.isPassing; });
 
-  var getFailingJobs = function(jobs) {
-    return _.filter(mapJobs(jobs), jobFails);
-  };
-
-  var failingJobs = {
-    url: "/api/json?tree=jobs[name,color]",
-    clickUrl: "/job/",
-    handle: function(data) {
-      return flonkle(data.jobs, overarching.allPassing, getFailingJobs);
-    }
-  };
+  var buildingJobs = jobbie(overarching.noneBuilding, function(status) { return status.isBuilding; });
 
   var getAllGroups = function(views) {
     var views_ = _.filter(views, function(view) {
@@ -45,7 +40,9 @@ define(['underscore', 'guts/struct/tile', 'guts/source/colorMap', 'guts/mashing/
     });
     return _.map(views_, function(view) {
       var jobs = mapJobs(view.jobs);
-      var hasFail = _.any(jobs, jobFails);
+      var hasFail = _.any(jobs, function(job) {
+        return !colorMap[job].isPassing;
+      });
       var f = hasFail ? individual.pass : individual.fail;
       return f(view.name);
     });
@@ -61,6 +58,7 @@ define(['underscore', 'guts/struct/tile', 'guts/source/colorMap', 'guts/mashing/
 
   return {
     allJobs: allJobs,
+    buildingJobs: buildingJobs,
     failingJobs: failingJobs,
     allGroups: allGroups
   };
