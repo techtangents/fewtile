@@ -7,7 +7,7 @@ define(['guts/ui/layout', 'guts/struct/tile', 'underscore'], function(layout, ti
           text: 'Loading...',
           cssClass: 'loadingTile',
           pos: {x: 0, y: 0},
-          size: {width: 800, height: 600}
+          size: {width: 780, height: 580} // takes borders into account
         }]
       );      
     })();

@@ -23,7 +23,7 @@ define(['guts/mashing/diff', 'underscore', 'guts/struct/op'], function(diff, _, 
     check(
       [{key:'k', value:'v1'}], 
       [{key:'k', value:'v2'}], 
-      [change('k', {key: 'k', value: 'v2'})]
+      [change('k', {key: 'k', value:'v1'}, {key: 'k', value: 'v2'})]
     );
   };
 });
