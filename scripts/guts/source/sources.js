@@ -21,7 +21,9 @@ define(['underscore', 'guts/struct/tile', 'guts/source/colorMap', 'guts/mashing/
         return flonkle(data.jobs, emptyTile, function(jobs) {
           return filterMapMaybe(jobs, function(job) {
             var status = colorMap[job.color];
-            return filterer(status) ? some(status.tile(job.name)) : none();
+            return filterer(status) 
+              ? some(status.tile(some("/job/" + job.name))(job.name)) 
+              : none();
           });
         });
       }
@@ -39,12 +41,11 @@ define(['underscore', 'guts/struct/tile', 'guts/source/colorMap', 'guts/mashing/
       return view.name !== "All";
     });
     return _.map(views_, function(view) {
-      var jobs = mapJobs(view.jobs);
-      var hasFail = _.any(jobs, function(job) {
-        return !colorMap[job].isPassing;
+      var hasFail = _.any(view.jobs, function(job) {
+        return !colorMap[job.color].isPassing;
       });
-      var f = hasFail ? individual.pass : individual.fail;
-      return f(view.name);
+      var f = hasFail ? individual.fail : individual.pass;
+      return f(some("/view/" + view.name))(view.name);
     });
   };
 

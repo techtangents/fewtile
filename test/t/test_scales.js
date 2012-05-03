@@ -1,9 +1,14 @@
-define(['guts/ui/scales', 'guts/struct/tile'], function(scales, tile) {
+define(['guts/ui/scales', 'guts/struct/tile', 'guts/struct/maybe'], function(scales, tile, maybe) {
+
+  var some = maybe.some;
+  var none = maybe.none;
+
   return function(assert) {
 
     (function twoSameWeight() {
-      var a = tile.individual.pass('a');
-      var b = tile.individual.pass('b');
+      var n = none();
+      var a = tile.individual.pass(n)('a');
+      var b = tile.individual.pass(n)('b');
 
       var gs = scales.groupByWeight([a, b]);
       assert.deepEqual(gs, [
@@ -17,8 +22,8 @@ define(['guts/ui/scales', 'guts/struct/tile'], function(scales, tile) {
     })();
 
     (function twoDifferentWeight() {
-      var a = tile.individual.pass('a');
-      var b = tile.individual.fail('b');
+      var a = tile.individual.pass(none())('a');
+      var b = tile.individual.fail(none())('b');
       assert.notEqual(a.weight, b.weight, "These tiles have the same weight - test is invalid.");
 
       var gs = scales.groupByWeight([a, b]);

@@ -84,7 +84,7 @@ define([
       var ql = _.map(l, _.compose(borderize, quantize));
       var sm = util.submerge(g.tiles, ql);
       return _.map(sm, function(t) {
-        return util.narrow(t, ['text', 'cssClass', 'pos', 'size']);
+        return util.narrow(t, ['text', 'cssClass', 'pos', 'size', 'link']);
       });
     });
     return _.flatten(laidCells, 1);

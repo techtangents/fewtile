@@ -1,5 +1,8 @@
-define([], function() {
+define(['guts/mashing/util'], function(util) {
   
+  var always = util.always;
+  var never = util.never;
+
   var none = function() {
     return function(noneFn, someFn) {
       return noneFn();
@@ -24,9 +27,23 @@ define([], function() {
     return r;
   };
 
+  var eq = function(ma, mb) {
+    return ma(function() {
+      return mb(always, never);
+    }, function(a) {
+      return mb(never, function(b) { return a === b; });
+    });
+  };
+
+  var forEach = function(ma, f) {
+    ma(function(){}, f);
+  };
+
   return {
     some: some,
     none: none,
-    filterMapMaybe: filterMapMaybe
+    filterMapMaybe: filterMapMaybe,
+    eq: eq,
+    forEach: forEach
   };
 });

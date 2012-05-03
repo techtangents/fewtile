@@ -1,5 +1,5 @@
-define(['guts/ui/layout', 'guts/mashing/diff', 'guts/mashing/util', 'guts/text/textFill'], 
-  function(layout, diff, util, textFill) {
+define(['guts/ui/layout', 'guts/mashing/diff', 'guts/mashing/util', 'guts/text/textFill', 'guts/struct/maybe'], 
+  function(layout, diff, util, textFill, maybe) {
 
   var posEq = function(a, b) {
     return a.x === b.x && a.y === b.y;
@@ -51,6 +51,15 @@ define(['guts/ui/layout', 'guts/mashing/diff', 'guts/mashing/util', 'guts/text/t
       textElement: textElement
     };
     spray(block, value);
+
+    // assumes the link won't change
+    maybe.forEach(value.link, function(t) {
+      div.css('cursor', 'pointer');
+      div.find("*").css('cursor', 'pointer');
+      div.click(function() {
+        window.open(t, '_blank');
+      });
+    })
     return block;
   };
 

@@ -29,11 +29,14 @@ var prepend = function(prefix) {
 };
 
 var fs = require('fs');
-var x = fs.readdirSync('t').filter(endsWith('.js')).map(removeSuffix('js')).map(prepend('../test/t/'));
 var assert = require('chai').assert;
 
-requirejs(x, function() {
-  for(var i = 0; i < arguments.length; i++) {
-    arguments[i](assert);
-  }  
-});
+var testModules = fs.readdirSync('t').filter(endsWith('.js')).map(removeSuffix('js')).map(prepend('../test/t/'));
+
+for (var i = 0; i < testModules.length; i++) {
+  var x = testModules[i];
+  requirejs([x], function(module) {
+    console.log("Testing: " + x);
+    module(assert);
+  });
+}

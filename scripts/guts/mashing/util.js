@@ -101,7 +101,12 @@ define(['underscore'], function(_) {
     };
   };
 
+  var always = konst(true);
+  var never = konst(false);
+
   return {
+    always: always,
+    never: never,
     numberOrZero: numberOrZero,
     plus: plus,
     objectMap: objectMap,

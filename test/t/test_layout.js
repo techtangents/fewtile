@@ -1,4 +1,8 @@
-define(['guts/ui/layout', 'guts/struct/tile', 'underscore'], function(layout, tile, _) {
+define(['guts/ui/layout', 'guts/struct/tile', 'underscore', 'guts/struct/maybe'], function(layout, tile, _, maybe) {
+
+  var some = maybe.some;
+  var none = maybe.none;
+
   return function(assert) {
     (function layoutSingleCell() {
       assert.deepEqual(
@@ -32,12 +36,12 @@ define(['guts/ui/layout', 'guts/struct/tile', 'underscore'], function(layout, ti
     (function layoutTwoCellsSameType() {
       validGroupLayouts(
         layout.layout(800, 600, [
-          tile.individual.pass("a"), tile.individual.pass("b")
+          tile.individual.pass(none())("a"), tile.individual.pass(none())("b")
         ]));
     })();
 
     (function layoutTwoCellsDifferentType() {
-      validGroupLayouts(layout.layout(800, 600, [tile.individual.pass("a"), tile.individual.fail("b")]));
+      validGroupLayouts(layout.layout(800, 600, [tile.individual.pass(none())("a"), tile.individual.fail(none())("b")]));
     })();
 
     (function() {
