@@ -1,4 +1,4 @@
-define(['guts/gridify', 'underscore', 'guts/util'], function(gridify, _, util) {
+define(['guts/ui/gridify', 'underscore', 'guts/mashing/util'], function(gridify, _, util) {
   return function(assert) {
     var ar = 7/3;
 

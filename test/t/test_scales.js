@@ -1,4 +1,4 @@
-define(['guts/scales', 'guts/tile'], function(scales, tile) {
+define(['guts/ui/scales', 'guts/struct/tile'], function(scales, tile) {
   return function(assert) {
 
     (function twoSameWeight() {

@@ -1,4 +1,4 @@
-define(['guts/op'], function(op) {
+define(['guts/struct/op'], function(op) {
   return function(assert) {
     assert.equal('a', op.key(op.add('a', 'quack')));
     assert.equal('a', op.key(op.remove('a')));

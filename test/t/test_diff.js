@@ -1,4 +1,4 @@
-define(['guts/diff', 'underscore', 'guts/op'], function(diff, _, op) {
+define(['guts/mashing/diff', 'underscore', 'guts/struct/op'], function(diff, _, op) {
   return function(assert) {
     var eq = function(a, b) {
       return a.key === b.key && a.value === b.value;

@@ -1,4 +1,4 @@
-define(['guts/layout', 'guts/tile', 'underscore'], function(layout, tile, _) {
+define(['guts/ui/layout', 'guts/struct/tile', 'underscore'], function(layout, tile, _) {
   return function(assert) {
     (function layoutSingleCell() {
       assert.deepEqual(

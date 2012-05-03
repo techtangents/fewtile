@@ -1,4 +1,4 @@
-define(['guts/outerJoin'], function(outerJoin) { 
+define(['guts/mashing/outerJoin'], function(outerJoin) { 
   return function(assert) {
     assert.deepEqual({}, outerJoin({}, {}));
     assert.deepEqual({a: {left:1, right:2}}, outerJoin({a: 1}, {a: 2}));

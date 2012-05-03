@@ -1,4 +1,4 @@
-define(['guts/util'], function(util) { 
+define(['guts/mashing/util'], function(util) { 
   return function(assert) {
     [undefined, null, 0, "", {}, [], '3', "cat"].forEach(function(x) {
       assert.equal(0, util.numberOrZero(x));

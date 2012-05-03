@@ -1,4 +1,4 @@
-define(['underscore', 'guts/tile'], function(_, tile) {
+define(['underscore', 'guts/struct/tile'], function(_, tile) {
   return function(assert) {
     _.each(tile.overarching, function(x) {
       assert.equal(true, tile.eq(x, x));

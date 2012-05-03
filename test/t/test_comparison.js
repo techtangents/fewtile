@@ -1,4 +1,4 @@
-define(['guts/comparison'], function(comparison) {
+define(['guts/struct/comparison'], function(comparison) {
   return function(assert) {
     var strict = comparison.strict;
     var lt = comparison.lt;
