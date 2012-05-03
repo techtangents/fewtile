@@ -3,16 +3,21 @@ define(['guts/mashing/util'], function(util) {
   var always = util.always;
   var never = util.never;
 
+  var embellish = function(x, sz) {
+    x.toString = util.konst(sz);
+    return x;
+  }
+
   var none = function() {
-    return function(noneFn, someFn) {
-      return noneFn();
-    };
+    return embellish(
+      function(noneFn, someFn) { return noneFn(); }, 
+      "maybe.none()");
   };
 
   var some = function(x) {
-    return function(noneFn, someFn) {
-      return someFn(x);
-    };
+    return embellish( 
+      function(noneFn, someFn) { return someFn(x); },
+      "maybe.some(" + x + ")");
   };
 
   var filterMapMaybe = function(arrayMaybe, filterMap) {

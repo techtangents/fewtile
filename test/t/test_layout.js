@@ -1,19 +1,41 @@
-define(['guts/ui/layout', 'guts/struct/tile', 'underscore', 'guts/struct/maybe'], function(layout, tile, _, maybe) {
+define(['guts/ui/layout', 'guts/struct/tile', 'underscore', 'guts/struct/maybe', 'guts/mashing/util'], function(layout, tile, _, maybe, util) {
 
   var some = maybe.some;
   var none = maybe.none;
+  var narrow = util.narrow;
 
   return function(assert) {
+    var assertArrayOfTilesEq = function(expected, actual) {
+      var nr = function(x) {
+        return narrow(x, ['text', 'cssClass', 'pos', 'size']);
+      };
+
+      var nrs = function(x) {
+        return _.map(x, nr);
+      };
+
+      assert.deepEqual(nrs(expected), nrs(actual));
+
+      var links = function(x) {
+        return _.map(x, util.prop('link'));
+      };
+
+      var q = util.zip(links(expected), links(actual));
+      _.each(q, function(z) {
+        assert.ok(maybe.eq(z.a, z.b));
+      });
+    };
+
     (function layoutSingleCell() {
-      assert.deepEqual(
-        layout.layout(800, 600, [tile.overarching.loading]),
-        [{
-          text: 'Loading...',
-          cssClass: 'loadingTile',
-          pos: {x: 0, y: 0},
-          size: {width: 780, height: 580} // takes borders into account
-        }]
-      );      
+      var actual = layout.layout(800, 600, [tile.overarching.loading]);
+      var expected = [{
+        text: 'Loading...',
+        cssClass: 'loadingTile',
+        pos: {x: 0, y: 0},
+        size: {width: 780, height: 580},
+        link: none()
+      }];
+      assertArrayOfTilesEq(expected, actual);      
     })();
 
     var validGroupLayout = function(l, i) {

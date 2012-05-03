@@ -104,6 +104,14 @@ define(['underscore'], function(_) {
   var always = konst(true);
   var never = konst(false);
 
+  var zip = function(a, b) {
+    var r = [];
+    for (var i = 0; i < a.length && i < b.length; i++) {
+      r.push({a: a[i], b: b[i]});
+    }
+    return r;
+  };
+
   return {
     always: always,
     never: never,
@@ -120,6 +128,7 @@ define(['underscore'], function(_) {
     submerge: submerge,
     narrow: narrow,
     invokeWith: invokeWith,
-    konst: konst
+    konst: konst,
+    zip: zip
   };
 });
