@@ -4,26 +4,25 @@ define(['guts/source/ajaxer', 'guts/mashing/diff', 'guts/struct/tile'], function
 
     var initialState = [tile.overarching.loading];
 
-    var update = function(oldState, newState, callback) {
-      var d = diff(oldState, newState, tile.key, tile.eq);
-      board.update(oldState, newState, d, callback(newState));
+    var update = function(newState, callback) {
+      board.update(newState, callback);
     };
 
     // FIX: Argh! Chained CPS! Need some Asyncs and Futures
-    var poll = function(oldState) {
+    var poll = function() {
       source.run(function(newState) {
-        update(oldState, newState, pollSoon);
+        update(newState, pollSoon);
       });
     };
 
-    var pollSoon = function(oldState) {
-      setTimeout(function() { 
-        poll(oldState); 
+    var pollSoon = function() {
+      setTimeout(function() {
+        poll();
       }, period);
     };
 
     var start = function() {
-      update([], initialState, poll);
+      update(initialState, poll);
     };
 
     return {

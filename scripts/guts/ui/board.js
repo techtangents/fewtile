@@ -1,5 +1,13 @@
-define(['guts/ui/layout', 'guts/mashing/diff', 'guts/mashing/util', 'guts/text/textFill', 'guts/struct/maybe'], 
-  function(layout, diff, util, textFill, maybe) {
+define([
+  'guts/ui/layout',
+  'guts/mashing/diff',
+  'guts/mashing/util',
+  'guts/text/textFill',
+  'guts/struct/maybe',
+  'jquery',
+  'ba-resize'
+  ],
+  function(layout, diff, util, textFill, maybe, $, $resize) {
 
   var posEq = function(a, b) {
     return a.x === b.x && a.y === b.y;
@@ -11,8 +19,8 @@ define(['guts/ui/layout', 'guts/mashing/diff', 'guts/mashing/util', 'guts/text/t
 
   var eq = function(a, b) {
     return (
-      a.text === b.text && 
-      a.cssClass === b.cssClass && 
+      a.text === b.text &&
+      a.cssClass === b.cssClass &&
       posEq(a.pos, b.pos) &&
       sizeEq(a.size, b.size)
     );
@@ -64,6 +72,7 @@ define(['guts/ui/layout', 'guts/mashing/diff', 'guts/mashing/util', 'guts/text/t
   };
 
   return function(container) {
+
     var blocks = {};
 
     // TODO: animate
@@ -89,14 +98,26 @@ define(['guts/ui/layout', 'guts/mashing/diff', 'guts/mashing/util', 'guts/text/t
     };
 
     var viewState = [];
-    var update = function(oldState, newState, diffs) {
+    var dataState = [];
+
+    var update = function(newState, callback) {
       var width = container.width();
       var height = container.height();
+      dataState = newState;
       var newViewState = layout.layout(width, height, newState);
       var ops = diff(viewState, newViewState, util.prop('text'), eq);
-      viewState = newViewState; 
+      viewState = newViewState;
       _.each(ops, util.invokeWith(a, r, c));
+      callback();
     };
+
+    $.resize.delay = 1000; // helps avoid re-renders while dragging
+
+    $(container).resize(function() {
+      // TODO: wire a toggle in here to prevent concurrent events?
+      update(dataState, function(){});
+    });
+
     return {
       update: update
     };
