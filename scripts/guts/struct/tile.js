@@ -28,6 +28,10 @@ define(['guts/struct/maybe'], function(maybe) {
     return t.text;
   };
 
+  var oat = function(cssClass, text) {
+    return tile(100)(cssClass)(none())(text);
+  };
+
   return {
     individual: {
         pass             : tile( 10)("passTile")
@@ -38,11 +42,11 @@ define(['guts/struct/maybe'], function(maybe) {
       , disabledBuilding : tile(  5)("disabledBuildingTile")
     },
     overarching: {
-        loading          : tile(100)("loadingTile")     (none())("Loading...")
-      , dead             : tile(100)("deadTile")        (none())("&#x2620;")
-      , allPassing       : tile(100)("allPassingTile")  (none())("All jobs passing")
-      , noJobs           : tile(100)("noJobsTile")      (none())("No jobs")
-      , noneBuilding     : tile(100)("noneBuildingTile")(none())("No jobs building")
+        loading          : oat("loadingTile"      , "Loading...")
+      , dead             : oat("deadTile"         , "&#x2620;")
+      , allPassing       : oat("allPassingTile"   , "All jobs passing")
+      , noJobs           : oat("noJobsTile"       , "No jobs")
+      , noneBuilding     : oat("noneBuildingTile" , "No jobs building")
     },
     eq: eq,
     key: key
