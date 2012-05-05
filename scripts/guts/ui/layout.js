@@ -1,5 +1,5 @@
 define([
-  'guts/ui/scales', 'underscore', 'guts/mashing/util', 'guts/ui/gridify', 'guts/struct/comparison', 
+  'guts/ui/scales', 'underscore', 'guts/mashing/util', 'guts/ui/gridify', 'guts/struct/comparison',
   'guts/ui/quantize'],
   function(scales, _, util, gridify, comparison, quantize) {
 
@@ -18,7 +18,7 @@ define([
     var y = 0;
     var groupLayouts = [];
     _.each(groups, function(g) {
-      var height = scales.groupHeight(g.groupWeight, globalWeight, totalHeight);      
+      var height = scales.groupHeight(g.groupWeight, globalWeight, totalHeight);
       var l = {
         pos: {
           x: 0,
@@ -78,13 +78,13 @@ define([
   var layout = function(totalWidth, totalHeight, tiles) {
     var groups = sortGroups(scales.groupByWeight(tiles));
     var groupLayouts = layoutGroups(totalWidth, totalHeight, groups);
-    var groups_ = util.submerge(groups, groupLayouts);    
+    var groups_ = util.submerge(groups, groupLayouts);
     var laidCells = _.map(groups_, function(g) {
       var l = layoutCellsForGroup(g);
       var ql = _.map(l, _.compose(borderize, quantize));
       var sm = util.submerge(g.tiles, ql);
       return _.map(sm, function(t) {
-        return util.narrow(t, ['text', 'cssClass', 'pos', 'size', 'link']);
+        return util.narrow(t, ['text', 'style', 'pos', 'size', 'link']);
       });
     });
     return _.flatten(laidCells, 1);

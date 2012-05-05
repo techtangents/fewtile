@@ -1,4 +1,4 @@
-define(['underscore', 'guts/struct/tile', 'guts/source/colorMap', 'guts/mashing/util', 'guts/struct/maybe'], 
+define(['underscore', 'guts/struct/tile', 'guts/source/colorMap', 'guts/mashing/util', 'guts/struct/maybe'],
   function(_, tile, colorMap, util, maybe) {
 
   var overarching = tile.overarching;
@@ -21,8 +21,9 @@ define(['underscore', 'guts/struct/tile', 'guts/source/colorMap', 'guts/mashing/
         return flonkle(data.jobs, emptyTile, function(jobs) {
           return filterMapMaybe(jobs, function(job) {
             var status = colorMap[job.color];
-            return filterer(status) 
-              ? some(status.tile(some("/job/" + job.name))(job.name)) 
+            if (status === undefined) throw "Unknonwn status: " + job.color;
+            return filterer(status)
+              ? some(status.tile(some("/job/" + job.name))(job.name))
               : none();
           });
         });

@@ -28,20 +28,18 @@ define([
 
   var spray = function(block, value) {
     block.textElement.text(value.text);
-    block.div.css({
+
+    var styles = util.merge(value.style, {
       left: value.pos.x,
       top: value.pos.y,
       width: value.size.width,
       height: value.size.height
     });
+    // FYI: Animation could be done here, but take heed of asynchronicity
+    block.div.css(styles);
   };
 
   var change = function(block, oldValue, newValue) {
-    if (oldValue.cssClass !== newValue.cssClass) {
-      var div = block.div;
-      div.removeClass(oldValue.cssClass);
-      div.addClass(newValue.cssClass);
-    }
     spray(block, newValue);
   };
 
@@ -52,7 +50,6 @@ define([
       position: 'absolute'
     });
     div.addClass('tile');
-    div.addClass(value.cssClass);
     div.append(textElement);
     var block = {
       div: div,

@@ -26,42 +26,11 @@
   box-pack:center;
   box-align:center;
 
-  /* other styles */  
+  /* other styles */
   border: 10px solid black; /* must be consistent with border var in layout.js */
 
   margin: 0;
   padding: 0;
 
-  color: #ffffff;
-
   font-family: sans-serif;
-}
-
-.passTile, .allPassingTile {
-  background-color: #308A48;
-}
-
-.failTile, .noJobsTile {
-  background-color: #BD3333;
-}
-
-.disabledTile, .noneBuildingTile {
-  color: #eeeeee;
-  background-color: #999999;
-}
-
-.jollyRogerTile {
-  background-color: black;
-}
-
-.loadingTile {
-  background-color: blue;
-}
-
-.passBuildingTile {
-  background-color: #99D638; 
-}
-
-.failBuildingTile {
-  background-color: #9C6425;
 }
