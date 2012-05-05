@@ -12,7 +12,7 @@ define(['guts/struct/maybe'], function(maybe) {
             weight: weight,
             link: link,
             toString: function() {
-              return "(" + [text, cssClass, weight, passing].join(', ') + ")";
+              return "(" + [text, cssClass, weight].join(', ') + ")";
             }
           };
         };
