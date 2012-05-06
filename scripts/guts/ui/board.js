@@ -7,9 +7,10 @@ define([
   'jquery',
   'ba-resize',
   'guts/mashing/peach',
-  'underscore'
+  'underscore',
+  'jquery-color'
   ],
-  function(layout, diff, util, textFill, maybe, $, $resize, peach, _) {
+  function(layout, diff, util, textFill, maybe, $, $resize, peach, _, jqueryColor) {
 
   var posEq = function(a, b) {
     return a.x === b.x && a.y === b.y;
@@ -105,7 +106,6 @@ define([
     var dataState = [];
 
     var update = function(newState, callback) {
-      console.log('update');
       var width = container.width();
       var height = container.height();
       dataState = newState;
