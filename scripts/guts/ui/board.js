@@ -20,7 +20,8 @@ define([
   var eq = function(a, b) {
     return (
       a.text === b.text &&
-      a.cssClass === b.cssClass &&
+      a.style['background-color'] === b.style['background-color'] &&
+      a.style.color === b.style.color &&
       posEq(a.pos, b.pos) &&
       sizeEq(a.size, b.size)
     );
