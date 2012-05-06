@@ -5,9 +5,11 @@ define([
   'guts/text/textFill',
   'guts/struct/maybe',
   'jquery',
-  'ba-resize'
+  'ba-resize',
+  'guts/mashing/peach',
+  'underscore'
   ],
-  function(layout, diff, util, textFill, maybe, $, $resize) {
+  function(layout, diff, util, textFill, maybe, $, $resize, peach, _) {
 
   var posEq = function(a, b) {
     return a.x === b.x && a.y === b.y;
@@ -27,7 +29,7 @@ define([
     );
   };
 
-  var spray = function(block, value) {
+  var spray = function(block, value, callback) {
     block.textElement.text(value.text);
 
     var styles = util.merge(value.style, {
@@ -38,10 +40,9 @@ define([
     });
     // FYI: Animation could be done here, but take heed of asynchronicity
     block.div.css(styles);
-  };
 
-  var change = function(block, oldValue, newValue) {
-    spray(block, newValue);
+    textFill(block.textElement); // do on callback
+    callback();
   };
 
   var render = function(value) {
@@ -56,7 +57,6 @@ define([
       div: div,
       textElement: textElement
     };
-    spray(block, value);
 
     // assumes the link won't change
     maybe.forEach(value.link, function(t) {
@@ -77,36 +77,43 @@ define([
     // TODO: make the update function asynchronous - notifying caller when update is complete
 
     var a = function(id, value) {
-      var block = render(value);
-      blocks[id] = block;
-      container.append(block.div);
-      textFill(block.textElement);
+      return function(callback) {
+        var block = render(value);
+        blocks[id] = block;
+        container.append(block.div);
+        spray(block, value, callback);
+      };
     };
 
     var r = function(id) {
-      var block = blocks[id];
-      block.div.remove();
-      delete blocks[id];
+      return function(callback) {
+        var block = blocks[id];
+        block.div.remove();
+        delete blocks[id];
+        callback();
+      };
     };
 
     var c = function(id, oldValue, newValue) {
-      var block = blocks[id];
-      change(block, oldValue, newValue);
-      textFill(block.textElement);
+      return function(callback) {
+        var block = blocks[id];
+        spray(block, newValue, callback);
+      };
     };
 
     var viewState = [];
     var dataState = [];
 
     var update = function(newState, callback) {
+      console.log('update');
       var width = container.width();
       var height = container.height();
       dataState = newState;
       var newViewState = layout.layout(width, height, newState);
       var ops = diff(viewState, newViewState, util.prop('text'), eq);
       viewState = newViewState;
-      _.each(ops, util.invokeWith(a, r, c));
-      callback();
+      var fxs = _.map(ops, util.invokeWith(a, r, c));
+      peach(fxs, callback);
     };
 
     $.resize.delay = 1000; // helps avoid re-renders while dragging
