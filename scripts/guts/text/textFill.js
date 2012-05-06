@@ -7,14 +7,14 @@ Scales in two phases:
 
 1. Gross scale
 - Find the percentage width and height of the element, relative to its parent's rendered width and height.
-- For the greater of these two percentages, if it's within a threshold then scale the font size (in pixels) 
+- For the greater of these two percentages, if it's within a threshold then scale the font size (in pixels)
   by that percentage, applying a minor tweak.
 
 2. Fine tune
-- If necessary, apply minor adjustments up or down, measuring as we go, until the element roughly fills the 
-  parent. 
-- The text doesn't precisely fill the element - a range of acceptible sizes is in place, to avoid minor 
-  change in text size when the visual effect good enough. 
+- If necessary, apply minor adjustments up or down, measuring as we go, until the element roughly fills the
+  parent.
+- The text doesn't precisely fill the element - a range of acceptible sizes is in place, to avoid minor
+  change in text size when the visual effect good enough.
 
 This technique performs well by minimizing the number of times:
 - the text is resized in the DOM
@@ -31,6 +31,9 @@ size------------->
 Known issues:
 - Make sure the direct parent is fixed size.
 
+
+// FIX: Do the calculations on an 'off-screen' div - actually in the DOM, but large negative x,y.
+        This resize then just returns a value, without mutating the 'real' div.
 */
 define(['jquery'], function($) {
 
@@ -67,7 +70,7 @@ define(['jquery'], function($) {
 
   var minScale = 0.85;
   var maxScale = 0.90;
-  var grossDelta = 0.2; 
+  var grossDelta = 0.2;
 
   var grossTweak = 0.95;
   var fontDelta = 1;
@@ -77,7 +80,7 @@ define(['jquery'], function($) {
       element.css('font-size', fs);
     };
 
-    var parentSize = measureInner(element.parent()); 
+    var parentSize = measureInner(element.parent());
     var min = scaleSizes(parentSize, minScale);
     var max = scaleSizes(parentSize, maxScale);
 
@@ -102,16 +105,16 @@ define(['jquery'], function($) {
       }
 
       while (
-           element.outerHeight(true) < min.height 
-        && element.outerWidth(true) < min.width 
+           element.outerHeight(true) < min.height
+        && element.outerWidth(true) < min.width
         && fontSize <= maxFontSize
       ) {
         fontSize += fontDelta;
         chfont(fontSize);
-      }  
-    
+      }
+
       while (
-           (element.outerHeight(true) > max.height || element.outerWidth(true) > max.width) 
+           (element.outerHeight(true) > max.height || element.outerWidth(true) > max.width)
         && fontSize >= minFontSize
       ) {
         fontSize -= fontDelta;
