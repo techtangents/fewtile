@@ -146,7 +146,7 @@ define([
       peach(fxs, callback);
     };
 
-    $.resize.delay = 1000; // helps avoid re-renders while dragging
+    $.resize.delay = 500;
 
     $(container).resize(function() {
       // TODO: wire a toggle in here to prevent concurrent events?
