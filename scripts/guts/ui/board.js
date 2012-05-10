@@ -39,16 +39,6 @@ define([
     });
   };
 
-  var spray = function(block, value, callback) {
-    var styles = stylize(value);
-
-    // FYI: Animation could be done here, but take heed of asynchronicity
-    block.div.css(styles);
-
-    textFill(block.textElement); // do on callback
-    callback();
-  };
-
   var render = function(value) {
     var div = $("<div />");
     var textElement = $("<span />");
@@ -76,6 +66,8 @@ define([
     return block;
   };
 
+  var animate = true;
+
   return function(container) {
 
     var blocks = {};
@@ -87,24 +79,61 @@ define([
       return function(callback) {
         var block = render(value);
         blocks[id] = block;
+        var styles = stylize(value);
+
+        block.div.css(styles);
+
+        if (animate) {
+          block.div.hide();
+        }
+
         container.append(block.div);
-        spray(block, value, callback);
+
+        if (animate) {
+          block.div.fadeIn('fast', function() {
+            textFill(block.textElement);
+            callback();
+          });
+        } else {
+          textFill(block.textElement);
+          callback();
+        }
       };
     };
 
     var r = function(id) {
       return function(callback) {
         var block = blocks[id];
-        block.div.remove();
-        delete blocks[id];
-        callback();
+        var done = function() {
+          block.div.remove();
+          delete blocks[id];
+          callback();
+        };
+        if (animate) {
+          block.div.fadeOut('fast', function() {
+            done();
+          });
+        } else {
+          done();
+        }
       };
     };
 
     var c = function(id, oldValue, newValue) {
       return function(callback) {
         var block = blocks[id];
-        spray(block, newValue, callback);
+        var styles = stylize(newValue);
+
+        if (animate) {
+          block.div.animate(styles, function() {
+            textFill(block.textElement);
+            callback();
+          });
+        } else {
+          block.div.css(styles);
+          textFill(block.textElement);
+          callback();
+        }
       };
     };
 
