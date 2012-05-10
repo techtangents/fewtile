@@ -40,7 +40,6 @@ define([
   };
 
   var spray = function(block, value, callback) {
-    block.textElement.text(value.text);
     var styles = stylize(value);
 
     // FYI: Animation could be done here, but take heed of asynchronicity
@@ -62,6 +61,9 @@ define([
       div: div,
       textElement: textElement
     };
+
+    // assumes the text won't change
+    textElement.text(value.text);
 
     // assumes the link won't change
     maybe.forEach(value.link, function(t) {
