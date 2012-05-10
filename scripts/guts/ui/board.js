@@ -30,15 +30,19 @@ define([
     );
   };
 
-  var spray = function(block, value, callback) {
-    block.textElement.text(value.text);
-
-    var styles = util.merge(value.style, {
+  var stylize = function(value) {
+    return util.merge(value.style, {
       left: value.pos.x,
       top: value.pos.y,
       width: value.size.width,
       height: value.size.height
     });
+  };
+
+  var spray = function(block, value, callback) {
+    block.textElement.text(value.text);
+    var styles = stylize(value);
+
     // FYI: Animation could be done here, but take heed of asynchronicity
     block.div.css(styles);
 
