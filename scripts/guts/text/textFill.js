@@ -75,12 +75,29 @@ define(['jquery'], function($) {
   var grossTweak = 0.95;
   var fontDelta = 1;
 
-  return function(element) {
+  return function(width, height, text) {
+
+    var div = $("<div />");
+    div.addClass('tile');
+    div.css({
+      position: 'absolute',
+      left: -10000,
+      top: -10000,
+      width: width + "px",
+      height: height + "px"
+    });
+
+    var element = $("<span />");
+    element.text(text);
+
+    div.append(element);
+    $(document.body).append(div);
+
     var chfont = function(fs) {
       element.css('font-size', fs);
     };
 
-    var parentSize = measureInner(element.parent());
+    var parentSize = measureInner(div);
     var min = scaleSizes(parentSize, minScale);
     var max = scaleSizes(parentSize, maxScale);
 
@@ -121,6 +138,8 @@ define(['jquery'], function($) {
         chfont(fontSize);
       }
     }
+
+    div.remove();
 
     return fontSize;
   };

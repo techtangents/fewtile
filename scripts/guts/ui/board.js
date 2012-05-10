@@ -31,11 +31,14 @@ define([
   };
 
   var stylize = function(value) {
+    var fontSize = textFill(value.size.width, value.size.height, value.text);
+
     return util.merge(value.style, {
       left: value.pos.x,
       top: value.pos.y,
       width: value.size.width,
-      height: value.size.height
+      height: value.size.height,
+      'font-size': fontSize + "px"
     });
   };
 
@@ -69,18 +72,13 @@ define([
   var animate = true;
 
   return function(container) {
-
     var blocks = {};
-
-    // TODO: animate
-    // TODO: make the update function asynchronous - notifying caller when update is complete
-
     var a = function(id, value) {
       return function(callback) {
         var block = render(value);
         blocks[id] = block;
-        var styles = stylize(value);
 
+        var styles = stylize(value);
         block.div.css(styles);
 
         if (animate) {
@@ -95,7 +93,6 @@ define([
             callback();
           });
         } else {
-          textFill(block.textElement);
           callback();
         }
       };
@@ -126,12 +123,10 @@ define([
 
         if (animate) {
           block.div.animate(styles, function() {
-            textFill(block.textElement);
             callback();
           });
         } else {
           block.div.css(styles);
-          textFill(block.textElement);
           callback();
         }
       };
