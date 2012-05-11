@@ -63,7 +63,9 @@ define(['underscore', 'guts/struct/tile', 'guts/source/colorMap', 'guts/mashing/
     handle: function(data) {
       var views = data.views.slice();
       _.each(data.views, function(v) {
-        views = views.concat(v.views);
+        if (v !== undefined && v.length > 0) {
+          views = views.concat(v.views);
+        }
       });
       return flonkle(views, overarching.noJobs, getAllGroups);
     }
