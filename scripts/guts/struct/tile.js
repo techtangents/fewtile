@@ -1,6 +1,7 @@
-define(['guts/struct/maybe'], function(maybe) {
+define(['guts/struct/maybe', 'guts/mashing/lute'], function(maybe, lute) {
 
   var none = maybe.none;
+  var fromCharCode = lute.fromCharCode;
 
   var tile = function(weight) {
     return function(style) {
@@ -62,7 +63,7 @@ define(['guts/struct/maybe'], function(maybe) {
     },
     overarching: {
         loading          : oat(styles.loading  , "Loading...")
-      , dead             : oat(styles.dead     , "&#x2620;")
+      , dead             : oat(styles.dead     , fromCharCode(0x2620))
       , allPassing       : oat(styles.pass     , "All jobs passing")
       , noJobs           : oat(styles.fail     , "No jobs")
       , noneBuilding     : oat(styles.disabled , "No jobs building")
