@@ -70,19 +70,28 @@ define(['underscore', 'guts/struct/tile', 'guts/source/colorMap', 'guts/mashing/
     url: "/api/json?tree=" + g_(g_(g_(g_(g_(g_(g_(g('')))))))),
     clickUrl: "/view/",
     handle: function(data) {
-      var all = [];
-      var rec = function(vs) {
-        _.each(vs, function(v) {
-          if (v.jobs !== undefined && v.jobs.length != 0) {
-            all.push(v);
+      var all = _.map(data.views, function(v) {
+        var jobs = v.jobs.slice();
+        var rec = function(subviews) {
+          if (subviews !== undefined) {
+            _.each(subviews, function(sv) {
+              var j = sv.jobs;
+              if (j !== undefined && j.length > 0) {
+                jobs = jobs.concat(j);
+              }
+            });
+            rec(subviews.views);
           }
-          if (v.views !== undefined && v.views.length > 0) {
-            rec(v.views);
-          }
-        });
-      };
-      rec(data.views);
-      return flonkle(all, overarching.noJobs, getAllGroups);
+        };
+        rec(v);
+        var vv = {
+          name: v.name,
+          jobs: jobs
+        };
+        console.log(vv);
+        return vv;
+      });
+      return flonkle(all, overarching.noGroups, getAllGroups);
     }
   };
 
