@@ -58,10 +58,14 @@ define(['underscore', 'guts/struct/tile', 'guts/source/colorMap', 'guts/mashing/
   };
 
   var allGroups = {
-    url: "/api/json?tree=views[name,color,jobs[name,color]]",
+    url: "/api/json?tree=views[name,color,jobs[name,color],views[name,color,jobs[name,color]]]",
     clickUrl: "/view/",
     handle: function(data) {
-      return flonkle(data.views, overarching.noJobs, getAllGroups);
+      var views = data.views.slice();
+      _.each(data.views, function(v) {
+        views = views.concat(v.views);
+      });
+      return flonkle(views, overarching.noJobs, getAllGroups);
     }
   };
 
