@@ -67,6 +67,7 @@ define(['underscore', 'guts/struct/tile', 'guts/source/colorMap', 'guts/mashing/
           views = views.concat(v.views);
         }
       });
+      console.log(views);
       return flonkle(views, overarching.noJobs, getAllGroups);
     }
   };
