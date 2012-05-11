@@ -45,7 +45,14 @@ define(['underscore', 'guts/struct/tile', 'guts/source/colorMap', 'guts/mashing/
       var hasFail = _.any(view.jobs, function(job) {
         return !colorMap[job.color].isPassing;
       });
-      var f = hasFail ? individual.fail : individual.pass;
+
+      var hasBuilding = _.any(view.jobs, function(job) {
+        return colorMap[job.color].isBuilding;
+      });
+
+      var f = hasFail
+                      ? hasBuilding ? individual.failBuilding : individual.fail
+                      : hasBuilding ? individual.passBuilding : individual.pass;
       return f(some("/view/" + view.name))(view.name);
     });
   };
