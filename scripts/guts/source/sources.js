@@ -57,18 +57,32 @@ define(['underscore', 'guts/struct/tile', 'guts/source/colorMap', 'guts/mashing/
     });
   };
 
+
+  var g = function(x) {
+    return "views[name,jobs[name,color]" + x + "]";
+  };
+
+  var g_ = function(x) {
+    return g("," + x);
+  }
+
   var allGroups = {
-    url: "/api/json?tree=views[name,color,jobs[name,color],views[name,color,jobs[name,color]]]",
+    url: "/api/json?tree=" + g_(g_(g_(g_(g_(g_(g_(g('')))))))),
     clickUrl: "/view/",
     handle: function(data) {
-      var views = data.views.slice();
-      _.each(data.views, function(v) {
-        if (v !== undefined && v.length > 0) {
-          views = views.concat(v.views);
-        }
-      });
-      console.log(views);
-      return flonkle(views, overarching.noJobs, getAllGroups);
+      var all = [];
+      var rec = function(vs) {
+        _.each(vs, function(v) {
+          if (v.jobs !== undefined && v.jobs.length != 0) {
+            all.push(v);
+          }
+          if (v.views !== undefined && v.views.length > 0) {
+            rec(v.views);
+          }
+        });
+      };
+      rec(data.views);
+      return flonkle(all, overarching.noJobs, getAllGroups);
     }
   };
 
