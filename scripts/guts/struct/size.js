@@ -14,9 +14,14 @@ define([], function() {
     return a.width === b.width && a.height === b.height;
   };
 
+  var divide = function(numerator, denominator) {
+    return nu(numerator.width / denominator.width, numerator.height / denominator.height);
+  };
+
   return {
     nu: nu,
     bimap: bimap,
-    eq: eq
+    eq: eq,
+    divide: divide
   };
 });

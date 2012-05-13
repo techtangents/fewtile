@@ -35,34 +35,32 @@ Known issues:
 // FIX: Do the calculations on an 'off-screen' div - actually in the DOM, but large negative x,y.
         This resize then just returns a value, without mutating the 'real' div.
 */
-define(['jquery'], function($) {
-
-  var mkSize = function(width, height) {
-    return {width: width, height: height};
-  };
+define([
+  'jquery',
+  'guts/struct/size'
+], function(
+  $,
+  size
+) {
 
   var measureInner = function(element) {
-    return mkSize(element.innerWidth(), element.innerHeight());
+    return size.nu(element.innerWidth(), element.innerHeight());
   };
 
   var measureOuter = function(element) {
-    return mkSize(element.outerWidth(true), element.outerHeight(true));
+    return size.nu(element.outerWidth(true), element.outerHeight(true));
   };
 
   var measure = function(element) {
-    return mkSize(element.width(), element.height());
+    return size.nu(element.width(), element.height());
   };
 
-  var divideSizes = function(numerator, denominator) {
-    return mkSize(numerator.width / denominator.width, numerator.height / denominator.height);
+  var scaleSizes = function(s, factor) {
+    return size.nu(s.width * factor, s.height * factor);
   };
 
-  var scaleSizes = function(size, factor) {
-    return mkSize(size.width * factor, size.height * factor);
-  };
-
-  var fmapSize = function(size, f) {
-    return mkSize(f(size.width), f(size.height));
+  var fmapSize = function(s, f) {
+    return size.nu(f(s.width), f(s.height));
   };
 
   var minFontSize = 2;
@@ -113,7 +111,7 @@ define(['jquery'], function($) {
     if (ourSize.width > 0 && ourSize.height > 0) {
       element.css('font-size', fontSize);
 
-      var percentage = divideSizes(ourSize, parentSize);
+      var percentage = size.divide(ourSize, parentSize);
       var side = percentage.width >= percentage.height ? "width" : "height";
 
       if (ourSize[side] >= grossBig[side] || ourSize[side] <= grossSmall[side]) {
