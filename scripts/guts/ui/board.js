@@ -28,11 +28,9 @@ define([
   var stylize = function(value) {
     var fontSize = textFill(value.size.width, value.size.height, value.text);
 
-    return util.merge(value.style, {
+    return util.merge(value.style, value.size, {
       left: value.pos.x,
       top: value.pos.y,
-      width: value.size.width,
-      height: value.size.height,
       'font-size': fontSize + "px"
     });
   };
