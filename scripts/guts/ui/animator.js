@@ -1,4 +1,8 @@
-define([], function() {
+define([
+  'jquery-color'
+], function(
+  jqueryColor
+) {
   var animate = true;
 
   var add = function(element, container, callback) {

@@ -2,65 +2,30 @@ define([
   'guts/ui/layout',
   'guts/mashing/diff',
   'guts/mashing/util',
-  'guts/text/textFill',
   'guts/struct/maybe',
   'jquery',
   'ba-resize',
   'guts/mashing/peach',
   'underscore',
-  'jquery-color',
   'guts/struct/shingle',
-  'guts/ui/animator'
+  'guts/ui/animator',
+  'guts/ui/stylize',
+  'guts/ui/block'
   ],
   function(
     layout,
     diff,
     util,
-    textFill,
     maybe,
     $,
     $resize,
     peach,
     _,
-    jqueryColor,
     shingle,
-    animator
+    animator,
+    stylize,
+    block
   ) {
-
-  var stylize = function(value) {
-    var fontSize = textFill(value.size.width, value.size.height, value.text);
-
-    return util.merge(value.style, value.size, {
-      left: value.pos.x,
-      top: value.pos.y,
-      'font-size': fontSize + "px"
-    });
-  };
-
-  var render = function(value) {
-    var div = $("<div class='tile' />");
-    var textElement = $("<span />");
-    div.append(textElement);
-    var block = {
-      div: div,
-      textElement: textElement
-    };
-
-    div.css(stylize(value));
-
-    // assumes the text won't change
-    textElement.text(value.text);
-
-    // assumes the link won't change
-    maybe.forEach(value.link, function(t) {
-      div.css('cursor', 'pointer');
-      div.find("*").css('cursor', 'pointer');
-      div.click(function() {
-        window.open(t, '_blank');
-      });
-    });
-    return block;
-  };
 
   var animate = true;
 
@@ -68,9 +33,9 @@ define([
     var blocks = {};
     var a = function(id, value) {
       return function(callback) {
-        var block = render(value);
-        blocks[id] = block;
-        animator.add(block.div, container, callback);
+        var b = block.nu(value);
+        blocks[id] = b;
+        animator.add(b.div, container, callback);
       };
     };
 
