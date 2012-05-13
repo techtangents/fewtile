@@ -83,7 +83,7 @@ define([
         container.append(block.div);
 
         if (animate) {
-          block.div.fadeIn('fast', function() {
+          block.div.fadeIn('slow', function() {
             textFill(block.textElement);
             callback();
           });
@@ -102,7 +102,7 @@ define([
           callback();
         };
         if (animate) {
-          block.div.fadeOut('fast', function() {
+          block.div.fadeOut('slow', function() {
             done();
           });
         } else {
@@ -117,7 +117,7 @@ define([
         var styles = stylize(newValue);
 
         if (animate) {
-          block.div.animate(styles, function() {
+          block.div.animate(styles, 'slow', function() {
             callback();
           });
         } else {
