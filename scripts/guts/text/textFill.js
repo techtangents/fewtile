@@ -59,10 +59,6 @@ define([
     return size.nu(s.width * factor, s.height * factor);
   };
 
-  var fmapSize = function(s, f) {
-    return size.nu(f(s.width), f(s.height));
-  };
-
   var minFontSize = 2;
   var maxFontSize = 2000;
 
