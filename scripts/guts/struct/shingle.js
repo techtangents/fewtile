@@ -1,4 +1,11 @@
-define(['guts/mashing/util'], function(util) {
+define([
+  'guts/mashing/util',
+  'guts/struct/size'
+],
+function(
+  util,
+  size
+) {
   var merge = util.merge;
   var narrow = util.narrow;
 
@@ -13,10 +20,6 @@ define(['guts/mashing/util'], function(util) {
     return a.x === b.x && a.y === b.y;
   };
 
-  var sizeEq = function(a, b) {
-    return a.width === b.width && a.height === b.height;
-  };
-
   var styleEq = function(a, b) {
     return a['background-color'] === b['background-color'] && a.color === b.color;
   };
@@ -26,7 +29,7 @@ define(['guts/mashing/util'], function(util) {
       a.text === b.text &&
       styleEq(a.style, b.style) &&
       posEq(a.pos, b.pos) &&
-      sizeEq(a.size, b.size)
+      size.eq(a.size, b.size)
     );
   };
 
