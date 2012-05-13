@@ -5,7 +5,8 @@ define([
   'guts/ui/gridify',
   'guts/struct/comparison',
   'guts/ui/quantize',
-  'guts/struct/shingle'
+  'guts/struct/shingle',
+  'guts/struct/size'
   ],
   function(
     scales,
@@ -14,7 +15,8 @@ define([
     gridify,
     comparison,
     quantize,
-    shingle
+    shingle,
+    size
   ) {
 
   var border = 10;
@@ -38,10 +40,7 @@ define([
           x: 0,
           y: y
         },
-        size: {
-          width: totalWidth,
-          height: height
-        }
+        size: size.nu(totalWidth, height)
       };
       groupLayouts.push(l);
       y += height;
@@ -63,10 +62,7 @@ define([
               x: x,
               y: y
             },
-            size: {
-              width: rowLayout.width,
-              height: rowLayout.height
-            }
+            size: util.narrow(rowLayout, ['width', 'height'])
           };
           r.push(t);
           x += rowLayout.width;
@@ -82,10 +78,7 @@ define([
   var borderize = function(tile) {
     return {
       pos: tile.pos,
-      size: {
-        width: tile.size.width - 2 * border,
-        height: tile.size.height - 2 * border
-      }
+      size: size.bimap(tile.size, function(x) { return x - 2 * border; })
     };
   };
 
