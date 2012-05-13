@@ -55,10 +55,6 @@ define([
     return size.nu(element.width(), element.height());
   };
 
-  var scaleSizes = function(s, factor) {
-    return size.nu(s.width * factor, s.height * factor);
-  };
-
   var minFontSize = 2;
   var maxFontSize = 2000;
 
@@ -92,11 +88,11 @@ define([
     };
 
     var parentSize = measureInner(div);
-    var min = scaleSizes(parentSize, minScale);
-    var max = scaleSizes(parentSize, maxScale);
+    var min = size.scale(parentSize, minScale);
+    var max = size.scale(parentSize, maxScale);
 
-    var grossBig = scaleSizes(parentSize, 1 + grossDelta);
-    var grossSmall = scaleSizes(parentSize, 1 - grossDelta);
+    var grossBig = size.scale(parentSize, 1 + grossDelta);
+    var grossSmall = size.scale(parentSize, 1 - grossDelta);
 
     element.css({border: 0, margin: 0, padding:0});
     var ourSize = measureOuter(element);

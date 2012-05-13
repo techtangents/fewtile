@@ -18,10 +18,15 @@ define([], function() {
     return nu(numerator.width / denominator.width, numerator.height / denominator.height);
   };
 
+  var scale = function(s, factor) {
+    return bimap(function(x) { return x * factor; });
+  };
+
   return {
     nu: nu,
     bimap: bimap,
     eq: eq,
-    divide: divide
+    divide: divide,
+    scale: scale
   };
 });
