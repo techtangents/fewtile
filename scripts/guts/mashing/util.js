@@ -59,13 +59,14 @@ define(['underscore'], function(_) {
     return s;
   };
 
-  var merge = function(a, b) {
+  var merge = function(/* args... */) {
     var r = {};
     var f = function(x, i) {
       r[i] = x;
     };
-    _.each(a, f);
-    _.each(b, f);
+    _.each(arguments, function(o) {
+      _.each(o, f);
+    });
     return r;
   };
 
