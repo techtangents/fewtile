@@ -41,13 +41,13 @@ define(function() {
 
   var toString = function(op) {
     var a = function(key, value) {
-      return "op.add(" + key + ", " + value + ")"; 
+      return "op.add(" + key + ", " + JSON.stringify(value) + ")"; 
     };
     var r = function(key) {
       return "op.remove(" + key + ")";
     };
     var c = function(key, value) {
-      return "op.change(" + key + ", " + value + ")";
+      return "op.change(" + key + ", " + JSON.stringify(value) + ")";
     };
     return op(a, r, c);
   };

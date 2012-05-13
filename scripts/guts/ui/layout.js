@@ -1,7 +1,21 @@
 define([
-  'guts/ui/scales', 'underscore', 'guts/mashing/util', 'guts/ui/gridify', 'guts/struct/comparison',
-  'guts/ui/quantize'],
-  function(scales, _, util, gridify, comparison, quantize) {
+  'guts/ui/scales',
+  'underscore',
+  'guts/mashing/util',
+  'guts/ui/gridify',
+  'guts/struct/comparison',
+  'guts/ui/quantize',
+  'guts/struct/shingle'
+  ],
+  function(
+    scales,
+    _,
+    util,
+    gridify,
+    comparison,
+    quantize,
+    shingle
+  ) {
 
   var border = 10;
 
@@ -72,7 +86,7 @@ define([
         width: tile.size.width - 2 * border,
         height: tile.size.height - 2 * border
       }
-    }
+    };
   };
 
   var layout = function(totalWidth, totalHeight, tiles) {
@@ -80,11 +94,11 @@ define([
     var groupLayouts = layoutGroups(totalWidth, totalHeight, groups);
     var groups_ = util.submerge(groups, groupLayouts);
     var laidCells = _.map(groups_, function(g) {
-      var l = layoutCellsForGroup(g);
-      var ql = _.map(l, _.compose(borderize, quantize));
-      var sm = util.submerge(g.tiles, ql);
-      return _.map(sm, function(t) {
-        return util.narrow(t, ['text', 'style', 'pos', 'size', 'link']);
+      var layouts = _.map(
+        layoutCellsForGroup(g),
+        _.compose(borderize, quantize));
+      return _.map(util.zip(g.tiles, layouts), function(tl) {
+        return shingle.shingle(tl.a, tl.b);
       });
     });
     return _.flatten(laidCells, 1);

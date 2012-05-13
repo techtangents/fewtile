@@ -8,27 +8,22 @@ define([
   'ba-resize',
   'guts/mashing/peach',
   'underscore',
-  'jquery-color'
+  'jquery-color',
+  'guts/struct/shingle'
   ],
-  function(layout, diff, util, textFill, maybe, $, $resize, peach, _, jqueryColor) {
-
-  var posEq = function(a, b) {
-    return a.x === b.x && a.y === b.y;
-  };
-
-  var sizeEq = function(a, b) {
-    return a.width === b.width && a.height === b.height;
-  };
-
-  var eq = function(a, b) {
-    return (
-      a.text === b.text &&
-      a.style['background-color'] === b.style['background-color'] &&
-      a.style.color === b.style.color &&
-      posEq(a.pos, b.pos) &&
-      sizeEq(a.size, b.size)
-    );
-  };
+  function(
+    layout,
+    diff,
+    util,
+    textFill,
+    maybe,
+    $,
+    $resize,
+    peach,
+    _,
+    jqueryColor,
+    shingle
+  ) {
 
   var stylize = function(value) {
     var fontSize = textFill(value.size.width, value.size.height, value.text);
@@ -140,7 +135,7 @@ define([
       var height = container.height();
       dataState = newState;
       var newViewState = layout.layout(width, height, newState);
-      var ops = diff(viewState, newViewState, util.prop('text'), eq);
+      var ops = diff(viewState, newViewState, util.prop('text'), shingle.eq);
       viewState = newViewState;
       var fxs = _.map(ops, util.invokeWith(a, r, c));
       peach(fxs, callback);
