@@ -90,9 +90,9 @@ define([
       var layouts = _.map(
         layoutCellsForGroup(g),
         _.compose(borderize, quantize));
-      return _.map(util.zip(g.tiles, layouts), function(tl) {
-        return shingle.shingle(tl.a, tl.b);
-      });
+      return _.map(
+        util.zip(g.tiles, layouts),
+        function(tl) { return shingle.nu(tl.a, tl.b); });
     });
     return _.flatten(laidCells, 1);
   };

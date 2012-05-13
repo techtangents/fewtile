@@ -2,7 +2,7 @@ define(['guts/mashing/util'], function(util) {
   var merge = util.merge;
   var narrow = util.narrow;
 
-  var shingle = function(tile, layout) {
+  var nu = function(tile, layout) {
     return merge(
       narrow(tile,   ['text', 'style', 'link']),
       narrow(layout, ['pos', 'size'])
@@ -31,7 +31,7 @@ define(['guts/mashing/util'], function(util) {
   };
 
   return {
-    shingle: shingle,
+    nu: nu,
     eq: eq
   };
 });
