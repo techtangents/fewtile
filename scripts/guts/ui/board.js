@@ -111,9 +111,7 @@ define([
         var styles = stylize(newValue);
 
         if (animate) {
-          block.div.animate(styles, 'slow', function() {
-            callback();
-          });
+          block.div.animate(styles, 'slow', callback);
         } else {
           block.div.css(styles);
           callback();
