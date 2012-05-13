@@ -38,9 +38,6 @@ define([
   var render = function(value) {
     var div = $("<div />");
     var textElement = $("<span />");
-    div.css({
-      position: 'absolute'
-    });
     div.addClass('tile');
     div.append(textElement);
     var block = {
