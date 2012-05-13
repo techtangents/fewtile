@@ -9,7 +9,8 @@ define([
   'guts/mashing/peach',
   'underscore',
   'jquery-color',
-  'guts/struct/shingle'
+  'guts/struct/shingle',
+  'guts/ui/animator'
   ],
   function(
     layout,
@@ -22,7 +23,8 @@ define([
     peach,
     _,
     jqueryColor,
-    shingle
+    shingle,
+    animator
   ) {
 
   var stylize = function(value) {
@@ -44,6 +46,8 @@ define([
       textElement: textElement
     };
 
+    div.css(stylize(value));
+
     // assumes the text won't change
     textElement.text(value.text);
 
@@ -54,7 +58,7 @@ define([
       div.click(function() {
         window.open(t, '_blank');
       });
-    })
+    });
     return block;
   };
 
@@ -66,53 +70,21 @@ define([
       return function(callback) {
         var block = render(value);
         blocks[id] = block;
-
-        var styles = stylize(value);
-        block.div.css(styles);
-
-        var div = block.div;
-
-        if (animate) {
-          div.hide();
-        }
-
-        container.append(div);
-
-        if (animate) {
-          div.fadeIn('slow', callback);
-        } else {
-          callback();
-        }
+        animator.add(block.div, container, callback);
       };
     };
 
     var r = function(id) {
       return function(callback) {
-        var block = blocks[id];
-        var done = function() {
-          block.div.remove();
-          delete blocks[id];
-          callback();
-        };
-        if (animate) {
-          block.div.fadeOut('slow', done);
-        } else {
-          done();
-        }
+        var div = blocks[id].div;
+        delete blocks[id];
+        animator.remove(div, callback);
       };
     };
 
     var c = function(id, oldValue, newValue) {
       return function(callback) {
-        var block = blocks[id];
-        var styles = stylize(newValue);
-
-        if (animate) {
-          block.div.animate(styles, 'slow', callback);
-        } else {
-          block.div.css(styles);
-          callback();
-        }
+        animator.change(blocks[id].div, stylize(newValue), callback);
       };
     };
 
