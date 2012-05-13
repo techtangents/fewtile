@@ -70,14 +70,16 @@ define([
         var styles = stylize(value);
         block.div.css(styles);
 
+        var div = block.div;
+
         if (animate) {
-          block.div.hide();
+          div.hide();
         }
 
-        container.append(block.div);
+        container.append(div);
 
         if (animate) {
-          block.div.fadeIn('slow', callback);
+          div.fadeIn('slow', callback);
         } else {
           callback();
         }
