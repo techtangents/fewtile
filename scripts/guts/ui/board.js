@@ -77,10 +77,7 @@ define([
         container.append(block.div);
 
         if (animate) {
-          block.div.fadeIn('slow', function() {
-            textFill(block.textElement);
-            callback();
-          });
+          block.div.fadeIn('slow', callback);
         } else {
           callback();
         }
@@ -96,9 +93,7 @@ define([
           callback();
         };
         if (animate) {
-          block.div.fadeOut('slow', function() {
-            done();
-          });
+          block.div.fadeOut('slow', done);
         } else {
           done();
         }
