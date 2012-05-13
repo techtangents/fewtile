@@ -19,7 +19,7 @@ define([], function() {
   };
 
   var scale = function(s, factor) {
-    return bimap(function(x) { return x * factor; });
+    return bimap(s, function(x) { return x * factor; });
   };
 
   return {
