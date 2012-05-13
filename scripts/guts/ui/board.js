@@ -144,7 +144,6 @@ define([
     $.resize.delay = 500;
 
     $(container).resize(function() {
-      // TODO: wire a toggle in here to prevent concurrent events?
       update(dataState, function(){});
     });
 
