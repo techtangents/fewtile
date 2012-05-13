@@ -36,9 +36,8 @@ define([
   };
 
   var render = function(value) {
-    var div = $("<div />");
+    var div = $("<div class='tile' />");
     var textElement = $("<span />");
-    div.addClass('tile');
     div.append(textElement);
     var block = {
       div: div,
