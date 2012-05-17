@@ -1,0 +1,42 @@
+<html><head>
+<style>
+	@import('css/reset.css');
+	iframe {
+		/* wtf you can't set iframe border style in an imported css file? */
+		border:0;
+		width:100%;
+		height:100%;
+	}
+	.panel {
+		position:absolute;
+		left:10px;
+		top:10px;
+		right:10px;
+		bottom:10px;
+	}
+	.right {
+		left: 51%;
+	}
+	.left {
+		right:50%;
+	}
+	.top {
+		bottom: 25%;
+	}
+	.bottom {
+		top: 76%;
+	}
+</style>
+</head>
+<body>
+	<div class="panel right">
+		<iframe src="fewtile.html?allGroups"></iframe>
+	</div>
+	<div class="panel left top">
+		<iframe src="fewtile.html?failingJobs"></iframe>
+	</div>
+	<div class="panel left bottom">
+		<iframe src="fewtile.html?buildingJobs"></iframe>
+	</div>
+</body>
+</html>
