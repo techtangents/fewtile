@@ -1,5 +1,5 @@
 a {
-  display: block;
+  display: inline-block;
   background-color: blue;
   border: 4px outset #f0f0f0;
   color: #888888;
