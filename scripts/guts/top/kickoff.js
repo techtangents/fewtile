@@ -1,27 +1,35 @@
-define(['guts/source/view', 'guts/ui/board', 'guts/ui/kquery'], function(view, board, kquery) {
+define(
+  [
+    'guts/source/view',
+    'guts/ui/board',
+    'guts/ui/kquery',
+    'guts/mashing/util'
+  ],
+  function(view, board, kquery, util) {
 
-  var $orDie = kquery.$orDie;
+    var $orDie = kquery.$orDie;
 
-  var run = function(element) { 
-    return function(curView) {
-      curView(board(element));
+    var menu = function() {
+      location.href = "index.html";
     };
-  };
 
-  var menu = function() {
-    location.href = "index.html";
-  };
+    var single = util.objectMap(view, function(v) {
+      return function() {
+        var element = $orDie(".fewtile")
+        v(board(element));
+      };
+    });
 
-  var open = function(qs, element) {
-    var r = run(element);
-      qs == "?allJobs"      ? r(view.allJobs) 
-    : qs == "?failingJobs"  ? r(view.failingJobs)
-    : qs == "?buildingJobs" ? r(view.buildingJobs)
-    : qs == "?allGroups"    ? r(view.allGroups)
-    : menu();
-  };
+    var open = function(qs, element) {
+        qs == "?allJobs"      ? single.allJobs()
+      : qs == "?failingJobs"  ? single.failingJobs()
+      : qs == "?buildingJobs" ? single.buildingJobs()
+      : qs == "?allGroups"    ? single.allGroups()
+      : menu();
+    };
 
-  return function() {
-    open(document.location.search, $orDie('.fewtile'));
-  };
-});
+    return function() {
+      open(document.location.search);
+    };
+  }
+);
