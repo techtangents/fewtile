@@ -1,9 +1,12 @@
-.fewtile {
+.wholePage {
   position:absolute;
   top:0;
   right:0;
   bottom:0;
   left:0;
+}
+
+.fewtile {
   overflow:hidden; /* Prevents scrollbars appearing */
   background-color:black;
 }

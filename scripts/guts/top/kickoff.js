@@ -3,9 +3,10 @@ define(
     'guts/source/view',
     'guts/ui/board',
     'guts/ui/kquery',
-    'guts/mashing/util'
+    'guts/mashing/util',
+    'underscore'
   ],
-  function(view, board, kquery, util) {
+  function(view, board, kquery, util, _) {
 
     var $orDie = kquery.$orDie;
 
@@ -20,11 +21,21 @@ define(
       };
     });
 
+    var combinatorial = function() {
+      _.each(
+        ['allGroups', 'failingJobs', 'buildingJobs'],
+        function(x) {
+          view[x](board($orDie('.' + x)));
+        }
+      );
+    };
+
     var open = function(qs, element) {
-        qs == "?allJobs"      ? single.allJobs()
-      : qs == "?failingJobs"  ? single.failingJobs()
-      : qs == "?buildingJobs" ? single.buildingJobs()
-      : qs == "?allGroups"    ? single.allGroups()
+        qs == "?allJobs"       ? single.allJobs()
+      : qs == "?failingJobs"   ? single.failingJobs()
+      : qs == "?buildingJobs"  ? single.buildingJobs()
+      : qs == "?allGroups"     ? single.allGroups()
+      : qs == "?combinatorial" ? combinatorial()
       : menu();
     };
 
