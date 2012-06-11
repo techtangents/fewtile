@@ -1,7 +1,9 @@
 define([
-  'jquery-color'
+  'jquery-color',
+  'jquery-transit'
 ], function(
-  jqueryColor
+  jqueryColor,
+  jqueryTransit
 ) {
   var animate = true;
 
@@ -31,7 +33,7 @@ define([
 
   var change = function(element, styles, callback) {
     if (animate) {
-      element.animate(styles, 'slow', callback);
+      element.transition(styles, 'slow', callback);
     } else {
       element.css(styles);
       callback();
