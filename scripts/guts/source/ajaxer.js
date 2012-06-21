@@ -7,7 +7,7 @@ define(['jquery', 'guts/struct/tile', 'guts/struct/toggle'], function($, tile, t
 
     var run = function(callback) {
       if (t.isOn()) {
-        $.getJSON(source.url)
+        $.ajax({ url: source.url, timeout: 5000, dataType: 'json' })
           .done(function(data, textStatus, jqXHR) {
             var r = data ? source.handle(data) : aDead;
             callback(r);
@@ -27,3 +27,4 @@ define(['jquery', 'guts/struct/tile', 'guts/struct/toggle'], function($, tile, t
     };
   };
 });
+
