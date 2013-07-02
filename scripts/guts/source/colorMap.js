@@ -16,6 +16,7 @@ define(['guts/struct/tile', 'guts/struct/status'], function(tile, status) {
     grey           : s.disabled,
     grey_anime     : s.disabledBuilding,
     disabled       : s.disabled,
-    disabled_anime : s.disabledBuilding
+    disabled_anime : s.disabledBuilding,
+    notbuilt       : s.disabled
   };
 });
