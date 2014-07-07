@@ -20,6 +20,10 @@ This technique performs well by minimizing the number of times:
 - the text is resized in the DOM
 - the element is measured
 
+Measurements occur on an 'off-screen' div - actually in the DOM, but large negative x,y.
+The end result is just a font size.
+
+
 Visually, it works roughly like this:
 size------------->
 |{-->  <--}        [            ]   |            {-->
@@ -32,8 +36,6 @@ Known issues:
 - Make sure the direct parent is fixed size.
 
 
-// FIX: Do the calculations on an 'off-screen' div - actually in the DOM, but large negative x,y.
-        This resize then just returns a value, without mutating the 'real' div.
 */
 define([
   'jquery',
