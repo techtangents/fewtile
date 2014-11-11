@@ -8,7 +8,11 @@ module.exports = function(grunt) {
 
     psc: {
       options: {
-        modules: ["Techtangents.Fewtile.Fewtile"]
+        modules:
+          [ "Techtangents.Fewtile.Fewtile"
+          , "Techtangents.Fewtile.Struct.Size"
+          , "Techtangents.Fewtile.Struct.Style"
+          ]
       },
       all: {
         src: ["<%=srcFiles%>"],

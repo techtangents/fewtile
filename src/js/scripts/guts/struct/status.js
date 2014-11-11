@@ -13,7 +13,7 @@ define(['guts/struct/tile'], function(tile) {
     passBuilding     : s(ti.passBuilding,     true,  true ),
     fail             : s(ti.fail,             false, false),
     failBuilding     : s(ti.failBuilding,     false, true ),
-    disabled         : s(ti.disabled,         true, false),
-    disabledBuilding : s(ti.disabledBuilding, true, true )
+    disabled         : s(ti.disabled,         true,  false),
+    disabledBuilding : s(ti.disabledBuilding, true,  true )
   }
 });
