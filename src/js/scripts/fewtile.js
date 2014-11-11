@@ -4,7 +4,8 @@ require.config({
     "underscore"     : "lib/underscore",
     "ba-resize"      : "lib/jquery.ba-resize.min",
     'jquery-color'   : 'lib/jquery.color',
-    'jquery-transit' : 'lib/jquery.transit'
+    'jquery-transit' : 'lib/jquery.transit',
+    'purs'           : 'scripts/purs/Fewtile'
   }
 });
 

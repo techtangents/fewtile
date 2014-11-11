@@ -5,6 +5,8 @@ Fewtile - a tiled scoreboard for Jenkins
 To install
 ----------
 
+OUT OF DATE
+
 Fewtile is not a jenkins plugin - it runs from the 'userContent' folder of your jenkins install.
 The simplest way to install is just to clone fewtile from git to that folder.
 
@@ -22,4 +24,11 @@ Browser Support
 
 Fewtile is officially supported only on Google Chrome.
 It might also work on Safari or Firefox.
+
+
+
+Developing
+==========
+
+npm install -g grunt-cli bower
 

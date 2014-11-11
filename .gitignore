@@ -1,2 +1,6 @@
-.AppleDouble
-.DS_Store
+/.AppleDouble
+/.DS_Store
+/bin/go.sh
+/dist
+/bower_components
+/node_modules

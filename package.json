@@ -1,0 +1,26 @@
+{
+  "name": "fewtile",
+  "version": "1.0.0",
+  "description": "Fewtile - jenkins scoreboard",
+  "main": "gruntfile.js",
+  "dependencies": {
+    "grunt": "0.4.5",
+    "grunt-purescript": "0.5.1",
+    "grunt-contrib-requirejs": "0.4.4",
+    "grunt-rsync": "0.6.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/techtangents/fewtile.git"
+  },
+  "author": "",
+  "license": "BSD",
+  "bugs": {
+    "url": "https://github.com/techtangents/fewtile/issues"
+  },
+  "homepage": "https://github.com/techtangents/fewtile"
+}
