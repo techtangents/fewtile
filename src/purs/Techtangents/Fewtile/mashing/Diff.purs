@@ -23,9 +23,8 @@ diff indexer olds nus =
   in
     do
       Tuple k v <- m
-      z <- case v of
-             Tuple (Just old) (Just nu) -> if (old == nu) then [] else [Op.Change k old nu]
-             Tuple (Just old) Nothing   -> [Op.Remove k old]
-             Tuple Nothing (Just nu)    -> [Op.Add k nu]
-             Tuple Nothing Nothing      -> []
-      return z
+      case v of
+        Tuple (Just old) (Just nu) -> if (old == nu) then [] else [Op.Change k old nu]
+        Tuple (Just old) Nothing   -> [Op.Remove k old]
+        Tuple Nothing (Just nu)    -> [Op.Add k nu]
+        Tuple Nothing Nothing      -> []
