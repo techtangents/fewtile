@@ -18,13 +18,11 @@ outerJoin indexer lefts rights =
 
 diff :: forall k v. (Eq v, Ord k) => (v -> k) -> [v] -> [v] -> [Op.Op k v]
 diff indexer olds nus =
-  let
-    m = outerJoin indexer olds nus
-  in
-    do
-      Tuple k v <- m
-      case v of
-        Tuple (Just old) (Just nu) -> if (old == nu) then [] else [Op.Change k old nu]
-        Tuple (Just old) Nothing   -> [Op.Remove k old]
-        Tuple Nothing (Just nu)    -> [Op.Add k nu]
-        Tuple Nothing Nothing      -> []
+  let m = outerJoin indexer olds nus
+  in do
+       Tuple k v <- m
+       case v of
+         Tuple (Just old) (Just nu) -> if (old == nu) then [] else [Op.Change k old nu]
+         Tuple (Just old) Nothing   -> [Op.Remove k old]
+         Tuple Nothing (Just nu)    -> [Op.Add k nu]
+         Tuple Nothing Nothing      -> []
