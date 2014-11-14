@@ -8,21 +8,13 @@ import Data.Tuple.Nested
 
 import qualified Techtangents.Fewtile.Struct.Op as Op
 
-type Muple v = Tuple (Maybe v) (Maybe v)
-
-setRight :: forall v. v -> Maybe (Muple v) -> Maybe (Muple v)
-setRight v m = Just ((maybe Nothing fst m) /\ Just v)
-
-addRights :: forall k v. (Ord k) => (v -> k) -> Map k (Muple v) -> [v] -> Map k (Muple v)
-addRights indexer =
-  foldlArray (\acc r -> alter (setRight r) (indexer r) acc)
-
-outerJoin :: forall a b. (Ord b) => (a -> b) -> [a] -> [a] -> [Tuple b (Muple a)]
+outerJoin :: forall k v. (Ord k) => (v -> k) -> [v] -> [v] -> [Tuple k (Tuple (Maybe v) (Maybe v))]
 outerJoin indexer lefts rights =
   let
-    m = fromList $ (\x -> indexer x /\ Just x /\ Nothing) <$> lefts
+    mlefts = fromList $ (\x -> indexer x /\ Just x /\ Nothing) <$> lefts
+    setRight v m = Just $ (m >>= fst) /\ Just v
   in
-    toList (addRights indexer m rights)
+    toList $ foldlArray (\acc r -> alter (setRight r) (indexer r) acc) mlefts rights
 
 diff :: forall k v. (Eq v, Ord k) => (v -> k) -> [v] -> [v] -> [Op.Op k v]
 diff indexer olds nus =
