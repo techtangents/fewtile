@@ -1,5 +1,11 @@
-define(['underscore', 'guts/struct/tile', 'guts/source/colorMap', 'guts/mashing/util', 'guts/struct/maybe'],
-  function(_, tile, colorMap, util, maybe) {
+define([
+  'underscore',
+  'guts/struct/tile',
+  'guts/mashing/util',
+  'guts/struct/maybe',
+  'purs'
+],
+  function(_, tile, util, maybe) {
 
   var overarching = tile.overarching;
   var individual = tile.individual;
@@ -7,6 +13,8 @@ define(['underscore', 'guts/struct/tile', 'guts/source/colorMap', 'guts/mashing/
   var none = maybe.none;
   var some = maybe.some;
   var filterMapMaybe = maybe.filterMapMaybe;
+
+  var colorMap = Techtangents_Fewtile_Source_ColorMap.colorMap;
 
   var flonkle = function(a, o, t) {
     var q = t(a);

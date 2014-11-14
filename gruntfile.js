@@ -9,9 +9,14 @@ module.exports = function(grunt) {
     psc: {
       options: {
         modules:
-          [ "Techtangents.Fewtile.Fewtile"
+          [ "Techtangents.Fewtile.Source.ColorMap"
+
+          , "Techtangents.Fewtile.Struct.Pos"
+          , "Techtangents.Fewtile.Struct.Rect"
+          , "Techtangents.Fewtile.Struct.Shingle"
           , "Techtangents.Fewtile.Struct.Size"
           , "Techtangents.Fewtile.Struct.Style"
+          , "Techtangents.Fewtile.Struct.Tile"
           ]
       },
       all: {

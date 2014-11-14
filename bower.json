@@ -22,6 +22,8 @@
     "purescript-math": "0.1.0",
     "purescript-maybe": "0.2.1",
     "purescript-maps": "0.1.1",
-    "purescript-tuples": "0.2.2"
+    "purescript-tuples": "0.2.2",
+    "purescript-lists": "0.3.3",
+    "purescript-foldable-traversable": "0.1.4"
   }
 }
