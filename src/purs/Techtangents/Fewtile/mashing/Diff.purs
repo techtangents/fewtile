@@ -1,4 +1,4 @@
-module Techtangents.Fewtile.Mashing.Diff where
+module Techtangents.Fewtile.Mashing.Diff (diff) where
 
 import Data.Map (alter, fromList, toList, Map(..))
 import Data.Foldable (foldlArray)
