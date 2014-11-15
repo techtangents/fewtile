@@ -1,38 +1,37 @@
-module Techtangents.Fewtile.
+module Techtangents.Fewtile.Ui.Scales where
 
-define(['guts/mashing/util', 'underscore'], function(util, _) {
-  var groupBy = util.groupBy;
-  var prop = util.prop;
-  var map = _.map;
-  var arraySum = util.arraySum;
+import Data.Array (length, sortBy)
+import Data.Foldable (foldlArray)
+import Data.Tuple
+import Data.Map
+import Data.Maybe
 
-  // :: [tile] -> [{weight: int, totalWeight: int, tiles: [tile]}]
-  // TODO: sort by weight descending
-  var groupByWeight = function(tiles) {
-    var grouped = groupBy(prop('weight'), tiles);
-    return _.map(grouped, function(group) {
-      var w = Number(group.key);
-      var n = group.members.length;
-      return {
-        weight: w,
-        groupWeight: w * n,
-        tiles: group.members
-      };
-    });
-  };
+import Techtangents.Fewtile.Mashing.Arrays (sum)
+import Techtangents.Fewtile.Struct.Tile
 
-  var globalWeight = function(groups) {
-    return arraySum(map(groups, prop('groupWeight')));
-  };
+groupBy :: forall a k. (Ord k) => (a -> k) -> [a] -> [Tuple k [a]]
+groupBy indexer =
+  toList <<< (foldlArray (\m x -> alter (\mxs -> Just (x : fromMaybe [] mxs)) (indexer x) m) empty)
 
-  // split into rows
-  var groupHeight = function(groupWeight, globalWeight, totalHeight) {
-    return groupWeight / globalWeight * totalHeight;
-  };
+type Group = {weight :: Number, totalWeight :: Number, tiles :: [Tile]}
 
-  return {
-    groupByWeight: groupByWeight,
-    globalWeight: globalWeight,
-    groupHeight: groupHeight
-  };
-});
+groupByWeight :: [Tile] -> [Group]
+groupByWeight tiles =
+  let
+    groups = groupBy (\(Tile t) -> t.weight) tiles
+    f (Tuple weight members) =
+      { weight: weight
+      , totalWeight: weight * (length members)
+      , tiles: members
+      }
+    grizzoups = f <$> groups
+  in
+    sortBy (\a b -> compare b.weight a.weight) grizzoups
+
+globalWeight :: [Group] -> Number
+globalWeight groups =
+  sum $ (\g -> g.totalWeight) <$> groups
+
+groupHeight :: Group -> Number -> Number -> Number
+groupHeight group globalWeight totalHeight =
+  group.totalWeight / globalWeight * totalHeight

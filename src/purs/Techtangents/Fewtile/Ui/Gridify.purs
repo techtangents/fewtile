@@ -1,11 +1,9 @@
 module Techtangents.Fewtile.Ui.Gridify where
 
+import Data.Foldable (foldlArray)
 import Math(round, sqrt, min, max, floor)
 
-import Data.Foldable (foldlArray)
-
-sum :: [Number] -> Number
-sum = foldlArray (+) 0
+import Techtangents.Fewtile.Mashing.Arrays (sum)
 
 bound :: Number -> Number -> Number -> Number
 bound l u x = min u (max l x)
