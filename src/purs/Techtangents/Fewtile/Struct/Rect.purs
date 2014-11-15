@@ -1,5 +1,7 @@
 module Techtangents.Fewtile.Struct.Rect where
 
+import Math (round)
+
 import qualified Techtangents.Fewtile.Struct.Pos as Pos
 import qualified Techtangents.Fewtile.Struct.Size as Size
 
@@ -37,3 +39,13 @@ top    (Rect r) = r.y
 bottom (Rect r) = r.y + r.height
 left   (Rect r) = r.x
 right  (Rect r) = r.x + r.width
+
+quantize :: Rect -> Rect
+quantize (Rect r) =
+  let left   = round r.x
+      right  = round (r.x + r.width)
+      top    = round r.y
+      bottom = round (r.y + r.height)
+      width  = right - left
+      height = bottom - top
+  in  rect left top width height
