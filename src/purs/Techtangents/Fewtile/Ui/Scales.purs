@@ -8,12 +8,11 @@ import Data.Maybe
 
 import Techtangents.Fewtile.Mashing.Arrays (sum)
 import Techtangents.Fewtile.Struct.Tile
+import Techtangents.Fewtile.Struct.Group
 
 groupBy :: forall a k. (Ord k) => (a -> k) -> [a] -> [Tuple k [a]]
 groupBy indexer =
   toList <<< (foldlArray (\m x -> alter (\mxs -> Just (x : fromMaybe [] mxs)) (indexer x) m) empty)
-
-type Group = {weight :: Number, totalWeight :: Number, tiles :: [Tile]}
 
 groupByWeight :: [Tile] -> [Group]
 groupByWeight tiles =
