@@ -19,18 +19,18 @@ groupByWeight tiles =
   let
     groups = groupBy (\(Tile t) -> t.weight) tiles
     f (Tuple weight members) =
-      { weight: weight
-      , totalWeight: weight * (length members)
-      , tiles: members
-      }
+      Group { weight: weight
+            , totalWeight: weight * (length members)
+            , tiles: members
+            }
     grizzoups = f <$> groups
   in
-    sortBy (\a b -> compare b.weight a.weight) grizzoups
+    sortBy (\(Group a) (Group b) -> compare b.weight a.weight) grizzoups
 
 globalWeight :: [Group] -> Number
 globalWeight groups =
-  sum $ (\g -> g.totalWeight) <$> groups
+  sum $ (\(Group g) -> g.totalWeight) <$> groups
 
 groupHeight :: Group -> Number -> Number -> Number
-groupHeight group globalWeight totalHeight =
-  group.totalWeight / globalWeight * totalHeight
+groupHeight (Group g) globalWeight totalHeight =
+  g.totalWeight / globalWeight * totalHeight

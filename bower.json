@@ -24,7 +24,8 @@
     "purescript-maps": ">=0.1.1",
     "purescript-tuples": ">=0.2.2",
     "purescript-lists": ">=0.3.5",
-    "purescript-foldable-traversable": ">=0.1.4"
+    "purescript-foldable-traversable": "*",
+    "purescript-transformers": "*"
   },
   "resolutions": {
     "purescript-maybe": ">=0.2.1",

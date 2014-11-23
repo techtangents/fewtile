@@ -1,7 +1,19 @@
 module Techtangents.Fewtile.Ui.Layout where
 
+import Data.Tuple
+import Data.Traversable
+import Control.Monad.State
+import Control.Monad.State.Class
+
 import Techtangents.Fewtile.Struct.Group
 import Techtangents.Fewtile.Ui.Scales
+import Techtangents.Fewtile.Struct.Rect
+
+-- TODO: this will be in a new version of purescript-foldable-traversable
+mapAccumL :: forall a b c t. (Traversable t) => (a -> b -> Tuple c a) -> a -> t b -> Tuple (t c) a
+mapAccumL f s t =
+  runState (traverse (state <<< (flip f)) t) s
+
 
 border = 10
 
@@ -13,27 +25,18 @@ border = 10
 -- // TODO: quantize to pixels
 aspectRatio = 7 / 3
 
--- layoutGroups :: Number -> Number -> [Group] -> [GroupLayout]
--- layoutGroups totalWidth totalHeight groups =
---   let
---     globalWeight = globalWeight groups
-    
---     var y = 0;
---     var groupLayouts = [];
---     _.each(groups, function(g) {
---       var height = scales.groupHeight(g.groupWeight, globalWeight, totalHeight);
---       var l = {
---         pos: {
---           x: 0,
---           y: y
---         },
---         size: size.nu(totalWidth, height)
---       };
---       groupLayouts.push(l);
---       y += height;
---     });
---     return groupLayouts;
--- };
+layoutGroups :: Number -> Number -> [Group] -> [Rect]
+layoutGroups totalWidth totalHeight groups =
+  let
+    gw = globalWeight groups
+    f y g =
+      let height = groupHeight g gw totalHeight
+          y' = y + height
+          l = Rect {x: 0, y: y, width: totalWidth, height: height}
+      in
+        Tuple l y'
+  in
+    fst $ mapAccumL f 0 groups
 
 -- var layoutCellsForGroup = function(group) {
 --   //aspectRatio, totalWidth, totalHeight, numCells
