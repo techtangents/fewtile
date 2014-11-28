@@ -1,5 +1,7 @@
 module Techtangents.Fewtile.Ui.Layout where
 
+-- TODO Can I use Data.Array.groupBy instead?
+import Data.Array hiding (groupBy)
 import Data.Tuple
 import Data.Traversable
 import Control.Monad.State
@@ -7,6 +9,7 @@ import Control.Monad.State.Class
 
 import Techtangents.Fewtile.Struct.Group
 import Techtangents.Fewtile.Ui.Scales
+import Techtangents.Fewtile.Ui.Gridify
 import Techtangents.Fewtile.Struct.Rect
 
 -- TODO: this will be in a new version of purescript-foldable-traversable
@@ -38,10 +41,24 @@ layoutGroups totalWidth totalHeight groups =
   in
     fst $ mapAccumL f 0 groups
 
--- var layoutCellsForGroup = function(group) {
---   //aspectRatio, totalWidth, totalHeight, numCells
---   var grid = gridify(aspectRatio, group.size.width, group.size.height, group.tiles.length);
---   var r = [];
+
+
+layoutCellsForGroup :: (Tuple Group Rect) -> [Rect]
+layoutCellsForGroup (Tuple (Group group) (Rect rect)) =
+  let
+    g = gridify aspectRatio rect.width rect.height (length group.tiles)
+  in
+    []
+    -- cells =
+    --   fst $ mapAccumL f rect.y grid.rowLayouts
+    --   where
+    --     f y rl = mapAccumL g y rl
+    --     where
+    --       g y rl = mapAccumL h 
+
+
+
+
 --   var y = group.pos.y;
 --   _.each(grid.rowLayouts, function(rowLayout) {
 --     for (var row = 0; row < rowLayout.rows; row++) {
@@ -50,7 +67,7 @@ layoutGroups totalWidth totalHeight groups =
 --         var t = {
 --           pos: {
 --             x: x,
---             y: y
+--               y: y
 --           },
 --           size: util.narrow(rowLayout, ['width', 'height'])
 --         };

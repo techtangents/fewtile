@@ -8,11 +8,21 @@ import Techtangents.Fewtile.Mashing.Arrays (sum)
 bound :: Number -> Number -> Number -> Number
 bound l u x = min u (max l x)
 
-type RowLayout = {rows :: Number, cols :: Number, cells :: Number, width :: Number, height :: Number, ar :: Number}
+data GridSpec = GridSpec
+  { rows :: Number
+  , cells :: Number
+  , meanAr :: Number
+  , rowLayouts :: [
+    { rows :: Number
+    , cols :: Number
+    , cells :: Number
+    , width :: Number
+    , height :: Number
+    , ar :: Number
+    }
+  ]}
 
-type GridLayout = {rows :: Number, cells :: Number, rowLayouts :: [RowLayout], meanAr :: Number}
-
-gridify :: Number -> Number -> Number -> Number -> GridLayout
+gridify :: Number -> Number -> Number -> Number -> GridSpec
 gridify aspectRatio totalWidth totalHeight numCells =
   let
     rows = bound 1 numCells (round (sqrt ((aspectRatio * totalHeight * numCells) / totalWidth)))
@@ -49,8 +59,9 @@ gridify aspectRatio totalWidth totalHeight numCells =
     meanAr = sumArs / numCells
 
   in
-    { rows: rows
-    , cells: numCells
-    , rowLayouts: rowLayouts
-    , meanAr: meanAr
-    }
+    GridSpec
+      { rows: rows
+      , cells: numCells
+      , rowLayouts: rowLayouts
+      , meanAr: meanAr
+      }
