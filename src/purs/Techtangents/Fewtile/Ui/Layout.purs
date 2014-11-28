@@ -42,14 +42,31 @@ layoutGroups totalWidth totalHeight groups =
     fst $ mapAccumL f 0 groups
 
 
+setSnd :: forall a b b'. b' -> Tuple a b -> Tuple a b'
+setSnd b' (Tuple a _) = Tuple a b'
 
 layoutCellsForGroup :: (Tuple Group Rect) -> [Rect]
 layoutCellsForGroup (Tuple (Group group) (Rect rect)) =
   let
-    g = gridify aspectRatio rect.width rect.height (length group.tiles)
+    grid :: GridSpec
+    grid = gridify aspectRatio rect.width rect.height (length group.tiles)
 
-    z :: Number
-    z = 3
+    makeRow :: Number -> RowSpec -> (Tuple [Rect] Number)
+    makeRow y (RowSpec r) =
+      setSnd (y + r.height) rectX
+      where
+        rectX :: Tuple [Rect] Number
+        rectX = mapAccumL f 0 (range 0 r.cols)
+
+        f :: Number -> Number -> (Tuple Rect Number)
+        f x _ = Tuple (Rect {x: x, y: y, width: r.width, height: r.height}) (x + r.width)
+
+    makeRowz :: Number -> [RowSpec] -> (Tuple [[Rect]] Number)
+    makeRowz y specs =
+      (Tuple [] 0) -- TODO: dummy
+      where
+        rects = mapAccumL makeRow y specs
+
   in
     []
     -- cells =
@@ -57,7 +74,7 @@ layoutCellsForGroup (Tuple (Group group) (Rect rect)) =
     --   where
     --     f y rl = mapAccumL g y rl
     --     where
-    --       g y rl = mapAccumL h 
+    --       g y rl = mapAccumL h
 
 
 

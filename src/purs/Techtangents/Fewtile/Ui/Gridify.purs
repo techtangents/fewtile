@@ -8,19 +8,21 @@ import Techtangents.Fewtile.Mashing.Arrays (sum)
 bound :: Number -> Number -> Number -> Number
 bound l u x = min u (max l x)
 
-data GridSpec = GridSpec
+newtype RowSpec = RowSpec
+  { rows :: Number
+  , cols :: Number
+  , cells :: Number
+  , width :: Number
+  , height :: Number
+  , ar :: Number
+  }
+
+newtype GridSpec = GridSpec
   { rows :: Number
   , cells :: Number
   , meanAr :: Number
-  , rowLayouts :: [
-    { rows :: Number
-    , cols :: Number
-    , cells :: Number
-    , width :: Number
-    , height :: Number
-    , ar :: Number
-    }
-  ]}
+  , rowLayouts :: [RowSpec]
+  }
 
 gridify :: Number -> Number -> Number -> Number -> GridSpec
 gridify aspectRatio totalWidth totalHeight numCells =
@@ -41,20 +43,21 @@ gridify aspectRatio totalWidth totalHeight numCells =
         width = totalWidth / c
         ar = width / height
       in
-        { rows: r
-        , cols: c
-        , cells: cells
-        , width: width
-        , height: height
-        , ar: ar
-        }
+        RowSpec
+          { rows: r
+          , cols: c
+          , cells: cells
+          , width: width
+          , height: height
+          , ar: ar
+          }
 
     normal = f normalRows normalCols
     rowLayouts = if skinnyRows == 0
                    then [normal]
                    else [normal, f skinnyRows skinnyCols]
 
-    sumArs = sum $ (\r -> r.ar * r.cells) <$> rowLayouts
+    sumArs = sum $ (\(RowSpec r) -> r.ar * r.cells) <$> rowLayouts
 
     meanAr = sumArs / numCells
 
