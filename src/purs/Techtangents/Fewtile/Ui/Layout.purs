@@ -3,9 +3,11 @@ module Techtangents.Fewtile.Ui.Layout where
 import Control.Bind (join)
 import Control.Monad.State
 import Control.Monad.State.Class
+import Control.Lens (set, _2)
 
 -- TODO Can I use Data.Array.groupBy instead?
 import Data.Array hiding (groupBy)
+import Data.Bifunctor (lmap, rmap)
 import Data.Tuple
 import Data.Traversable
 
@@ -43,16 +45,6 @@ layoutGroups totalWidth totalHeight groups =
   in
     fst $ mapAccumL f 0 groups
 
--- TODO: hopefully this gets merged into purescript-tuples
-setSnd :: forall a b b'. b' -> Tuple a b -> Tuple a b'
-setSnd b' (Tuple a _) = Tuple a b'
-
-
--- TODO: hopefully this gets merged into purescript-tuples
-mapFst :: forall a b a'. (a -> a') -> Tuple a b -> Tuple a' b
-mapFst f (Tuple a b) = Tuple (f a) b
-
-
 layoutCellsForGroup :: (Tuple Group Rect) -> [Rect]
 layoutCellsForGroup (Tuple (Group group) (Rect rect)) =
   let
@@ -61,13 +53,17 @@ layoutCellsForGroup (Tuple (Group group) (Rect rect)) =
 
     makeRow :: Number -> RowSpec -> (Tuple [Rect] Number)
     makeRow y (RowSpec r) =
-      setSnd (y + r.height) (mapAccumL f 0 (range 0 r.cols))
+      set _2 (y + r.height) (mapAccumL f 0 (range 0 r.cols))
       where
         f x _ = Tuple (Rect {x: x, y: y, width: r.width, height: r.height}) (x + r.width)
 
     makeRowz :: Number -> [RowSpec] -> (Tuple [Rect] Number)
     makeRowz y specs =
-      mapFst join (mapAccumL makeRow y specs)
+      lmap join (mapAccumL makeRow y specs)
+
+    -- makeAll :: GridSpec -> (Tuple [Rect] Number)
+    -- makeAll (GridSpec gs) =
+    --   join . fst $ (mapAccumL makeRowz y )
 
   in
     []

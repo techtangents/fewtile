@@ -28,7 +28,9 @@
     "purescript-foldable-traversable": "*",
     "purescript-transformers": "*",
     "purescript-control": "*",
-    "purescript-unfoldable": "0.1.0"
+    "purescript-unfoldable": "0.1.0",
+    "purescript-bifunctors": "*",
+    "purescript-lens": "*"
   },
   "resolutions": {
     "purescript-maybe": ">=0.2.1",
