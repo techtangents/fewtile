@@ -1,11 +1,13 @@
 module Techtangents.Fewtile.Ui.Layout where
 
+import Control.Bind (join)
+import Control.Monad.State
+import Control.Monad.State.Class
+
 -- TODO Can I use Data.Array.groupBy instead?
 import Data.Array hiding (groupBy)
 import Data.Tuple
 import Data.Traversable
-import Control.Monad.State
-import Control.Monad.State.Class
 
 import Techtangents.Fewtile.Struct.Group
 import Techtangents.Fewtile.Ui.Scales
@@ -41,9 +43,15 @@ layoutGroups totalWidth totalHeight groups =
   in
     fst $ mapAccumL f 0 groups
 
-
+-- TODO: hopefully this gets merged into purescript-tuples
 setSnd :: forall a b b'. b' -> Tuple a b -> Tuple a b'
 setSnd b' (Tuple a _) = Tuple a b'
+
+
+-- TODO: hopefully this gets merged into purescript-tuples
+mapFst :: forall a b a'. (a -> a') -> Tuple a b -> Tuple a' b
+mapFst f (Tuple a b) = Tuple (f a) b
+
 
 layoutCellsForGroup :: (Tuple Group Rect) -> [Rect]
 layoutCellsForGroup (Tuple (Group group) (Rect rect)) =
@@ -57,11 +65,9 @@ layoutCellsForGroup (Tuple (Group group) (Rect rect)) =
       where
         f x _ = Tuple (Rect {x: x, y: y, width: r.width, height: r.height}) (x + r.width)
 
-    makeRowz :: Number -> [RowSpec] -> (Tuple [[Rect]] Number)
+    makeRowz :: Number -> [RowSpec] -> (Tuple [Rect] Number)
     makeRowz y specs =
-      (Tuple [] 0) -- TODO: dummy
-      where
-        rects = mapAccumL makeRow y specs
+      mapFst join (mapAccumL makeRow y specs)
 
   in
     []
