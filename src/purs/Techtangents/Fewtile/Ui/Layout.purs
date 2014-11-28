@@ -47,6 +47,9 @@ layoutCellsForGroup :: (Tuple Group Rect) -> [Rect]
 layoutCellsForGroup (Tuple (Group group) (Rect rect)) =
   let
     g = gridify aspectRatio rect.width rect.height (length group.tiles)
+
+    z :: Number
+    z = 3
   in
     []
     -- cells =
