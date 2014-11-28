@@ -53,12 +53,8 @@ layoutCellsForGroup (Tuple (Group group) (Rect rect)) =
 
     makeRow :: Number -> RowSpec -> (Tuple [Rect] Number)
     makeRow y (RowSpec r) =
-      setSnd (y + r.height) rectX
+      setSnd (y + r.height) (mapAccumL f 0 (range 0 r.cols))
       where
-        rectX :: Tuple [Rect] Number
-        rectX = mapAccumL f 0 (range 0 r.cols)
-
-        f :: Number -> Number -> (Tuple Rect Number)
         f x _ = Tuple (Rect {x: x, y: y, width: r.width, height: r.height}) (x + r.width)
 
     makeRowz :: Number -> [RowSpec] -> (Tuple [[Rect]] Number)
