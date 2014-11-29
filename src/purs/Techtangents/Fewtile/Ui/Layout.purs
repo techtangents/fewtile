@@ -45,6 +45,13 @@ layoutGroups totalWidth totalHeight groups =
   in
     fst $ mapAccumL f 0 groups
 
+-- TODO: Should be in Data.Array
+replicate :: forall a. Number -> a -> [a]
+replicate n x =
+  if (n > 0)
+    then (const x) <$> (1..n)
+    else []
+
 layoutCellsForGroup :: (Tuple Group Rect) -> [Rect]
 layoutCellsForGroup (Tuple (Group group) (Rect rect)) =
   let
@@ -53,13 +60,15 @@ layoutCellsForGroup (Tuple (Group group) (Rect rect)) =
 
     makeRow :: Number -> RowSpec -> (Tuple [Rect] Number)
     makeRow y (RowSpec r) =
-      set _2 (y + r.height) (mapAccumL f 0 (range 0 r.cols))
+      set _2 (y + r.height) (mapAccumL f 0 (1 .. r.cols))
       where
         f x _ = Tuple (Rect {x: x, y: y, width: r.width, height: r.height}) (x + r.width)
 
     makeRowz :: Number -> [RowSpec] -> (Tuple [Rect] Number)
     makeRowz y specs =
-      lmap join (mapAccumL makeRow y specs)
+      lmap join (mapAccumL makeRow y dspecs)
+      where
+        dspecs = specs >>= \rr -> case rr of (RowSpec r) -> replicate r.rows rr
 
     -- makeAll :: GridSpec -> (Tuple [Rect] Number)
     -- makeAll (GridSpec gs) =
