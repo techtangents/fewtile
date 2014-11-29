@@ -72,42 +72,8 @@ layoutCellsForGroup (Tuple (Group group) (Rect rect)) =
       where
         dspecs = specs >>= \rr -> case rr of (RowSpec r) -> replicate r.rows rr
 
-    -- makeAll :: GridSpec -> (Tuple [Rect] Number)
-    -- makeAll (GridSpec gs) =
-    --   join . fst $ (mapAccumL makeRowz y )
-
   in
-    []
-    -- cells =
-    --   fst $ mapAccumL f rect.y grid.rowLayouts
-    --   where
-    --     f y rl = mapAccumL g y rl
-    --     where
-    --       g y rl = mapAccumL h
-
-
-
-
---   var y = group.pos.y;
---   _.each(grid.rowLayouts, function(rowLayout) {
---     for (var row = 0; row < rowLayout.rows; row++) {
---       var x = group.pos.x;
---       for (var col = 0; col < rowLayout.cols; col++) {
---         var t = {
---           pos: {
---             x: x,
---               y: y
---           },
---           size: util.narrow(rowLayout, ['width', 'height'])
---         };
---         r.push(t);
---         x += rowLayout.width;
---       }
---       y += rowLayout.height;
---     }
---   });
---   return r;
--- };
+    case grid of (GridSpec g) -> fst (makeRowz rect.x rect.y g.rowSpecs)
 
 -- var sortGroups = arraySort(reverse(by(prop('weight'))));
 

@@ -21,7 +21,7 @@ newtype GridSpec = GridSpec
   { rows :: Number
   , cells :: Number
   , meanAr :: Number
-  , rowLayouts :: [RowSpec]
+  , rowSpecs :: [RowSpec]
   }
 
 gridify :: Number -> Number -> Number -> Number -> GridSpec
@@ -53,11 +53,11 @@ gridify aspectRatio totalWidth totalHeight numCells =
           }
 
     normal = f normalRows normalCols
-    rowLayouts = if skinnyRows == 0
+    rowSpecs = if skinnyRows == 0
                    then [normal]
                    else [normal, f skinnyRows skinnyCols]
 
-    sumArs = sum $ (\(RowSpec r) -> r.ar * r.cells) <$> rowLayouts
+    sumArs = sum $ (\(RowSpec r) -> r.ar * r.cells) <$> rowSpecs
 
     meanAr = sumArs / numCells
 
@@ -65,6 +65,6 @@ gridify aspectRatio totalWidth totalHeight numCells =
     GridSpec
       { rows: rows
       , cells: numCells
-      , rowLayouts: rowLayouts
+      , rowSpecs: rowSpecs
       , meanAr: meanAr
       }
