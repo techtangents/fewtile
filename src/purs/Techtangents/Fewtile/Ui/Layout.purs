@@ -15,6 +15,8 @@ import Techtangents.Fewtile.Struct.Group
 import Techtangents.Fewtile.Ui.Scales
 import Techtangents.Fewtile.Ui.Gridify
 import Techtangents.Fewtile.Struct.Rect
+import Techtangents.Fewtile.Struct.Tile
+import Techtangents.Fewtile.Struct.Shingle
 
 -- TODO: this will be in a new version of purescript-foldable-traversable
 mapAccumL :: forall a b c t. (Traversable t) => (a -> b -> Tuple c a) -> a -> t b -> Tuple (t c) a
@@ -71,32 +73,40 @@ layoutCellsForGroup (Tuple (Group group) (Rect rect)) =
   in
     join <<< fst $ mapAccumL (makeRow rect.x) rect.y dspecs
 
--- var sortGroups = arraySort(reverse(by(prop('weight'))));
+-- TODO: Is this right?
+borderize :: Rect -> Rect
+borderize (Rect r) =
+  Rect r
+    { width  = r.width  - 2 * border
+    , height = r.height - 2 * border
+    }
 
--- var borderize = function(tile) {
---   return {
---     pos: tile.pos,
---     size: size.bimap(tile.size, function(x) { return x - 2 * border; })
---   };
--- };
 
--- var layout = function(totalWidth, totalHeight, tiles) {
---   var groups = sortGroups(scales.groupByWeight(tiles));
---   var groupLayouts = layoutGroups(totalWidth, totalHeight, groups);
---   var groups_ = util.submerge(groups, groupLayouts);
---   var laidCells = _.map(groups_, function(g) {
---     var layouts = _.map(
---       layoutCellsForGroup(g),
---       _.compose(borderize, quantize));
---     return _.map(
---       util.zip(g.tiles, layouts),
---       function(tl) { return shingle.nu(tl.a, tl.b); });
---   });
---   return _.flatten(laidCells, 1);
--- };
+layout :: Number -> Number -> [Tile] -> [Shingle]
+layout totalWidth totalHeight tiles =
+  let
+    groups :: [Group]
+    groups = groupAndSortByWeight tiles
 
--- return {
---   layoutGroups: layoutGroups,
---   layoutCellsForGroup: layoutCellsForGroup,
---   layout: layout
--- };
+    groupLayouts :: [Rect]
+    groupLayouts = layoutGroups totalWidth totalHeight groups
+
+    groupPairs :: [Tuple Group Rect]
+    groupPairs = zip groups groupLayouts
+
+    laidCells :: [Shingle]
+    laidCells = join (f <$> groupPairs)
+
+    f :: Tuple Group Rect -> [Shingle]
+    f gr@(Tuple (Group g) r) =
+      let
+        layouts :: [Rect]
+        layouts = (borderize <<< quantize) <$> layoutCellsForGroup gr
+
+        gl :: [Tuple Tile Rect]
+        gl = zip g.tiles layouts
+      in
+        (\x -> case x of (Tuple tile rect) -> shingle' tile rect) <$> gl
+
+  in
+    laidCells

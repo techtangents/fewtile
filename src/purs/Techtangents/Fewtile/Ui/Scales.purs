@@ -14,8 +14,8 @@ groupBy :: forall a k. (Ord k) => (a -> k) -> [a] -> [Tuple k [a]]
 groupBy indexer =
   toList <<< (foldlArray (\m x -> alter (\mxs -> Just (x : fromMaybe [] mxs)) (indexer x) m) empty)
 
-groupByWeight :: [Tile] -> [Group]
-groupByWeight tiles =
+groupAndSortByWeight :: [Tile] -> [Group]
+groupAndSortByWeight tiles =
   let
     groups = groupBy (\(Tile t) -> t.weight) tiles
     f (Tuple weight members) =
