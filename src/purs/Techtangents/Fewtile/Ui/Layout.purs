@@ -58,17 +58,17 @@ layoutCellsForGroup (Tuple (Group group) (Rect rect)) =
     grid :: GridSpec
     grid = gridify aspectRatio rect.width rect.height (length group.tiles)
 
-    makeRow :: Number -> RowSpec -> (Tuple [Rect] Number)
-    makeRow y (RowSpec r) =
-      set _2 y' (mapAccumL f 0 gen)
+    makeRow :: Number -> Number -> RowSpec -> (Tuple [Rect] Number)
+    makeRow x y (RowSpec r) =
+      set _2 y' (mapAccumL f x gen)
       where
         y' = y + r.height
         gen = replicate r.cols unit
         f x _ = Tuple (Rect {x: x, y: y, width: r.width, height: r.height}) (x + r.width)
 
-    makeRowz :: Number -> [RowSpec] -> (Tuple [Rect] Number)
-    makeRowz y specs =
-      lmap join (mapAccumL makeRow y dspecs)
+    makeRowz :: Number -> Number -> [RowSpec] -> (Tuple [Rect] Number)
+    makeRowz x y specs =
+      lmap join (mapAccumL (makeRow x) y dspecs)
       where
         dspecs = specs >>= \rr -> case rr of (RowSpec r) -> replicate r.rows rr
 
