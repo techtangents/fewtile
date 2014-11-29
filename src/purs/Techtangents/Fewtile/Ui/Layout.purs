@@ -55,8 +55,8 @@ replicate n x =
 layoutCellsForGroup :: (Tuple Group Rect) -> [Rect]
 layoutCellsForGroup (Tuple (Group group) (Rect rect)) =
   let
-    grid :: GridSpec
     grid = gridify aspectRatio rect.width rect.height (length group.tiles)
+    g = case grid of (GridSpec g) -> g
 
     makeRow :: Number -> Number -> RowSpec -> (Tuple [Rect] Number)
     makeRow x y (RowSpec r) =
@@ -66,14 +66,10 @@ layoutCellsForGroup (Tuple (Group group) (Rect rect)) =
         gen = replicate r.cols unit
         f x _ = Tuple (Rect {x: x, y: y, width: r.width, height: r.height}) (x + r.width)
 
-    makeRowz :: Number -> Number -> [RowSpec] -> (Tuple [Rect] Number)
-    makeRowz x y specs =
-      lmap join (mapAccumL (makeRow x) y dspecs)
-      where
-        dspecs = specs >>= \rr -> case rr of (RowSpec r) -> replicate r.rows rr
+    dspecs = g.rowSpecs >>= \rr -> case rr of (RowSpec r) -> replicate r.rows rr
 
   in
-    case grid of (GridSpec g) -> fst (makeRowz rect.x rect.y g.rowSpecs)
+    join <<< fst $ mapAccumL (makeRow rect.x) rect.y dspecs
 
 -- var sortGroups = arraySort(reverse(by(prop('weight'))));
 
