@@ -107,18 +107,22 @@ foreign import getHeight
   }
   """ :: forall eff. JQuery -> Eff (dom :: DOM | eff) Number
 
+type Jeff a = forall eff. JQuery -> Eff (dom :: DOM | eff) a
 
-getInnerSize :: forall eff. JQuery -> Eff (dom :: DOM | eff) Size
-getInnerSize jq =
-  size <$> getInnerWidth jq <*> getInnerHeight jq
+sizer :: forall a b. (Apply a) => (b -> a Number) -> (b -> a Number) -> b -> a Size
+sizer = \w h jq -> size <$> w jq <*> h jq
 
-getOuterSize :: forall eff. JQuery -> Eff (dom :: DOM | eff) Size
-getOuterSize jq =
-  size <$> getOuterWidth jq <*> getOuterHeight jq
+getInnerSize :: Jeff Size
+getInnerSize =
+  sizer getInnerWidth getInnerHeight
 
-getSize :: forall eff. JQuery -> Eff (dom :: DOM | eff) Size
-getSize jq =
-  size <$> getOuterWidth jq <*> getOuterHeight jq
+getOuterSize :: Jeff Size
+getOuterSize =
+  sizer getOuterWidth getOuterHeight
+
+getSize :: Jeff Size
+getSize =
+  sizer getOuterWidth getOuterHeight
 
 
 minFontSize = 2
