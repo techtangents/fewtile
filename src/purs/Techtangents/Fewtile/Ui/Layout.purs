@@ -3,7 +3,9 @@ module Techtangents.Fewtile.Ui.Layout where
 import Control.Bind (join)
 import Control.Monad.State
 import Control.Monad.State.Class
-import Control.Lens (set, _2)
+
+import Optic.Refractor.Lens (_2)
+import Optic.Setter (set)
 
 -- TODO Can I use Data.Array.groupBy instead?
 import Data.Array hiding (groupBy)
@@ -62,12 +64,14 @@ layoutCellsForGroup (Tuple (Group group) (Rect rect)) =
 
     makeRow :: Number -> Number -> RowSpec -> (Tuple [Rect] Number)
     makeRow x y (RowSpec r) =
-      set _2 y' (mapAccumL f x gen)
-      where
+      let
         y' = y + r.height
         gen = replicate r.cols unit
         f x _ = Tuple (Rect {x: x, y: y, width: r.width, height: r.height}) (x + r.width)
+      in
+        set _2 y' (mapAccumL f x gen)
 
+    dspecs :: [RowSpec]
     dspecs = g.rowSpecs >>= \rr -> case rr of (RowSpec r) -> replicate r.rows rr
 
   in

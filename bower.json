@@ -20,6 +20,7 @@
   ],
   "dependencies": {
     "purescript-arrays": "*",
+    "purescript-jquery": "*",
     "purescript-math": ">=0.1.0",
     "purescript-maybe": ">=0.2.1",
     "purescript-maps": ">=0.1.1",
@@ -28,6 +29,7 @@
     "purescript-foldable-traversable": "*",
     "purescript-transformers": "*",
     "purescript-control": "*",
+    "purescript-refractor": "*",
     "purescript-unfoldable": "0.1.0",
     "purescript-bifunctors": "*",
     "purescript-lens": "*"
