@@ -5,6 +5,10 @@ newtype Size = Size
   , height :: Number
   }
 
+size :: Number -> Number -> Size
+size w h =
+  Size { width: w, height: h }
+
 instance sizeEq :: Eq Size where
   (==) (Size a) (Size b) = a.width == b.width && a.height == b.height
   (/=) a b = not $ a == b
