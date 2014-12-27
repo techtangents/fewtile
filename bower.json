@@ -36,6 +36,8 @@
   },
   "resolutions": {
     "purescript-maybe": ">=0.2.1",
-    "purescript-strings": "~0.4.1"
+    "purescript-strings": "~0.4.1",
+    "purescript-arrays": "0.3.0",
+    "purescript-unfoldable": "~0.2.0"
   }
 }

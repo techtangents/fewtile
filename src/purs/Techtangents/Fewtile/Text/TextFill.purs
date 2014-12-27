@@ -1,9 +1,11 @@
 module Techtangents.Fewtile.Text.TextFill where
 
-import Techtangents.Fewtile.Struct.Size
-import Control.Monad.JQuery
+import Control.Bind
 import Control.Monad.Eff
 import DOM
+import qualified Control.Monad.JQuery as JQ
+
+import Techtangents.Fewtile.Struct.Size
 
 
 {-
@@ -44,6 +46,8 @@ Known issues:
 - Make sure the direct parent is fixed size.
 
 -}
+
+type JQuery = JQ.JQuery
 
 -- TODO: submit to purescript-jquery
 foreign import getInnerWidth
@@ -135,23 +139,35 @@ grossDelta = 0.2
 grossTweak = 0.95
 fontDelta = 1
 
+textFill :: forall eff. Number -> Number -> String -> Eff (dom :: DOM | eff) Number
+textFill width height text =
+  let
+    element :: forall eff. Eff (dom :: DOM | eff) JQuery
+    element =
+      JQ.select("<span />")
+      >>= JQ.setText text
+
+    div :: forall eff. Eff (dom :: DOM | eff) JQuery
+    div =
+      JQ.select "<div />"
+      >>= JQ.addClass "tile"
+      >>= JQ.css
+        { position: "absolute"
+        , left: -10000
+        , top: -10000
+        , width: (show width) ++ "px"
+        , height: (show height) ++ "px"
+        }
+
+    div' :: forall eff. Eff (dom :: DOM | eff) JQuery
+    div' =
+      join $ JQ.append <$> element <*> div
+
+  in
+    return 0
+
 {-
-  return function(width, height, text) {
 
-    var div = $("<div />");
-    div.addClass('tile');
-    div.css({
-      position: 'absolute',
-      left: -10000,
-      top: -10000,
-      width: width + "px",
-      height: height + "px"
-    });
-
-    var element = $("<span />");
-    element.text(text);
-
-    div.append(element);
     $(document.body).append(div);
 
     var chfont = function(fs) {

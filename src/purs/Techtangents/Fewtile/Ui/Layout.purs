@@ -4,7 +4,7 @@ import Control.Bind (join)
 import Control.Monad.State
 import Control.Monad.State.Class
 
-import Optic.Refractor.Lens (_2)
+import Optic.Refractor.Lens (_1, _2)
 import Optic.Setter (set)
 
 -- TODO Can I use Data.Array.groupBy instead?
@@ -20,34 +20,26 @@ import Techtangents.Fewtile.Struct.Rect
 import Techtangents.Fewtile.Struct.Tile
 import Techtangents.Fewtile.Struct.Shingle
 
--- TODO: this will be in a new version of purescript-foldable-traversable
-mapAccumL :: forall a b c t. (Traversable t) => (a -> b -> Tuple c a) -> a -> t b -> Tuple (t c) a
-mapAccumL f s t =
-  runState (traverse (state <<< (flip f)) t) s
-
-
+border :: Number
 border = 10
 
--- var arraySort = comparison.arraySort;
--- var by = comparison.by;
--- var prop = util.prop;
--- var reverse = comparison.reverse;
-
--- // TODO: quantize to pixels
+-- TODO: quantize to pixels?
+aspectRatio :: Number
 aspectRatio = 7 / 3
 
 layoutGroups :: Number -> Number -> [Group] -> [Rect]
 layoutGroups totalWidth totalHeight groups =
   let
+    gw :: Number
     gw = globalWeight groups
     f y g =
       let height = groupHeight g gw totalHeight
           y' = y + height
           l = Rect {x: 0, y: y, width: totalWidth, height: height}
       in
-        Tuple l y'
+        Tuple y' l
   in
-    fst $ mapAccumL f 0 groups
+    snd $ mapAccumL f 0 groups
 
 -- TODO: Should be in Data.Array
 replicate :: forall a. Number -> a -> [a]
@@ -62,20 +54,22 @@ layoutCellsForGroup (Tuple (Group group) (Rect rect)) =
     grid = gridify aspectRatio rect.width rect.height (length group.tiles)
     g = case grid of (GridSpec g) -> g
 
-    makeRow :: Number -> Number -> RowSpec -> (Tuple [Rect] Number)
+    makeRow :: Number -> Number -> RowSpec -> (Tuple Number [Rect])
     makeRow x y (RowSpec r) =
       let
         y' = y + r.height
         gen = replicate r.cols unit
-        f x _ = Tuple (Rect {x: x, y: y, width: r.width, height: r.height}) (x + r.width)
+        f x _ = Tuple
+                  (x + r.width)
+                  (Rect {x: x, y: y, width: r.width, height: r.height})
       in
-        set _2 y' (mapAccumL f x gen)
+        set _1 y' (mapAccumL f x gen)
 
     dspecs :: [RowSpec]
     dspecs = g.rowSpecs >>= \rr -> case rr of (RowSpec r) -> replicate r.rows rr
 
   in
-    join <<< fst $ mapAccumL (makeRow rect.x) rect.y dspecs
+    join <<< snd $ mapAccumL (makeRow rect.x) rect.y dspecs
 
 -- TODO: Is this right?
 borderize :: Rect -> Rect
