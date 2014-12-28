@@ -3,7 +3,7 @@ module Techtangents.Fewtile.Ui.Gridify where
 import Data.Foldable (foldlArray)
 import Math(round, sqrt, min, max, floor)
 
-import Techtangents.Fewtile.Mashing.Arrays (sum)
+import Data.Foldable (sum)
 
 bound :: Number -> Number -> Number -> Number
 bound l u x = min u (max l x)

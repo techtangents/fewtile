@@ -1,12 +1,11 @@
 module Techtangents.Fewtile.Ui.Scales where
 
 import Data.Array (length, sortBy)
-import Data.Foldable (foldlArray)
+import Data.Foldable (foldlArray, sum)
 import Data.Tuple
 import Data.Map
 import Data.Maybe
 
-import Techtangents.Fewtile.Mashing.Arrays (sum)
 import Techtangents.Fewtile.Struct.Tile
 import Techtangents.Fewtile.Struct.Group
 
