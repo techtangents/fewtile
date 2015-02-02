@@ -88,7 +88,6 @@ define(['underscore', 'guts/struct/tile', 'guts/source/colorMap', 'guts/mashing/
           name: v.name,
           jobs: jobs
         };
-        console.log(vv);
         return vv;
       });
       return flonkle(all, overarching.noGroups, getAllGroups);
