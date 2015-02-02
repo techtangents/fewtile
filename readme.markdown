@@ -32,3 +32,7 @@ Developing
 
 npm install -g grunt-cli bower
 
+There are a few purescript-jquery-ajax libs. Fewtile uses this one:
+https://github.com/wfaler/purescript-jquery-ajax
+
+

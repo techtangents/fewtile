@@ -8,16 +8,17 @@ module.exports = function(grunt) {
 
     psc: {
       options: {
-        modules:
-          [ "Techtangents.Fewtile.Source.ColorMap"
-
-          , "Techtangents.Fewtile.Struct.Pos"
-          , "Techtangents.Fewtile.Struct.Rect"
-          , "Techtangents.Fewtile.Struct.Shingle"
-          , "Techtangents.Fewtile.Struct.Size"
-          , "Techtangents.Fewtile.Struct.Style"
-          , "Techtangents.Fewtile.Struct.Tile"
-          ]
+        modules: [
+          "Techtangents.Fewtile.Source.ColorMap",
+          "Techtangents.Fewtile.Struct.Pos",
+          "Techtangents.Fewtile.Struct.Rect",
+          "Techtangents.Fewtile.Struct.Shingle",
+          "Techtangents.Fewtile.Struct.Size",
+          "Techtangents.Fewtile.Struct.Style",
+          "Techtangents.Fewtile.Struct.Tile",
+          "Techtangents.Fewtile.Spike.Spike"
+        ],
+        main: "Techtangents.Fewtile.Spike.Spike"
       },
       all: {
         src: ["<%=srcFiles%>"],
