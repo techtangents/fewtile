@@ -8,26 +8,66 @@ define(['underscore', 'guts/struct/tile', 'guts/source/colorMap', 'guts/mashing/
   var some = maybe.some;
   var filterMapMaybe = maybe.filterMapMaybe;
 
-  var flonkle = function(a, o, t) {
-    var q = t(a);
-    return q.length === 0 ? [o] : q;
+  var uberUrl = (function() {
+
+    var g = function(x) {
+      return "views[name,jobs[name,color]" + x + "]";
+    };
+
+    var g_ = function(x) {
+      return g("," + x);
+    };
+
+    return "/api/json/?tree=" + g_(g_(g_(g_(g_(g_(g_(g(''))))))));
+  })();
+
+  /** Jenkins gives us a tree of views and their jobs. 
+   *  This function flattens the views to one level and shows all their descendent jobs.
+   */
+  var flattenViews = function(data) {
+    var jobsForView = function(view) {
+      var jobs = view.jobs === undefined ? [] : view.jobs;
+      var descendentsJobs = view.views === undefined ? [] : util.arrayBind(view.views, jobsForView);
+      return jobs.concat(descendentsJobs);
+    };
+
+    var views = data.views.map(function(v) {
+      return {name: v.name, jobs: jobsForView(v)};
+    });
+
+    var jobs = data.jobs || [];
+
+    return {
+      views: views
+    };
   };
 
   var jobbie = function(emptyTile, filterer) {
-    return {
-      url: "/api/json?tree=jobs[name,color]",
-      clickUrl: "/job/",
-      handle: function(data) {
-        return flonkle(data.jobs, emptyTile, function(jobs) {
-          return filterMapMaybe(jobs, function(job) {
+    return function(group) {
+      return {
+        url: uberUrl,
+        clickUrl: "/job/",
+        handle: function(data) {
+          var sparta = flattenViews(data);
+          var view = sparta.views.find(function(v) { return group === v.name; });
+
+          if (view === undefined) {
+            // "group not found" - maybe a different message?
+            return [emptyTile];
+          }
+
+          var jobs = view.jobs;
+          var tiles = filterMapMaybe(jobs, function(job) {
             var status = colorMap[job.color];
             if (status === undefined) throw "Unknonwn status: " + job.color;
-            return filterer(status)
+            return (filterer(status)
               ? some(status.tile(some("/job/" + job.name))(job.name))
-              : none();
+              : none()
+            );
           });
-        });
-      }
+          return tiles.length === 0 ? [emptyTile] : tiles;
+        }
+      };
     };
   };
 
@@ -38,11 +78,9 @@ define(['underscore', 'guts/struct/tile', 'guts/source/colorMap', 'guts/mashing/
   var buildingJobs = jobbie(overarching.noneBuilding, function(status) { return status.isBuilding; });
 
   var getAllGroups = function(views) {
-    var views_ = _.filter(views, function(view) {
-      return view.name !== "All";
-    });
-    return _.map(views_, function(view) {
+    return _.map(views, function(view) {
       var hasFail = _.any(view.jobs, function(job) {
+        if (job.color === undefined) throw "job.color is undefined for job with name: " + job.name + " view name: " + view.name;
         return !colorMap[job.color].isPassing;
       });
 
@@ -50,48 +88,37 @@ define(['underscore', 'guts/struct/tile', 'guts/source/colorMap', 'guts/mashing/
         return colorMap[job.color].isBuilding;
       });
 
-      var f = hasFail
-                      ? hasBuilding ? individual.failBuilding : individual.fail
-                      : hasBuilding ? individual.passBuilding : individual.pass;
+      var f = (
+        hasFail
+          ? hasBuilding ? individual.failBuilding : individual.fail
+          : hasBuilding ? individual.passBuilding : individual.pass
+      );
       return f(some("/view/" + view.name))(view.name);
     });
   };
 
+  var allGroups = function(group) { 
+    return {
+      url: uberUrl,
+      clickUrl: "/view/",
+      handle: function(data) {
+        var sparta = flattenViews(data);
+        var views = sparta.views;
 
-  var g = function(x) {
-    return "views[name,jobs[name,color]" + x + "]";
-  };
+        // if All: show the All group only if it's the only group
+        // if specific: show only that group, if it exists
+        var selectedGroups = (
+          group === 'All'
+            ? (views.length === 0 || views.length === 1)
+              ? views 
+              : sparta.views.filter(function(v) { return 'All' !== v.name; })
+            : sparta.views.filter(function(v) { return group === v.name; })
+        );
 
-  var g_ = function(x) {
-    return g("," + x);
-  }
-
-  var allGroups = {
-    url: "/api/json?tree=" + g_(g_(g_(g_(g_(g_(g_(g('')))))))),
-    clickUrl: "/view/",
-    handle: function(data) {
-      var all = _.map(data.views, function(v) {
-        var jobs = v.jobs.slice();
-        var rec = function(subviews) {
-          if (subviews !== undefined) {
-            _.each(subviews, function(sv) {
-              var j = sv.jobs;
-              if (j !== undefined && j.length > 0) {
-                jobs = jobs.concat(j);
-              }
-            });
-            rec(subviews.views);
-          }
-        };
-        rec(v);
-        var vv = {
-          name: v.name,
-          jobs: jobs
-        };
-        return vv;
-      });
-      return flonkle(all, overarching.noGroups, getAllGroups);
-    }
+        var tiles = getAllGroups(selectedGroups);          
+        return tiles.length === 0 ? overarching.noGroups : tiles;
+      }
+    };
   };
 
   return {

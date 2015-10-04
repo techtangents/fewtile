@@ -5,13 +5,43 @@
 <title>fewtile</title>
 
 <link type="text/css" href="css/index.css" rel="stylesheet" />
+
+<script type='text/javascript'>
+  var tGroupFocus = function() {
+    document.getElementById('rGroupSpecific').checked='checked';
+  };
+
+  var go = function() {
+    var rGroupValue = document.querySelector('input[name="rGroup"]:checked').value;
+    var rPageValue  = document.querySelector('input[name="rPage"]:checked').value;
+    var tGroupValue = document.getElementById('tGroup').value;    
+
+    var group = rGroupValue === 'All' ? 'All' : tGroupValue;
+    var htmlPage = rPageValue === 'combinatorial' ? 'fewtile-all.html' : 'fewtile.html';
+    var href = htmlPage + '?page=' + rPageValue + '&group=' + group;
+    location.href = href;
+  };
+</script>
+
 </head>
 <body>
-  <a href='fewtile.html?failingJobs'>Failing Jobs</a>
-  <a href='fewtile.html?buildingJobs'>Building Jobs</a>
-  <a href='fewtile.html?allGroups'>All Groups</a>
-  <a href='fewtile.html?allJobs'>All Jobs</a>
-  <a href='fewtile-all.html?combinatorial'>Combinatorial view</a>
+
+  <p>
+    <input type='radio' name='rGroup' id='rGroupAll'      value='All' checked='checked' /> All Groups<br/>
+    <input type='radio' name='rGroup' id='rGroupSpecific' value='specific' /> Specific group: 
+    <input type='text'  name='tGroup' id='tGroup'         value='' onfocus='tGroupFocus();' /><br />
+  </p>
+
+  <p>
+    <input type='radio' name='rPage' value='combinatorial' checked='checked'>Combinatorial view<br/>
+    <input type='radio' name='rPage' value='failingJobs' />Failing Jobs<br />
+    <input type='radio' name='rPage' value='buildingJobs' />Building Jobs<br />
+    <input type='radio' name='rPage' value='allGroups'>All Groups</br/>
+    <input type='radio' name='rPage' value='allJobs'>All Jobs<br/>
+  </p>
+
+  <button type='button' onclick='go();'>Go</button
+
 </body>
 </html>
 

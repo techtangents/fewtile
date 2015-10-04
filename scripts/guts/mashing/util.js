@@ -113,6 +113,14 @@ define(['underscore'], function(_) {
     return r;
   };
 
+  var arrayBind = function(a, f) {
+    var r = [];
+    for (var i = 0; i < a.length; i++) {
+      r = r.concat(f(a[i]));
+    }
+    return r;
+  };
+
   return {
     always: always,
     never: never,
@@ -130,6 +138,7 @@ define(['underscore'], function(_) {
     narrow: narrow,
     invokeWith: invokeWith,
     konst: konst,
-    zip: zip
+    zip: zip,
+    arrayBind, arrayBind
   };
 });
