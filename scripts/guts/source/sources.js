@@ -125,6 +125,7 @@ define(['underscore', 'guts/struct/tile', 'guts/source/colorMap', 'guts/mashing/
     allJobs: allJobs,
     buildingJobs: buildingJobs,
     failingJobs: failingJobs,
-    allGroups: allGroups
+    allGroups: allGroups,
+    url: uberUrl
   };
 });

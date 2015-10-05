@@ -5,10 +5,11 @@ define(
     'guts/ui/kquery',
     'guts/mashing/util',
     'guts/mashing/lute',
+    'guts/mashing/parmap',
     'guts/source/sources',
     'underscore'
   ],
-  function(view, board, kquery, util, lute, sources, _) {
+  function(view, board, kquery, util, lute, parmap, sources, _) {
 
     var $orDie = kquery.$orDie;
 
@@ -18,15 +19,26 @@ define(
 
     var single = function(src, group) {
       var element = $orDie(".fewtile")
-      view.create(src(group), board(element));
+      var b = board(element);
+      var j = ajaxer(sources.url);
+
+      poller(period).mapAsync(j).map(src.handle).mapAsync(b.update).start();
     };
 
     var combinatorial = function(group) {
-      ['allGroups', 'failingJobs', 'buildingJobs'].forEach(function(x) {
+      var j = ajaxer(sources.url);
+      var sectionNames = ['allGroups', 'failingJobs', 'buildingJobs'];
+
+      var sections = sectionNames.map(function(x) {
         var element = $orDie('.' + x);
-        var src = sources[x];
-        view.create(src(group), board(element));
+        var b = board(element)
+        var s = sources[x];
+        return {board: b, source: s}
       });
+
+      poller(period).mapAsync(j).teeAsync(sections, function(x, section, callback) {
+        section.board.update(section.source.handle(x), callback);
+      }).start();
     };
 
     var parseQs = function(qs) {
@@ -39,7 +51,7 @@ define(
         r[bits[0]] = bits[1];
       });
       return r;
-    };
+
 
     var open = function(qs, element) {
       var args = parseQs(qs);

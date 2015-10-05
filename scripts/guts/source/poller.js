@@ -1,32 +1,29 @@
-define(['guts/source/ajaxer', 'guts/mashing/diff', 'guts/struct/tile'], function(ajaxer, diff, tile) {
+define(
+  [
+    'guts/struct/signal'
+  ], 
+  function(signal) {
 
-  return function(source, board, period) {
+    /** A signal that produces 'undefined' periodically.
+     *  - on start, a value is produced immediately
+     *  - we wait for consumer, delay, then produce again
+     */
+    var poller = function(delay) {
 
-    var initialState = [tile.overarching.loading];
+      var go = function(sink) { 
+        var spit = function() {
+          sink(undefined, wait);
+        };
 
-    var update = function(newState, callback) {
-      board.update(newState, callback);
+        var wait = function() {
+          setTimeout(spit, delay);
+        };
+        spit();
+      };
+
+      return signal(go);
     };
 
-    // FIX: Argh! Chained CPS! Need some Asyncs and Futures
-    var poll = function() {
-      source.run(function(newState) {
-        update(newState, pollSoon);
-      });
-    };
-
-    var pollSoon = function() {
-      setTimeout(function() {
-        poll();
-      }, period);
-    };
-
-    var start = function() {
-      update(initialState, poll);
-    };
-
-    return {
-      start: start
-    };
+    return poller;
   };
 });
