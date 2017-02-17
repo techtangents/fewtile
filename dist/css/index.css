@@ -1,0 +1,25 @@
+a {
+  display: block;
+  float: left;
+  background-color: blue;
+  border: 4px outset #f0f0f0;
+  color: #888888;
+  font-weight: bold;
+  border-radius: 20px;
+  width: 300px;
+  text-align:center;
+  padding:1em;
+  font-size:24pt;
+  margin:1em;
+  text-decoration:none;
+}
+
+a {
+background: #ffffff;
+background: -moz-linear-gradient(top, #ffffff 0%, #e5e5e5 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#e5e5e5));
+background: -webkit-linear-gradient(top, #ffffff 0%,#e5e5e5 100%);
+background: -o-linear-gradient(top, #ffffff 0%,#e5e5e5 100%);
+background: -ms-linear-gradient(top, #ffffff 0%,#e5e5e5 100%);
+background: linear-gradient(top, #ffffff 0%,#e5e5e5 100%);
+}
